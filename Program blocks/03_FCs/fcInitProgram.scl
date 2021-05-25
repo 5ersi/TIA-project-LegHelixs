@@ -1,0 +1,59 @@
+﻿FUNCTION "fcInitProgram" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_TEMP 
+      i : Int;
+      DatalogPassedTemp : Bool;
+      ErrorTemp : Bool;
+      StatusTemp : Word;
+      DatalogReq : SInt;
+   END_VAR
+
+
+BEGIN
+	// Short summary:
+	(*
+	  Program initialization
+	*)
+	// 
+	//**********************************************************************
+	// Revision control:
+	//----------------------------------------------------------------------
+	// Use only for revisions of original code
+	// V0.01
+	// Description of revision
+	
+	//----------------------------------------------------------------------
+	// Comments:
+	(*
+	  Every change in the code is documented with following:
+	  // CCC-yyymmdd: .....
+	  yyyy year when change was made
+	  mm   month when change was made
+	  dd   day when change was made
+	  CCC  authors initials
+	*)
+	//**********************************************************************
+	
+	//----------------------------------------------------------------------
+	// set unit status IDLE
+	
+	"ProgramMode"               := 0;
+	"dbUnit".Unit[1].Regime     := 0;
+	"dbUnit".Unit[1].AlarmAck   := True;
+	"dbUnit".Unit[1].StartStop  := False;
+	
+	// init functions
+	"fcInitSensors"();
+	
+	"dbHMIUser".PLCUserLogOut           := 0; // logout current user
+	"dbHMIUser".CurrentUsername         := '';
+	"dbHMIUser".CurrMachineStep         := 'Naprava resetirana';
+	"dbHMIUser".SetTargetHMIScreen      := 0; // Reset activated alarm screen, to prepare for next PLC to HMI screen activation.
+	
+	"ph_Helix_1_DB".StartCmd            := False;
+	"ph_LegsShifter_2_DB".StartCmd      := False;
+	"op_ButtonHelix_3_DB".CurrentStep   := 0;
+	
+END_FUNCTION
+

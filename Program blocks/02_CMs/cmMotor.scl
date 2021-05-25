@@ -1,0 +1,162 @@
+﻿FUNCTION "cmMotor" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_IN_OUT 
+      Regime : USInt;
+      FQ : "udtMotor";
+   END_VAR
+
+   VAR_TEMP 
+      tmpTimer : Int;
+      tmpTimerDelay : Int;
+   END_VAR
+
+   VAR CONSTANT 
+      FILTER_TIME_ResetFCAlarm : UInt := 10;
+   END_VAR
+
+
+BEGIN
+	//HMI ovveride
+	IF #FQ.ToggleCmd THEN
+	    #FQ.ManON  := NOT #FQ.ManON;
+	    #FQ.ManOFF := NOT #FQ.ManON;
+	    #FQ.ToggleCmd := False;
+	END_IF;
+	
+	//----------------------------------------------------------------------
+	//  ALARMING MODULE
+	IF #FQ.AlarmAck THEN
+	    #FQ.AlarmEA := FALSE;
+	    #FQ.AlarmESA := FALSE;
+	    #FQ.AlarmFSL := FALSE;
+	    #FQ.AlarmAck := FALSE;
+	    #FQ.Alarm := FALSE;
+	    #FQ.Timer_EA := 0;
+	    #FQ.Timer_FSL := 0;
+	    
+	    #FQ.ResetFCAlarm := TRUE;
+	END_IF;
+	
+	// Thermal overlload - ESA (0 = OK; 1 = ALARM)
+	#FQ.AlarmESA := NOT #FQ.ESA;
+	
+	// Motor running - EA (0 = ALARM; 1 = OK)    
+	IF (#FQ.XS AND NOT #FQ.EA) OR (NOT #FQ.XS AND #FQ.EA) THEN
+	    IF (#FQ.Timer_EA < #FQ.FILTER_TIME_EA) AND "100msOSR" THEN
+	        #FQ.Timer_EA := #FQ.Timer_EA + 1;
+	    END_IF;
+	    IF (#FQ.Timer_EA >= #FQ.FILTER_TIME_EA) THEN
+	        #FQ.AlarmEA := TRUE;
+	    END_IF;
+	ELSE
+	    #FQ.Timer_EA := 0;
+	END_IF;
+	
+	// Flow Switch Sensor - FSL (0 = ALARM; 1 = OK)     
+	IF (#FQ.XS AND #FQ.EA AND NOT #FQ.FSL) THEN
+	    IF (#FQ.Timer_FSL < #FQ.FILTER_TIME_FSL) AND "100msOSR" THEN
+	        #FQ.Timer_FSL := #FQ.Timer_FSL + 1;
+	    END_IF;
+	    IF (#FQ.Timer_FSL >= #FQ.FILTER_TIME_FSL) THEN
+	        #FQ.AlarmFSL := TRUE;
+	    END_IF;
+	END_IF;
+	
+	IF (#FQ.XS AND #FQ.FSL) OR (NOT #FQ.XS) THEN
+	    #FQ.Timer_FSL := 0;
+	END_IF;
+	
+	IF #FQ.ResetFCAlarm THEN
+	    IF (#FQ.Timer_ResetFCAlarm < #FILTER_TIME_ResetFCAlarm) AND "100msOSR" THEN // 1 sec
+	        #FQ.Timer_ResetFCAlarm := #FQ.Timer_ResetFCAlarm + 1;
+	    END_IF;
+	    IF (#FQ.Timer_ResetFCAlarm >= #FILTER_TIME_ResetFCAlarm) THEN
+	        #FQ.Timer_ResetFCAlarm := 0;
+	        #FQ.ResetFCAlarm := FALSE;
+	    END_IF;
+	END_IF;
+	
+	//----------------------------------------------------------------------
+	//  DIGITAL OUTPUT
+	#FQ.XS := FALSE;
+	#FQ.Speed1Out := FALSE;
+	#FQ.Speed1Out := FALSE;
+	
+	IF (#Regime = 0) THEN
+	    #FQ.ManON := FALSE;
+	    #FQ.ManOFF := FALSE;
+	    #FQ.XS := #FQ.AutoON;
+	ELSIF (#Regime > 0) THEN
+	    #FQ.XS := (#FQ.AutoON AND NOT #FQ.ManON AND NOT #FQ.ManOFF) OR (#FQ.ManON AND NOT #FQ.ManOFF);
+	END_IF;
+	
+	//----------------------------------------------------------------------
+	// ANALOG OUTPUT
+	//select which source to use
+	IF (#Regime = 0) THEN
+	    #FQ.ManSpeed := -1.0;
+	    #FQ.OutRPM := ((#FQ.MaxEng - #FQ.MinEng) * 100.0) / #FQ.AutoSpeed;
+	    
+	    #FQ.Speed1Out := (#FQ.AutoSpeed = 1.0);
+	    #FQ.Speed2Out := (#FQ.AutoSpeed = 2.0);
+	END_IF;
+	
+	IF (#Regime >= 1) THEN
+	    IF (#FQ.ManSpeed <> -1.0) THEN
+	        #FQ.OutRPM := ((#FQ.MaxEng - #FQ.MinEng) * 100.0) / #FQ.ManSpeed;
+	        #FQ.Speed1Out := (#FQ.ManSpeed = 1.0);
+	        #FQ.Speed2Out := (#FQ.ManSpeed = 2.0);
+	    ELSE
+	        #FQ.OutRPM := ((#FQ.MaxEng - #FQ.MinEng) * 100.0) / #FQ.AutoSpeed;
+	        #FQ.Speed1Out := (#FQ.ManSpeed = 1.0);
+	        #FQ.Speed2Out := (#FQ.ManSpeed = 2.0);
+	    END_IF;
+	END_IF;
+	
+	// check output
+	IF (#FQ.OutRPM >= #FQ.MaxEng) THEN
+	    #FQ.OutRPM := #FQ.MaxEng;
+	END_IF;
+	IF (#FQ.OutRPM <= #FQ.MinEng) THEN
+	    #FQ.OutRPM := #FQ.MinEng;
+	END_IF;
+	
+	// scale to % units
+	#FQ.OutPrc := (#FQ.OutRPM / (#FQ.MaxEng - #FQ.MinEng)) * 100;
+	IF #FQ.OutPrc < 0 THEN
+	    #FQ.OutPrc := 0;
+	ELSIF #FQ.OutPrc > 100 THEN
+	    #FQ.OutPrc := 100;
+	END_IF;
+	
+	//----------------------------------------------------------------------
+	// manual
+	#FQ.Manual := #FQ.ManON OR #FQ.ManOFF;
+	
+	//----------------------------------------------------------------------
+	// FQ common failure (active, when one of the above alarms active)
+	IF #FQ.AlarmEA OR #FQ.AlarmESA OR #FQ.AlarmFSL OR #FQ.Alarm THEN
+	    #FQ.Alarm   := TRUE;
+	    #FQ.AutoON  := FALSE;
+	    #FQ.ManON   := FALSE;
+	    #FQ.ManOFF  := FALSE;
+	    #FQ.XS      := FALSE;
+	    
+	    //else
+	    //  FQ.Alarm := FALSE;
+	END_IF;
+	//----------------------------------------------------------------------
+	//  interlock
+	IF #FQ.Interlock AND (#Regime < 2) THEN
+	    #FQ.XS := FALSE;
+	    #FQ.OutPrc := 0.0;
+	    #FQ.OutRPM := 0.0;
+	END_IF;
+	
+	//----------------------------------------------------------------------
+	//  direction
+	#FQ.Direction := #FQ.DirectionReq;
+	
+END_FUNCTION
+

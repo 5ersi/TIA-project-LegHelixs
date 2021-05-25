@@ -1,0 +1,209 @@
+﻿FUNCTION "fcDigitalSensors" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_TEMP 
+      Simulate : Int;
+   END_VAR
+
+
+BEGIN
+	// Short summary:
+	(*
+	  Digital sensors input read and function call
+	*)
+	// 
+	//**********************************************************************
+	// Revision control:
+	//----------------------------------------------------------------------
+	// Use only for revisions of original code
+	// V0.01
+	// Description of revision
+	
+	//----------------------------------------------------------------------
+	// Comments:
+	(*
+	  Every change in the code is documented with following:
+	  // CCC-yyymmdd: .....
+	  yyyy year when change was made
+	  mm   month when change was made
+	  dd   day when change was made
+	  CCC  authors initials
+	*)
+	//**********************************************************************
+	
+	// update simulate enable signal
+	IF "SimulateEnable" THEN
+	  #Simulate := 1;
+	ELSE
+	  #Simulate := 0;
+	END_IF;
+	
+	//----------------------------------------------------------------------
+	//  read input
+	"dbDigitalSensors".ZAUSTAVITEV_V_SILI_NI_AKTIVIRANA.Input           := "dbDI".ZAUSTAVITEV_V_SILI_NI_AKTIVIRANA;
+	"dbDigitalSensors".FOTO_ZAVESA_KANAL_1.Input                        := "dbDI".FOTO_ZAVESA_KANAL_1;
+	"dbDigitalSensors".FOTO_ZAVESA_KANAL_2.Input                        := "dbDI".FOTO_ZAVESA_KANAL_2;
+	"dbDigitalSensors".START_LEVO_NA_VPENJANJU.Input                    := "dbDI".START_LEVO_NA_VPENJANJU;
+	"dbDigitalSensors".START_DESNO_NA_VPENJANJU.Input                   := "dbDI".START_DESNO_NA_VPENJANJU;
+	"dbDigitalSensors".PRISOTNOST_ZRAKA_NA_NAPRAVI.Input                := "dbDI".PRISOTNOST_ZRAKA_NA_NAPRAVI;
+	"dbDigitalSensors".BIMETAL_VIJACENJA_NOGIC_IZKLJUCIL.Input          := "dbDI".BIMETAL_VIJACENJA_NOGIC_IZKLJUCIL;
+	"dbDigitalSensors".VIBRATOR_NOGIC_READY.Input                       := "dbDI".VIBRATOR_NOGIC_READY;
+	"dbDigitalSensors".BIMETAL_VIJACENJA_NOGIC_IZKLJUCIL.Input          := "dbDI".BIMETAL_VIJACENJA_NOGIC_IZKLJUCIL;
+	"dbDigitalSensors".FR_MOTORJA1_ZADAJ_DESNO_READY.Input              := "dbDI".FR_MOTORJA1_ZADAJ_DESNO_READY;
+	"dbDigitalSensors".FR_MOTORJA2_SPREDAJ_DESNO_READY.Input            := "dbDI".FR_MOTORJA2_SPREDAJ_DESNO_READY;
+	"dbDigitalSensors".FR_MOTORJA1_ZADAJ_LEVO_READY.Input               := "dbDI".FR_MOTORJA1_ZADAJ_LEVO_READY;
+	"dbDigitalSensors".FR_MOTORJA2_SPREDAJ_LEVO_READY.Input             := "dbDI".FR_MOTORJA2_SPREDAJ_LEVO_READY;
+	"dbDigitalSensors".Spare20_7.Input                                  := "dbDI".Spare20_7;
+	"dbDigitalSensors".FOTOCELICA_TRANSPORTA_NOGIC.Input                := "dbDI".FOTOCELICA_TRANSPORTA_NOGIC;
+	"dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_NOGIC.Input                := "dbDI".FOTOCELICA_VSTOP_DRCA_NOGIC;
+	"dbDigitalSensors".FOTOCELICA_PRED_MESTOM_LOCEVANJA.Input           := "dbDI".FOTOCELICA_PRED_MESTOM_LOCEVANJA;
+	"dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_LEVO.Input                 := "dbDI".FOTOCELICA_VSTOP_DRCA_LEVO;
+	"dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_DESNO.Input                := "dbDI".FOTOCELICA_VSTOP_DRCA_DESNO;
+	"dbDigitalSensors".FOTOCELICA_LOC_IZH_DRCA_LEVO.Input               := "dbDI".FOTOCELICA_LOC_IZH_DRCA_LEVO;
+	"dbDigitalSensors".FOTOCELICA_LOC_IZH_DRCA_DESNO.Input              := "dbDI".FOTOCELICA_LOC_IZH_DRCA_DESNO;
+	"dbDigitalSensors".NOGICE_V_VIBRATORJU.Input                        := "dbDI".NOGICE_V_VIBRATORJU;
+	"dbDigitalSensors".ROTACIJSKI_CIL_DESNO.Input                       := "dbDI".ROTACIJSKI_CIL_DESNO;
+	"dbDigitalSensors".ROTACIJSKI_CIL_SREDINA.Input                     := "dbDI".ROTACIJSKI_CIL_SREDINA;
+	"dbDigitalSensors".ROTACIJSKI_CIL_LEVO.Input                        := "dbDI".ROTACIJSKI_CIL_LEVO;
+	"dbDigitalSensors".LOC_DRCA_DESNO_NAPREJ.Input                      := "dbDI".LOC_DRCA_DESNO_NAPREJ;
+	"dbDigitalSensors".LOC_DRCA_DESNO_NAZAJ.Input                       := "dbDI".LOC_DRCA_DESNO_NAZAJ;
+	"dbDigitalSensors".LOC_DRCA_LEVO_NAZAJ.Input                        := "dbDI".LOC_DRCA_LEVO_NAZAJ;
+	"dbDigitalSensors".LOC_DRCA_LEVO_NAPREJ.Input                       := "dbDI".LOC_DRCA_LEVO_NAPREJ;
+	"dbDigitalSensors".Spare22_7.Input                                  := "dbDI".Spare22_7;
+	"dbDigitalSensors".FOTOCELICA_LOC_TRAK_DESNO1.Input                := "dbDI".FOTOCELICA_LOC_TRAK_DESNO1;
+	"dbDigitalSensors".FOTOCELICA_LOC_TRAK_DESNO2.Input                := "dbDI".FOTOCELICA_LOC_TRAK_DESNO2;
+	"dbDigitalSensors".FOTOCELICA_VIJACENJE_DESNOZADAJ.Input            := "dbDI".FOTOCELICA_VIJACENJE_DESNOZADAJ;
+	"dbDigitalSensors".FOTOCELICA_VIJACENJE_DESNOSPREDAJ.Input          := "dbDI".FOTOCELICA_VIJACENJE_DESNOSPREDAJ;
+	"dbDigitalSensors".VIJACENJE_DESNO_1_NAZAJ.Input                    := "dbDI".VIJACENJE_DESNO_1_NAZAJ;
+	"dbDigitalSensors".VIJACENJE_DESNO_1_NAPREJ.Input                   := "dbDI".VIJACENJE_DESNO_1_NAPREJ;
+	"dbDigitalSensors".MESTO_VIJAC_STOP_DESNO_ZAD_NAZAJ.Input            := "dbDI".MESTO_VIJAC_STOP_DESNO_ZAD_NAZAJ;
+	"dbDigitalSensors".MESTO_VIJAC_STOP_DESNO_ZAD_NAPREJ.Input           := "dbDI".MESTO_VIJAC_STOP_DESNO_ZAD_NAPREJ;
+	"dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_DVIG_DOL.Input         := "dbDI".MESTO_VIJACENJE_DESNO_ZAD_DVIG_DOL;
+	"dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_CENT_NARAZEN.Input     := "dbDI".MESTO_VIJACENJE_DESNO_ZAD_CENT_NARAZEN;
+	"dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_CENT_SKUPAJ.Input      := "dbDI".MESTO_VIJACENJE_DESNO_ZAD_CENT_SKUPAJ;
+	"dbDigitalSensors".Spare24_3.Input          := "dbDI".Spare24_3;
+	"dbDigitalSensors".Spare24_4.Input         := "dbDI".Spare24_4;
+	"dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_DVIG_DOL.Input       := "dbDI".MESTO_VIJACENJE_DESNO_SPRED_DVIG_DOL;
+	"dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_CENT_NARAZEN.Input   := "dbDI".MESTO_VIJACENJE_DESNO_SPRED_CENT_NARAZEN;
+	"dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_CENT_SKUPAJ.Input    := "dbDI".MESTO_VIJACENJE_DESNO_SPRED_CENT_SKUPAJ;
+	"dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_DES_NAZAJ.Input        := "dbDI".KONCNA_POZICIJA_VIJACENJA_DES_NAZAJ;
+	"dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_DES_NAPREJ.Input       := "dbDI".KONCNA_POZICIJA_VIJACENJA_DES_NAPREJ;
+	"dbDigitalSensors".Spare25_2.Input                                  := "dbDI".Spare25_2;
+	"dbDigitalSensors".Spare25_3.Input                                  := "dbDI".Spare25_3;
+	"dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_LEVO_NAZAJ.Input       := "dbDI".KONCNA_POZICIJA_VIJACENJA_LEVO_NAZAJ;
+	"dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_LEVO_NAPREJ.Input      := "dbDI".KONCNA_POZICIJA_VIJACENJA_LEVO_NAPREJ;
+	"dbDigitalSensors".Spare25_6.Input                                  := "dbDI".Spare25_6;
+	"dbDigitalSensors".Spare25_7.Input                                  := "dbDI".Spare25_7;
+	"dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO1.Input                := "dbDI".FOTOCELICA_LOC_TRAK_LEVO1;
+	"dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO2.Input                := "dbDI".FOTOCELICA_LOC_TRAK_LEVO2;
+	"dbDigitalSensors".FOTOCELICA_VIJACENJE_LEVO_ZADAJ.Input            := "dbDI".FOTOCELICA_VIJACENJE_LEVO_ZADAJ;
+	"dbDigitalSensors".FOTOCELICA_VIJACENJE_LEVO_SPREDAJ.Input          := "dbDI".FOTOCELICA_VIJACENJE_LEVO_SPREDAJ;
+	"dbDigitalSensors".VIJACENJE_LEVO_1_NAZAJ.Input                     := "dbDI".VIJACENJE_LEVO_1_NAZAJ;
+	"dbDigitalSensors".VIJACENJE_LEVO_1_NAPREJ.Input                    := "dbDI".VIJACENJE_LEVO_1_NAPREJ;
+	"dbDigitalSensors".MESTO_VIJAC_STOP_LEVO_ZAD_NAZAJ.Input             := "dbDI".MESTO_VIJAC_STOP_LEVO_ZAD_NAZAJ;
+	"dbDigitalSensors".MESTO_VIJAC_STOP_LEVO_ZAD_NAPREJ.Input            := "dbDI".MESTO_VIJAC_STOP_LEVO_ZAD_NAPREJ;
+	"dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_DVIG_DOL.Input          := "dbDI".MESTO_VIJACENJE_LEVO_ZAD_DVIG_DOL;
+	"dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_CENT_NARAZEN.Input      := "dbDI".MESTO_VIJACENJE_LEVO_ZAD_CENT_NARAZEN;
+	"dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_CENT_SKUPAJ.Input       := "dbDI".MESTO_VIJACENJE_LEVO_ZAD_CENT_SKUPAJ;
+	"dbDigitalSensors".Spare27_3.Input           := "dbDI".Spare27_3;
+	"dbDigitalSensors".Spare27_4.Input          := "dbDI".Spare27_4;
+	"dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_DVIG_DOL.Input        := "dbDI".MESTO_VIJACENJE_LEVO_SPRED_DVIG_DOL;
+	"dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_CENT_NARAZEN.Input    := "dbDI".MESTO_VIJACENJE_LEVO_SPRED_CENT_NARAZEN;
+	"dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_CENT_SKUPAJ.Input     := "dbDI".MESTO_VIJACENJE_LEVO_SPRED_CENT_SKUPAJ;
+	"dbDigitalSensors".INDUKTIVEC_PRAVILNA_VLOZITEV_DNA_1.Input         := "dbDI".INDUKTIVEC_PRAVILNA_VLOZITEV_DNA_1;
+	"dbDigitalSensors".INDUKTIVEC_PRAVILNA_VLOZITEV_DNA_2.Input         := "dbDI".INDUKTIVEC_PRAVILNA_VLOZITEV_DNA_2;
+	"dbDigitalSensors".VPENJANJE_DNA_LEVO_ZADAJ_GOR.Input               := "dbDI".VPENJANJE_DNA_LEVO_ZADAJ_GOR;
+	"dbDigitalSensors".VPENJANJE_DNA_LEVO_ZADAJ_DOL.Input               := "dbDI".VPENJANJE_DNA_LEVO_ZADAJ_DOL;
+	"dbDigitalSensors".VPENJANJE_DNA_LEVO_SPREDAJ_GOR.Input             := "dbDI".VPENJANJE_DNA_LEVO_SPREDAJ_GOR;
+	"dbDigitalSensors".VPENJANJE_DNA_LEVO_SPREDAJ_DOL.Input             := "dbDI".VPENJANJE_DNA_LEVO_SPREDAJ_DOL;
+	"dbDigitalSensors".VPENJANJE_DNA_DESNO_ZADAJ_GOR.Input              := "dbDI".VPENJANJE_DNA_DESNO_ZADAJ_GOR;
+	"dbDigitalSensors".VPENJANJE_DNA_DESNO_ZADAJ_DOL.Input              := "dbDI".VPENJANJE_DNA_DESNO_ZADAJ_DOL;
+	"dbDigitalSensors".VPENJANJE_DNA_DESNO_SPREDAJ_GOR.Input            := "dbDI".VPENJANJE_DNA_DESNO_SPREDAJ_GOR;
+	"dbDigitalSensors".VPENJANJE_DNA_DESNO_SPREDAJ_DOL.Input            := "dbDI".VPENJANJE_DNA_DESNO_SPREDAJ_DOL;
+	
+	//----------------------------------------------------------------------
+	//  fc call
+	//  "cmDigitalSensor"(SimulateEn:=#Simulate,
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".ZAUSTAVITEV_V_SILI_NI_AKTIVIRANA);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".FOTO_ZAVESA_KANAL_1);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".FOTO_ZAVESA_KANAL_2);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".START_LEVO_NA_VPENJANJU);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".START_DESNO_NA_VPENJANJU);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".PRISOTNOST_ZRAKA_NA_NAPRAVI);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".BIMETAL_VIJACENJA_NOGIC_IZKLJUCIL);
+	"cmDigitalSensor"(Sensor:="dbDigitalSensors".VIBRATOR_NOGIC_READY);
+	"cmDigitalSensor"(Sensor:="dbDigitalSensors".BIMETAL_VIJACENJA_NOGIC_IZKLJUCIL);
+	"cmDigitalSensor"(Sensor:="dbDigitalSensors".FR_MOTORJA1_ZADAJ_DESNO_READY);
+	"cmDigitalSensor"(Sensor:="dbDigitalSensors".FR_MOTORJA2_SPREDAJ_DESNO_READY);
+	"cmDigitalSensor"(Sensor:="dbDigitalSensors".FR_MOTORJA1_ZADAJ_LEVO_READY);
+	"cmDigitalSensor"(Sensor:="dbDigitalSensors".FR_MOTORJA2_SPREDAJ_LEVO_READY);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".Spare20_7);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".FOTOCELICA_TRANSPORTA_NOGIC);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_NOGIC);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".FOTOCELICA_PRED_MESTOM_LOCEVANJA);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_LEVO);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_DESNO);;
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".FOTOCELICA_LOC_IZH_DRCA_LEVO);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".FOTOCELICA_LOC_IZH_DRCA_DESNO);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".NOGICE_V_VIBRATORJU);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".ROTACIJSKI_CIL_DESNO);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".ROTACIJSKI_CIL_SREDINA);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".ROTACIJSKI_CIL_LEVO);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".LOC_DRCA_DESNO_NAPREJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".LOC_DRCA_DESNO_NAZAJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".LOC_DRCA_LEVO_NAZAJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".LOC_DRCA_LEVO_NAPREJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".Spare22_7);;
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".FOTOCELICA_LOC_TRAK_DESNO1);;
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".FOTOCELICA_LOC_TRAK_DESNO2);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".FOTOCELICA_VIJACENJE_DESNOZADAJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".FOTOCELICA_VIJACENJE_DESNOSPREDAJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".VIJACENJE_DESNO_1_NAZAJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".VIJACENJE_DESNO_1_NAPREJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".MESTO_VIJAC_STOP_DESNO_ZAD_NAZAJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".MESTO_VIJAC_STOP_DESNO_ZAD_NAPREJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_DVIG_DOL);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_CENT_NARAZEN);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_CENT_SKUPAJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".Spare24_3);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".Spare24_4);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_DVIG_DOL);;
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_CENT_NARAZEN);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_CENT_SKUPAJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_DES_NAZAJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_DES_NAPREJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".Spare25_2);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".Spare25_3);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_LEVO_NAZAJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_LEVO_NAPREJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".Spare25_6);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".Spare25_7);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO1);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO2);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".FOTOCELICA_VIJACENJE_LEVO_ZADAJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".FOTOCELICA_VIJACENJE_LEVO_SPREDAJ);
+	"cmDigitalSensor"(Sensor:="dbDigitalSensors".VIJACENJE_LEVO_1_NAZAJ);
+	"cmDigitalSensor"(Sensor:="dbDigitalSensors".VIJACENJE_LEVO_1_NAPREJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".MESTO_VIJAC_STOP_LEVO_ZAD_NAZAJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".MESTO_VIJAC_STOP_LEVO_ZAD_NAPREJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_DVIG_DOL);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_CENT_NARAZEN);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_CENT_SKUPAJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".Spare27_3);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".Spare27_4);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_DVIG_DOL);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_CENT_NARAZEN);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_CENT_SKUPAJ);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".INDUKTIVEC_PRAVILNA_VLOZITEV_DNA_1);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".INDUKTIVEC_PRAVILNA_VLOZITEV_DNA_2);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".VPENJANJE_DNA_LEVO_ZADAJ_GOR);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".VPENJANJE_DNA_LEVO_ZADAJ_DOL);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".VPENJANJE_DNA_LEVO_SPREDAJ_GOR);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".VPENJANJE_DNA_LEVO_SPREDAJ_DOL);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".VPENJANJE_DNA_DESNO_ZADAJ_GOR);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".VPENJANJE_DNA_DESNO_ZADAJ_DOL);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".VPENJANJE_DNA_DESNO_SPREDAJ_GOR);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".VPENJANJE_DNA_DESNO_SPREDAJ_DOL);
+	"cmDigitalSensor"(Sensor := "dbDigitalSensors".NOGICE_V_VIBRATORJU);
+END_FUNCTION
+

@@ -1,0 +1,27 @@
+﻿FUNCTION "fcReadIN" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+
+BEGIN
+	// Read DI input (14x) from CPU
+	// Read input from I0.0-I1.0 with 2 bytes to DB10.DBB0
+	POKE_BLK(area_src:=16#81, // PI
+	         dbNumber_src:=0,
+	         byteOffset_src:=0,
+	         area_dest:=16#84, // DB
+	         dbNumber_dest:=10,
+	         byteOffset_dest:=0,
+	         count:=2);
+	
+	// Read DI input (16x5) from Weidmuller UR20-FBC-PN-IRT-V2
+	// Read input from I2.0-I11.0 with 10 bytes to DB10.DBB2
+	POKE_BLK(area_src := 16#81, // PI
+	         dbNumber_src := 0,
+	         byteOffset_src := 2,
+	         area_dest := 16#84, // DB
+	         dbNumber_dest := 10,
+	         byteOffset_dest := 2,
+	         count := 10);
+	
+END_FUNCTION
+

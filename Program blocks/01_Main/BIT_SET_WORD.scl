@@ -1,0 +1,36 @@
+﻿FUNCTION "BIT_SET_WORD" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_INPUT 
+      Value : Bool;
+      No_Bit : Int;
+   END_VAR
+
+   VAR_IN_OUT 
+      In_Out_Word : Word;
+   END_VAR
+
+   VAR_TEMP 
+      Input_Word_Temp_1 : Word;
+      Input_Word_Temp_2 : Word;
+   END_VAR
+
+
+BEGIN
+	IF #Value THEN
+	    #Input_Word_Temp_1 := 2#0000_0000_0000_0001;
+	ELSE
+	    #Input_Word_Temp_1 := 2#0000_0000_0000_0000;
+	END_IF;
+	
+	#Input_Word_Temp_2 := #In_Out_Word;
+	
+	IF SHR(IN := #Input_Word_Temp_2, N := #No_Bit - 1) = 0 THEN
+	    #Input_Word_Temp_1 := SHL(IN := #Input_Word_Temp_1, N := #No_Bit - 1);
+	    #In_Out_Word := INT_TO_WORD(WORD_TO_INT(#Input_Word_Temp_2) + WORD_TO_INT(#Input_Word_Temp_1));
+	ELSE
+	    #In_Out_Word := #In_Out_Word;
+	END_IF;
+	
+END_FUNCTION
+

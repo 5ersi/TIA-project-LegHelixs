@@ -1,0 +1,206 @@
+﻿FUNCTION "fcUtilities" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_TEMP 
+      i : Int;
+   END_VAR
+
+   VAR CONSTANT 
+      LightPulseTime : Int := 20;
+      LightPauseTime : Int := 10;
+   END_VAR
+
+
+BEGIN
+	// Short summary:
+	(*
+	  Function that stores functionality that is not part of phases, but 
+	  needed for normal operation
+	*)
+	// 
+	//**********************************************************************
+	// Revision control:
+	//----------------------------------------------------------------------
+	// Use only for revisions of original code
+	// V0.01
+	// Description of revision
+	
+	
+	//----------------------------------------------------------------------
+	// Comments:
+	(*
+	  Every change in the code is documented with following:
+	  // CCC-yyymmdd: .....
+	  yyyy year when change was made
+	  mm   month when change was made
+	  dd   day when change was made
+	  CCC  authors initials
+	*)
+	
+	// ************* BEGIN - Indication lights ************* //
+	// ***** GREEN ***** //
+	"dbTimers".Num[12].PRE := #LightPulseTime;
+	"dbTimers".Num[16].PRE := #LightPauseTime;
+	"dbTimers".Num[12].EE := ("dbUnit".Unit[1].StartStop) AND NOT "dbUtilities".GreenLightFlashFlag;
+	"dbTimers".Num[16].EE := ("dbUnit".Unit[1].StartStop) AND "dbUtilities".GreenLightFlashFlag;
+	
+	IF "dbTimers".Num[12].EE AND "dbTimers".Num[12].DN THEN
+	    "dbUtilities".GreenLightFlashFlag := 1; 
+	ELSIF "dbTimers".Num[16].EE AND "dbTimers".Num[16].DN THEN
+	    "dbUtilities".GreenLightFlashFlag := 0;
+	END_IF;
+	// GREEN LIGHT FLASHING or GREEN ALWAYS ON
+	IF ("dbTimers".Num[12].EE AND "dbTimers".Num[12].TT) // FLASHING- ready for run
+	THEN
+	  ; // "dbDigitalValves".SEMAFOR_ZELENA.AutoON := True;
+	END_IF;
+	"dbDigitalValves".SEMAFOR_ZELENA.AutoON := ("dbUnit".Unit[1].StartStop);
+	// ***** GREEN ***** //
+	
+	// ***** RED ***** //
+	"dbTimers".Num[20].PRE := #LightPulseTime;
+	"dbTimers".Num[24].PRE := #LightPauseTime;
+	"dbTimers".Num[20].EE := "dbUnit".Unit[1].AlarmsPresent AND NOT "dbUtilities".RedLightFlashFlag;
+	"dbTimers".Num[24].EE := "dbUnit".Unit[1].AlarmsPresent AND "dbUtilities".RedLightFlashFlag;
+	
+	IF "dbTimers".Num[20].EE AND "dbTimers".Num[20].DN THEN
+	    "dbUtilities".RedLightFlashFlag := 1;
+	ELSIF "dbTimers".Num[24].EE AND "dbTimers".Num[24].DN THEN
+	    "dbUtilities".RedLightFlashFlag := 0;
+	END_IF;
+	
+	// RED LIGHT FLASHING or RED ALWAYS ON
+	IF ("dbTimers".Num[20].EE AND "dbTimers".Num[20].TT) THEN // FLASHING
+	  "dbDigitalValves".SEMAFOR_RDECA.AutoON := True;
+	END_IF;
+	// ***** RED ***** //
+	
+	// ***** YELLOW ***** //
+	"dbTimers".Num[28].PRE := #LightPulseTime;
+	"dbTimers".Num[32].PRE := #LightPauseTime;
+	(* 20210517_PRA
+	"dbTimers".Num[28].EE := "ph_Helix_1_DB".CurrentStep=10 AND "ph_Helix_1_DB".InsertNewButtom>0
+	                          AND NOT "dbUtilities".YellowLightFlashFlag;
+	"dbTimers".Num[32].EE :=  "ph_Helix_1_DB".CurrentStep=10 AND "ph_Helix_1_DB".InsertNewButtom>0
+	                          AND "dbUtilities".YellowLightFlashFlag;
+	*)
+	"dbTimers".Num[28].EE := (("ph_Helix_1_DB".CurrentStep=10 AND "ph_Helix_1_DB".InsertNewButtom>0) OR "dbAlarms".PLI[3, 8])
+	                          AND NOT "dbUtilities".YellowLightFlashFlag;
+	"dbTimers".Num[32].EE :=  (("ph_Helix_1_DB".CurrentStep=10 AND "ph_Helix_1_DB".InsertNewButtom>0) OR "dbAlarms".PLI[3, 8])
+	                          AND "dbUtilities".YellowLightFlashFlag;
+	
+	IF "dbTimers".Num[28].EE AND "dbTimers".Num[28].DN THEN
+	    "dbUtilities".YellowLightFlashFlag := 1;
+	ELSIF "dbTimers".Num[32].EE AND "dbTimers".Num[32].DN THEN
+	    "dbUtilities".YellowLightFlashFlag := 0;
+	END_IF;
+	// YELLOW LIGHT FLASHING or GREEN ALWAYS ON
+	IF ("dbTimers".Num[28].EE AND "dbTimers".Num[28].TT) // FLASHING
+	THEN
+	  "dbDigitalValves".SEMAFOR_RUMENA.AutoON := True;
+	END_IF;
+	// ***** YELLOW ***** //
+	
+	// ************* END - Indication lights ************* //
+	
+	// ************* BEIN - User logged out ************* //
+	IF "dbHMIUser".UserLoggOffTime > 59 THEN
+	    "dbHMIUser".UserLoggOffTime := 58;
+	END_IF;
+	IF ("dbHMIUser".PLCUserLogOut=0) AND ("dbHMIUser".PLCUserLogOut_OLD=1) THEN            
+	    "dbHMIUser".CurrentUsername := '';
+	END_IF;
+	    
+	"dbTimers".Num[4].PRE := "dbHMIUser".UserLoggOffTime * 60 * 10; // 100 msec
+	"dbTimers".Num[4].EE := "dbHMIUser".CurrUser_LEN > 0;
+	IF "dbHMIUser".CurrUser_LEN > 0 THEN
+	    "dbHMIUser".PLCUserLogOut := 1;
+	END_IF;
+	"dbTimers".Num[4].RS := "dbUnit".Unit[1].StartStop;
+	IF "FirstScan" THEN
+	    "dbHMIUser".CurrentUsername := '';
+	END_IF;
+	IF "dbTimers".Num[4].EE AND "dbTimers".Num[4].DN THEN            
+	    "dbHMIUser".PLCUserLogOut := 0;
+	    "dbHMIUser".CurrentUsername := '';
+	END_IF;
+	
+	"dbHMIUser".CurrUser_LEN := LEN("dbHMIUser".CurrentUsername); // if 0 user not logged IN, if > 0 user is logged IN
+	"dbHMIUser".PLCUserLogOut_OLD := "dbHMIUser".PLCUserLogOut;
+	// ************* END - User logged out ************* //
+	
+	// ************* HMI - Show machine status on main screen ************* //
+	IF ("dbUnit".Unit[1].Regime=0) AND NOT "dbUnit".Unit[1].StartStop THEN 
+	  "dbUnit".Unit[1].Status     := 1;
+	ELSIF ("dbUnit".Unit[1].Regime=0) AND "dbUnit".Unit[1].StartStop THEN 
+	  "dbUnit".Unit[1].Status     := 2;
+	ELSIF ("dbUnit".Unit[1].Regime>=1) AND NOT "dbUnit".Unit[1].StartStop THEN 
+	  "dbUnit".Unit[1].Status     := 3;
+	ELSIF ("dbUnit".Unit[1].Regime>=1) AND "dbUnit".Unit[1].StartStop THEN 
+	  "dbUnit".Unit[1].Status     := 4;
+	ELSIF ("dbUnit".Unit[1].Regime=0) AND ((NOT "ph_Helix_1_DB".InitPosition AND ("ph_Helix_1_DB".CurrentStep > 1 AND "ph_Helix_1_DB".CurrentStep <=2)) OR
+	(NOT "ph_LegsShifter_2_DB".InitPosition AND ("ph_LegsShifter_2_DB".CurrentStep > 2 AND "ph_LegsShifter_2_DB".CurrentStep <=3))) THEN
+	  "dbUnit".Unit[1].Status     := 5;
+	END_IF;
+	(*
+	1-IZBRAN AVTOMATSKI NAČIN DELOVANJA
+	2-AVTOMATSKI NAČIN AKTIVIRAN
+	3-IZBRAN ROČNI NAČIN DELOVANJA
+	4-ROČNI NAČIN AKTIVIRAN
+	5-NAPRAVA NI V IZHODIŠČU
+	*)
+	// ************* HMI - Show machine status on main screen ************* //
+	
+	// ************* HMI - Animate HMI button ************* //
+	IF "op_ButtonHelix_3_DB".AlarmPresent OR "ph_Helix_1_DB".AlarmPresent OR "ph_LegsShifter_2_DB".AlarmPresent THEN
+	  "dbUnit".Unit[1].AlarmsPresent := True;
+	ELSE
+	  "dbUnit".Unit[1].AlarmsPresent := False;
+	END_IF;
+	// ************* HMI - Animate HMI button  ************* //
+	
+	// ************* HMI - BEGIN - Select screen  ************* //
+	IF "dbUnit".Unit[1].Regime = 1 AND "dbUnit".Unit[1].StartStop THEN
+	  (* NOT IN FUNCTION
+	  IF "dbHMIUser".HMICurrScreen = 1 THEN
+	    "dbHMIUser".SetTargetHMIScreen    := 2;
+	  END_IF;
+	  *)
+	  IF ("dbHMIUser".HMICurrScreen <> 1) THEN 
+	    ; // "dbHMIUser".SetTargetHMIScreen  := 0;
+	  END_IF;
+	END_IF;
+	IF (NOT "dbUnit".Unit[1].StartStop) THEN
+	  "dbHMIUser".SetTargetHMIScreen  := 0;
+	END_IF;
+	"dbHMIUser".HMICurrScreen_OLD := "dbHMIUser".HMICurrScreen;
+	// ************* HMI - END - Select screen  ************* //
+	
+	// ************* HMI - BEGIN - Fill system param  ************* //
+	"dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_DES_NAZAJ.FilterTime       := "dbSystemParam".KONCNA_POZICIJA_VIJACENJA_DES_NAZAJ_FilterTime;
+	"dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_DES_NAPREJ.FilterTime      := "dbSystemParam".KONCNA_POZICIJA_VIJACENJA_DES_NAPREJ_FilterTime;
+	"dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_LEVO_NAZAJ.FilterTime      := "dbSystemParam".KONCNA_POZICIJA_VIJACENJA_LEVO_NAZAJ_FilterTime;
+	"dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_LEVO_NAPREJ.FilterTime     := "dbSystemParam".KONCNA_POZICIJA_VIJACENJA_DES_NAPREJ_FilterTime;
+	"op_ButtonHelix_3_DB".DlyTimeToStart_TRAK_VIJAC := "dbSystemParam".DlyTimeToStart_TRAK_VIJAC*10;
+	"op_ButtonHelix_3_DB".DlyTimeToStop_TRAK_VIJAC  := "dbSystemParam".DlyTimeToStop_TRAK_VIJAC*10;
+	"op_ButtonHelix_3_DB".DlyTimeToStart_VIBRO      := "dbSystemParam".DlyTimeToStart_VIBRO*10;
+	"op_ButtonHelix_3_DB".DlyTimeToStop_VIBRO       := "dbSystemParam".DlyTimeToStop_VIBRO*10;
+	"dbTimers".Num[8].PRE                           := "dbSystemParam".StandbyTimeTrakaVijac*10*60; // On HMI in unit [min],
+	"op_ButtonHelix_3_DB".DlyTimeForAlarmAddNewHelix := "dbSystemParam".DlyTimeForAlarmAddNewHelix * 10;
+	// ************* HMI - END - Fill system param  ************* //
+	
+	// ************* BEGIN - Stop running trak vijačnika, if helix is no more in execution  ************* //
+	// See above line "dbTimers".Num[8].PRE                           := "dbSystemParam".StandbyTimeTrakaVijac*10*60; // On HMI in unit [min]
+	"dbTimers".Num[8].EE := "dbMotors".VKLOP_M_TRAKA_VIJACNIKA.XS;
+	"dbTimers".Num[8].RS := "ph_Helix_1_DB".MovingUPDOWN_Activated;
+	
+	IF "dbTimers".Num[8].EE AND "dbTimers".Num[8].DN THEN
+	  "dbTimers".Num[8].EE := False;
+	  "dbTimers".Num[8].DN := False;
+	  "dbTimers".Num[8].RS := False;
+	  
+	  "dbUnit".Unit[1].StartStop := False;
+	END_IF;
+	// ************* END - Stop running trak vijačnika, if helix is no more in execution  ************* //
+END_FUNCTION
+

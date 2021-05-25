@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V16" />
+  <DocumentInfo>
+    <Created>2021-05-25T16:14:35.2109691Z</Created>
+    <ExportSetting>WithDefaults</ExportSetting>
+    <InstalledProducts>
+      <Product>
+        <DisplayName>Totally Integrated Automation Portal</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </Product>
+      <OptionPackage>
+        <DisplayName>TIA Portal Version Control Interface</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </OptionPackage>
+      <OptionPackage>
+        <DisplayName>TIA Portal Openness</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </OptionPackage>
+      <Product>
+        <DisplayName>STEP 7 Professional</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </Product>
+      <OptionPackage>
+        <DisplayName>STEP 7 Safety</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </OptionPackage>
+      <Product>
+        <DisplayName>WinCC Unified SCADA Engineering System</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </Product>
+    </InstalledProducts>
+  </DocumentInfo>
+  <SW.Blocks.InstanceDB ID="0">
+    <AttributeList>
+      <AutoNumber>false</AutoNumber>
+      <DBAccessibleFromOPCUA>true</DBAccessibleFromOPCUA>
+      <HeaderAuthor />
+      <HeaderFamily />
+      <HeaderName />
+      <HeaderVersion>0.1</HeaderVersion>
+      <InstanceOfName>op_ButtonHelix_3</InstanceOfName>
+      <InstanceOfType>FB</InstanceOfType>
+      <Interface><Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v4">
+  <Section Name="Input" />
+  <Section Name="Output" />
+  <Section Name="InOut">
+    <Member Name="SEMAFOR_ZELENA" Datatype="&quot;udtDigitalValve&quot;" Accessibility="Public">
+      <Sections>
+        <Section Name="None">
+          <Member Name="AutoON" Datatype="Bool" />
+          <Member Name="ManON" Datatype="Bool" />
+          <Member Name="ManOFF" Datatype="Bool" />
+          <Member Name="Interlock" Datatype="Bool" />
+          <Member Name="Alarm" Datatype="Bool" />
+          <Member Name="XS" Datatype="Bool" />
+          <Member Name="Manual" Datatype="Bool" />
+          <Member Name="SCADAVis" Datatype="Bool" />
+          <Member Name="GSL" Datatype="Bool" />
+          <Member Name="GSH" Datatype="Bool" />
+          <Member Name="Invert" Datatype="Bool" />
+          <Member Name="GSLEnable" Datatype="Bool" />
+          <Member Name="GSHEnable" Datatype="Bool" />
+          <Member Name="GSLAlarm" Datatype="Bool" />
+          <Member Name="GSHAlarm" Datatype="Bool" />
+          <Member Name="HMICmd" Datatype="Bool" />
+          <Member Name="AlarmAck" Datatype="Bool" />
+          <Member Name="Status" Datatype="Byte" />
+          <Member Name="Timer1" Datatype="Byte" />
+          <Member Name="FilterTime" Datatype="Byte" />
+        </Section>
+      </Sections>
+    </Member>
+    <Member Name="SEMAFOR_RUMENA" Datatype="&quot;udtDigitalValve&quot;" Accessibility="Public">
+      <Sections>
+        <Section Name="None">
+          <Member Name="AutoON" Datatype="Bool" />
+          <Member Name="ManON" Datatype="Bool" />
+          <Member Name="ManOFF" Datatype="Bool" />
+          <Member Name="Interlock" Datatype="Bool" />
+          <Member Name="Alarm" Datatype="Bool" />
+          <Member Name="XS" Datatype="Bool" />
+          <Member Name="Manual" Datatype="Bool" />
+          <Member Name="SCADAVis" Datatype="Bool" />
+          <Member Name="GSL" Datatype="Bool" />
+          <Member Name="GSH" Datatype="Bool" />
+          <Member Name="Invert" Datatype="Bool" />
+          <Member Name="GSLEnable" Datatype="Bool" />
+          <Member Name="GSHEnable" Datatype="Bool" />
+          <Member Name="GSLAlarm" Datatype="Bool" />
+          <Member Name="GSHAlarm" Datatype="Bool" />
+          <Member Name="HMICmd" Datatype="Bool" />
+          <Member Name="AlarmAck" Datatype="Bool" />
+          <Member Name="Status" Datatype="Byte" />
+          <Member Name="Timer1" Datatype="Byte" />
+          <Member Name="FilterTime" Datatype="Byte" />
+        </Section>
+      </Sections>
+    </Member>
+    <Member Name="SEMAFOR_RDECA" Datatype="&quot;udtDigitalValve&quot;" Accessibility="Public">
+      <Sections>
+        <Section Name="None">
+          <Member Name="AutoON" Datatype="Bool" />
+          <Member Name="ManON" Datatype="Bool" />
+          <Member Name="ManOFF" Datatype="Bool" />
+          <Member Name="Interlock" Datatype="Bool" />
+          <Member Name="Alarm" Datatype="Bool" />
+          <Member Name="XS" Datatype="Bool" />
+          <Member Name="Manual" Datatype="Bool" />
+          <Member Name="SCADAVis" Datatype="Bool" />
+          <Member Name="GSL" Datatype="Bool" />
+          <Member Name="GSH" Datatype="Bool" />
+          <Member Name="Invert" Datatype="Bool" />
+          <Member Name="GSLEnable" Datatype="Bool" />
+          <Member Name="GSHEnable" Datatype="Bool" />
+          <Member Name="GSLAlarm" Datatype="Bool" />
+          <Member Name="GSHAlarm" Datatype="Bool" />
+          <Member Name="HMICmd" Datatype="Bool" />
+          <Member Name="AlarmAck" Datatype="Bool" />
+          <Member Name="Status" Datatype="Byte" />
+          <Member Name="Timer1" Datatype="Byte" />
+          <Member Name="FilterTime" Datatype="Byte" />
+        </Section>
+      </Sections>
+    </Member>
+    <Member Name="VKLOP_VIBRATORJA" Datatype="&quot;udtMotor&quot;" Accessibility="Public">
+      <Sections>
+        <Section Name="None">
+          <Member Name="AutoSpeed" Datatype="Real" />
+          <Member Name="ManSpeed" Datatype="Real" />
+          <Member Name="OutRPM" Datatype="Real" />
+          <Member Name="OutPrc" Datatype="Real" />
+          <Member Name="MaxEng" Datatype="Real" />
+          <Member Name="MinEng" Datatype="Real" />
+          <Member Name="AutoON" Datatype="Bool" />
+          <Member Name="ManON" Datatype="Bool" />
+          <Member Name="ManOFF" Datatype="Bool" />
+          <Member Name="Interlock" Datatype="Bool" />
+          <Member Name="EA" Datatype="Bool" />
+          <Member Name="ESA" Datatype="Bool" />
+          <Member Name="FSL" Datatype="Bool" />
+          <Member Name="XS" Datatype="Bool" />
+          <Member Name="Manual" Datatype="Bool" />
+          <Member Name="AlarmEA" Datatype="Bool" />
+          <Member Name="AlarmESA" Datatype="Bool" />
+          <Member Name="AlarmFSL" Datatype="Bool" />
+          <Member Name="Alarm" Datatype="Bool" />
+          <Member Name="AlarmAck" Datatype="Bool" />
+          <Member Name="ResetFCAlarm" Datatype="Bool" />
+          <Member Name="DirectionReq" Datatype="Bool" />
+          <Member Name="Direction" Datatype="Bool" />
+          <Member Name="Speed1Out" Datatype="Bool" />
+          <Member Name="Speed2Out" Datatype="Bool" />
+          <Member Name="ToggleCmd" Datatype="Bool" />
+          <Member Name="Timer_EA" Datatype="UInt" />
+          <Member Name="Timer_FSL" Datatype="UInt" />
+          <Member Name="Timer_ResetFCAlarm" Datatype="UInt" />
+          <Member Name="FILTER_TIME_EA" Datatype="UInt" />
+          <Member Name="FILTER_TIME_FSL" Datatype="UInt" />
+        </Section>
+      </Sections>
+    </Member>
+    <Member Name="VKLOP_M_TRACNEGA_TRANS_NOGIC" Datatype="&quot;udtMotor&quot;" Accessibility="Public">
+      <Sections>
+        <Section Name="None">
+          <Member Name="AutoSpeed" Datatype="Real" />
+          <Member Name="ManSpeed" Datatype="Real" />
+          <Member Name="OutRPM" Datatype="Real" />
+          <Member Name="OutPrc" Datatype="Real" />
+          <Member Name="MaxEng" Datatype="Real" />
+          <Member Name="MinEng" Datatype="Real" />
+          <Member Name="AutoON" Datatype="Bool" />
+          <Member Name="ManON" Datatype="Bool" />
+          <Member Name="ManOFF" Datatype="Bool" />
+          <Member Name="Interlock" Datatype="Bool" />
+          <Member Name="EA" Datatype="Bool" />
+          <Member Name="ESA" Datatype="Bool" />
+          <Member Name="FSL" Datatype="Bool" />
+          <Member Name="XS" Datatype="Bool" />
+          <Member Name="Manual" Datatype="Bool" />
+          <Member Name="AlarmEA" Datatype="Bool" />
+          <Member Name="AlarmESA" Datatype="Bool" />
+          <Member Name="AlarmFSL" Datatype="Bool" />
+          <Member Name="Alarm" Datatype="Bool" />
+          <Member Name="AlarmAck" Datatype="Bool" />
+          <Member Name="ResetFCAlarm" Datatype="Bool" />
+          <Member Name="DirectionReq" Datatype="Bool" />
+          <Member Name="Direction" Datatype="Bool" />
+          <Member Name="Speed1Out" Datatype="Bool" />
+          <Member Name="Speed2Out" Datatype="Bool" />
+          <Member Name="ToggleCmd" Datatype="Bool" />
+          <Member Name="Timer_EA" Datatype="UInt" />
+          <Member Name="Timer_FSL" Datatype="UInt" />
+          <Member Name="Timer_ResetFCAlarm" Datatype="UInt" />
+          <Member Name="FILTER_TIME_EA" Datatype="UInt" />
+          <Member Name="FILTER_TIME_FSL" Datatype="UInt" />
+        </Section>
+      </Sections>
+    </Member>
+  </Section>
+  <Section Name="Static">
+    <Member Name="CurrentStep" Datatype="Int" Remanence="Retain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>10</StartValue></Member>
+    <Member Name="PhaseStatus" Datatype="Int" Remanence="Retain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>5</StartValue></Member>
+    <Member Name="AlarmPresent" Datatype="Bool" Remanence="Retain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>FALSE</StartValue></Member>
+    <Member Name="InitPosition" Datatype="Bool" Remanence="Retain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>FALSE</StartValue></Member>
+    <Member Name="IEC_TimerOnDly_1" Datatype="TONR_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time"><StartValue>T#0MS</StartValue></Member><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool"><StartValue>FALSE</StartValue></Member><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="IEC_TimerOnDly_2" Datatype="TONR_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time"><StartValue>T#0MS</StartValue></Member><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool"><StartValue>FALSE</StartValue></Member><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="IEC_TimerOnDly_3" Datatype="TONR_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time"><StartValue>T#0MS</StartValue></Member><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool"><StartValue>FALSE</StartValue></Member><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="IEC_TimerOnDly_4" Datatype="TONR_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time"><StartValue>T#0MS</StartValue></Member><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool"><StartValue>FALSE</StartValue></Member><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="IEC_TimerOnDly_5" Datatype="TONR_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time"><StartValue>T#0MS</StartValue></Member><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool"><StartValue>FALSE</StartValue></Member><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="IEC_TimerOnDly_6" Datatype="TONR_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time"><StartValue>T#0MS</StartValue></Member><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool"><StartValue>FALSE</StartValue></Member><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="IEC_TimerOnDly_7" Datatype="TONR_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time"><StartValue>T#0MS</StartValue></Member><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool"><StartValue>FALSE</StartValue></Member><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="IEC_TimerOnDly_8" Datatype="TONR_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time"><StartValue>T#0MS</StartValue></Member><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool"><StartValue>FALSE</StartValue></Member><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="IEC_TimerOnDly_9" Datatype="TONR_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time"><StartValue>T#0MS</StartValue></Member><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool"><StartValue>FALSE</StartValue></Member><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="IEC_TimerOnDly_10" Datatype="TONR_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="PT" Datatype="Time"><StartValue>T#0MS</StartValue></Member><Member Name="ET" Datatype="Time" /><Member Name="IN" Datatype="Bool"><StartValue>FALSE</StartValue></Member><Member Name="Q" Datatype="Bool" /></Section></Sections></Member>
+    <Member Name="IEC_TimerOnDly_ET_1" Datatype="Time" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>T#0MS</StartValue></Member>
+    <Member Name="IEC_TimerOnDly_ET_2" Datatype="Time" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>T#0MS</StartValue></Member>
+    <Member Name="IEC_TimerOnDly_ET_3" Datatype="Time" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>T#0MS</StartValue></Member>
+    <Member Name="IEC_TimerOnDly_ET_4" Datatype="Time" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>T#0MS</StartValue></Member>
+    <Member Name="IEC_TimerOnDly_ET_5" Datatype="Time" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>T#0MS</StartValue></Member>
+    <Member Name="IEC_TimerOnDly_ET_6" Datatype="Time" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>T#0MS</StartValue></Member>
+    <Member Name="IEC_TimerOnDly_ET_7" Datatype="Time" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>T#0MS</StartValue></Member>
+    <Member Name="IEC_TimerOnDly_ET_8" Datatype="Time" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>T#0MS</StartValue></Member>
+    <Member Name="IEC_TimerOnDly_ET_9" Datatype="Time" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>T#0MS</StartValue></Member>
+    <Member Name="IEC_TimerOnDly_ET_10" Datatype="Time" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>T#0MS</StartValue></Member>
+    <Member Name="IEC_TimerOnDly_DN_1" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>FALSE</StartValue></Member>
+    <Member Name="IEC_TimerOnDly_DN_2" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>FALSE</StartValue></Member>
+    <Member Name="IEC_TimerOnDly_DN_3" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>FALSE</StartValue></Member>
+    <Member Name="IEC_TimerOnDly_DN_4" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>FALSE</StartValue></Member>
+    <Member Name="IEC_TimerOnDly_DN_5" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>FALSE</StartValue></Member>
+    <Member Name="IEC_TimerOnDly_DN_6" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>FALSE</StartValue></Member>
+    <Member Name="IEC_TimerOnDly_DN_7" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>FALSE</StartValue></Member>
+    <Member Name="IEC_TimerOnDly_DN_8" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>FALSE</StartValue></Member>
+    <Member Name="IEC_TimerOnDly_DN_9" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>FALSE</StartValue></Member>
+    <Member Name="IEC_TimerOnDly_DN_10" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>FALSE</StartValue></Member>
+    <Member Name="Mode" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>0</StartValue></Member>
+    <Member Name="ModePrev" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>0</StartValue></Member>
+    <Member Name="CurrUserN_LEN" Datatype="Int" Remanence="Retain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>7</StartValue></Member>
+    <Member Name="HMICurrScreenOLD" Datatype="Byte" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>16#01</StartValue></Member>
+    <Member Name="AlarmPresentOLD" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>FALSE</StartValue></Member>
+    <Member Name="InitPositionOLD" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>FALSE</StartValue></Member>
+    <Member Name="DlyTimeToStart_TRAK_VIJAC" Datatype="Int" Remanence="Retain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">true</BooleanAttribute></AttributeList><StartValue>50</StartValue></Member>
+    <Member Name="DlyTimeToStop_TRAK_VIJAC" Datatype="Int" Remanence="Retain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">true</BooleanAttribute></AttributeList><StartValue>10</StartValue></Member>
+    <Member Name="DlyTimeToStart_VIBRO" Datatype="Int" Remanence="Retain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">true</BooleanAttribute></AttributeList><StartValue>50</StartValue></Member>
+    <Member Name="DlyTimeToStop_VIBRO" Datatype="Int" Remanence="Retain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">true</BooleanAttribute></AttributeList><StartValue>150</StartValue></Member>
+    <Member Name="UnitRegimeOLD" Datatype="Int" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>0</StartValue></Member>
+    <Member Name="EndTransportNogic" Datatype="Bool" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>FALSE</StartValue></Member>
+    <Member Name="Count_M_TRACNEGA_TRANS_NOGIC" Datatype="USInt" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>0</StartValue></Member>
+    <Member Name="DlyTimeForAlarmAddNewHelix" Datatype="UInt" Remanence="Retain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>100</StartValue></Member>
+    <Member Name="Count_M_TRACNEGA_TRANS_NOGIC_OLD" Datatype="USInt" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">false</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><StartValue>0</StartValue></Member>
+  </Section>
+</Sections></Interface>
+      <Name>op_ButtonHelix_3_DB</Name>
+      <Number>312</Number>
+      <ProgrammingLanguage>DB</ProgrammingLanguage>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>sl-SI</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <MultilingualText ID="4" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="5" CompositionName="Items">
+            <AttributeList>
+              <Culture>sl-SI</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="6" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.InstanceDB>
+</Document>

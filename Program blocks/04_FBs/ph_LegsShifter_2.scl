@@ -1,0 +1,522 @@
+﻿FUNCTION_BLOCK "ph_LegsShifter_2"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_IN_OUT 
+      Y17_RotCilipozDesno : "udtDigitalValve";
+      Y18_RotCilipozLevo : "udtDigitalValve";
+      Y6_DrcaLocev_Des : "udtDigitalValve";
+      Y7_DrcaLocev_Lev : "udtDigitalValve";
+   END_VAR
+
+   VAR RETAIN
+      CurrentStep { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      PhaseStatus { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;   // // 0=IDLE, 5=RUNNING, 6=HOLD
+      Mode { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : SInt;
+      AlarmPresent { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      InitPosition { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+   END_VAR
+   VAR 
+      StartCmd { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      AlarmPresentOLD { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      InitPositionOLD { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      IEC_TimerOnDly_1 {InstructionName := 'TONR_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TONR_TIME;
+      IEC_TimerOnDly_2 {InstructionName := 'TONR_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TONR_TIME;
+      IEC_TimerOnDly_3 {InstructionName := 'TONR_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TONR_TIME;
+      IEC_TimerOnDly_4 {InstructionName := 'TONR_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TONR_TIME;
+      IEC_TimerOnDly_5 {InstructionName := 'TONR_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TONR_TIME;
+      IEC_TimerOnDly_6 {InstructionName := 'TONR_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TONR_TIME;
+      IEC_TimerOnDly_7 {InstructionName := 'TONR_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TONR_TIME;
+      IEC_TimerOnDly_8 {InstructionName := 'TONR_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TONR_TIME;
+      IEC_TimerOnDly_9 {InstructionName := 'TONR_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TONR_TIME;
+      IEC_TimerOnDly_10 {InstructionName := 'TONR_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TONR_TIME;
+      IEC_TimerOnDly_ET_1 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      IEC_TimerOnDly_ET_2 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      IEC_TimerOnDly_ET_3 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      IEC_TimerOnDly_ET_4 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      IEC_TimerOnDly_ET_5 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      IEC_TimerOnDly_ET_6 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      IEC_TimerOnDly_ET_7 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      IEC_TimerOnDly_ET_8 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      IEC_TimerOnDly_ET_9 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      IEC_TimerOnDly_ET_10 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      IEC_TimerOnDly_DN_1 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      IEC_TimerOnDly_DN_2 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      IEC_TimerOnDly_DN_3 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      IEC_TimerOnDly_DN_4 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      IEC_TimerOnDly_DN_5 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      IEC_TimerOnDly_DN_6 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      IEC_TimerOnDly_DN_7 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      IEC_TimerOnDly_DN_8 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      IEC_TimerOnDly_DN_9 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      IEC_TimerOnDly_DN_10 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      FillingLineSelector { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : USInt;
+      InletLineStep { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : SInt;
+      LeftOutletLineStep { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : SInt;
+      RightOutletLineStep { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : SInt;
+   END_VAR
+   VAR RETAIN
+      TimeToLoadInletLine { S7_SetPoint := 'True'} : Int := 20;
+      TimeToReleaseInletLine { S7_SetPoint := 'True'} : Int := 10;
+      TimeToReleaseOutletLine { S7_SetPoint := 'True'} : Int := 10;
+   END_VAR
+   VAR 
+      LeftLegIndex { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : SInt;
+      RightLegIndex { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : SInt;
+      LeftFirstLegIndex { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : SInt;
+      RightFirstLegIndex { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : SInt;
+      DRCA_DESNO_LATCH { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      DRCA_LEVO_LATCH { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+   END_VAR
+
+   VAR_TEMP 
+      i : Int;
+      i1 : Int;
+      i2 : Int;
+      i3 : Int;
+      i4 : Int;
+      i5 : Int;
+      i6 : Int;
+      i7 : Int;
+      i8 : Int;
+      i9 : Int;
+      i10 : Int;
+   END_VAR
+
+   VAR CONSTANT 
+      ReleaseValOnBeltSepaTime : Int := 20;
+      PLIIndex : Int := 2;
+   END_VAR
+
+
+BEGIN
+	#i1   := #PLIIndex;                          // 1
+	#i2   := #PLIIndex + "MaxPLITimersIndex";    // 5
+	#i3   := #PLIIndex + 2*"MaxPLITimersIndex";  // 9
+	#i4   := #PLIIndex + 3*"MaxPLITimersIndex";  // 13
+	#i5   := #PLIIndex + 4*"MaxPLITimersIndex";  // 17
+	#i6   := #PLIIndex + 5*"MaxPLITimersIndex";  // 21
+	#i7   := #PLIIndex + 6*"MaxPLITimersIndex";  // 25
+	#i8   := #PLIIndex + 7*"MaxPLITimersIndex";  // 29
+	#i9   := #PLIIndex + 8*"MaxPLITimersIndex";  // 33
+	#i10  := #PLIIndex + 9*"MaxPLITimersIndex";  // 37
+	
+	// Check alarms
+	#AlarmPresent := 0;
+	FOR #i := 1 TO 32 DO
+	  IF "dbAlarms".PLI[#PLIIndex, #i] THEN
+	    #AlarmPresent := 1;
+	    // #StartCmd     := False;
+	  END_IF;
+	  IF "AlarmAck" THEN
+	    "dbAlarms".PLI[#PLIIndex, #i] := 0;
+	  END_IF;
+	END_FOR;
+	
+	// Timers section
+	#IEC_TimerOnDly_DN_1 := 0;
+	#IEC_TimerOnDly_1(IN := #CurrentStep = 2 AND NOT #InitPosition,
+	                  R := #CurrentStep <> 2,
+	                  PT := T#3s,
+	                  Q => #IEC_TimerOnDly_DN_1,
+	                  ET => #IEC_TimerOnDly_ET_1);
+	
+	// PHASE STATUS
+	#PhaseStatus := 0;
+	IF #CurrentStep >= 1 AND #StartCmd THEN
+	  #PhaseStatus := 5;
+	END_IF;
+	IF #CurrentStep >= 1 AND NOT #StartCmd THEN
+	  #PhaseStatus := 7;
+	END_IF;
+	IF #CurrentStep >= 1 AND #AlarmPresent THEN
+	  #PhaseStatus := 6;
+	END_IF;
+	
+	// Stop phase if START CMD=0
+	IF NOT #StartCmd AND #CurrentStep > 0 THEN
+	  #CurrentStep := 0;
+	END_IF;
+	
+	CASE #CurrentStep OF
+	  0: // Sequence permissives
+	  IF (#StartCmd AND TRUE) THEN // Local  mode
+	    IF #PhaseStatus=0 THEN
+	      #CurrentStep := 2;
+	    END_IF;
+	    
+	    #InitPosition := False;
+	  END_IF;
+	
+	  2: // Check initial positions
+	    #InitPosition := ("dbDigitalSensors".ROTACIJSKI_CIL_SREDINA.InputF AND "dbDigitalSensors".LOC_DRCA_LEVO_NAPREJ.InputF AND "dbDigitalSensors".LOC_DRCA_DESNO_NAPREJ.InputF);
+	
+	    IF #InitPosition AND NOT "dbUnit".Unit[1].AlarmsPresent THEN
+	      #CurrentStep := 3;
+	    END_IF;
+	
+	  3: // Check initial positions
+	    #LeftLegIndex        := 0; // Reset št. nogic izpusta iz drce. Do NOT reset when step change 10->20
+	    #RightLegIndex       := 0; // Reset št. nogic izpusta iz drce. Do NOT reset when step change 10->20
+	
+	    #LeftFirstLegIndex   := 0;
+	    #RightFirstLegIndex  := 0;
+	
+	    // Preveri, če so prisotne nogice na vijacnem delu
+	    IF ("dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO1.InputF AND "dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO2.InputF) THEN
+	      #LeftLegIndex        := 2; // Nastavi št. nogic na 2
+	      #LeftFirstLegIndex   := 2; // Nastavi št. nogic na 2
+	    ELSIF "dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO1.InputF THEN
+	      #LeftLegIndex        := 1;
+	      #LeftFirstLegIndex   := 1; // Nastavi št. nogic na 1
+	    END_IF;
+	    // Preveri, če so prisotne nogice na vijacnem delu
+	    IF ("dbDigitalSensors".FOTOCELICA_LOC_TRAK_DESNO1.InputF AND "dbDigitalSensors".FOTOCELICA_LOC_TRAK_DESNO2.InputF) THEN
+	       #RightLegIndex       := 2; // Nastavi št. nogic na 2
+	       #RightFirstLegIndex  := 2; // Nastavi št. nogic na 2
+	    ELSIF "dbDigitalSensors".FOTOCELICA_LOC_TRAK_DESNO1.InputF THEN
+	      #RightLegIndex        := 1;
+	      #RightFirstLegIndex   := 1; // Nastavi št. nogic na 1
+	    END_IF;
+	
+	    #Mode := 1; // first fllling LEVO to the full then DESNO to the full
+	    #CurrentStep := 5;
+	
+	  5: // Init variables
+	    "dbTimers".Num[#i1].EE    := False;
+	    "dbTimers".Num[#i2].EE    := False;
+	    "dbTimers".Num[#i3].EE    := False;
+	    "dbTimers".Num[#i4].EE    := False;
+	    "dbTimers".Num[#i5].EE    := False;
+	    "dbTimers".Num[#i6].EE    := False;
+	    "dbTimers".Num[#i7].EE    := False;
+	    "dbTimers".Num[#i8].EE    := False;
+	    "dbTimers".Num[#i9].EE    := False;
+	    "dbTimers".Num[#i10].EE   := False;
+	
+	    "dbTimers".Num[#i1].FR    := False;
+	    "dbTimers".Num[#i2].FR    := False;
+	    "dbTimers".Num[#i3].FR    := False;
+	    "dbTimers".Num[#i4].FR    := False;
+	    "dbTimers".Num[#i5].FR    := False;
+	    "dbTimers".Num[#i6].FR    := False;
+	    "dbTimers".Num[#i7].FR    := False;
+	    "dbTimers".Num[#i8].FR    := False;
+	    "dbTimers".Num[#i9].FR    := False;
+	    "dbTimers".Num[#i10].FR   := False;
+	    #DRCA_LEVO_LATCH          := False;
+	    #DRCA_DESNO_LATCH         := False;
+	  
+	    #InletLineStep := 0;
+	    #LeftOutletLineStep  := 0;
+	    #RightOutletLineStep := 0;
+	    #FillingLineSelector := 1;
+	
+	    #CurrentStep := 6;
+	
+	  6:// Select Mode
+	    IF #Mode=1 THEN
+	      #CurrentStep := 10;
+	    ELSIF #Mode=2 THEN  
+	      #CurrentStep := 20;
+	    END_IF;
+	
+	  10: // Fill single line LEVO and then line DESNO till each line gets full
+	    // ******************* BEGIN - ALARM STATE *********** // 
+	    IF NOT #AlarmPresent THEN
+	      "dbTimers".Num[#i1].FR    := False;
+	      "dbTimers".Num[#i2].FR    := False;
+	      "dbTimers".Num[#i3].FR    := False;
+	    ELSE
+	      "dbTimers".Num[#i1].FR    := True;
+	      "dbTimers".Num[#i2].FR    := True;
+	      "dbTimers".Num[#i3].FR    := True;
+	    END_IF;
+	    // ********************* END - ALARM STATE ************ // 
+	
+	    // Fill line LEVO
+	    REGION MODE = 1 INLET HELIXS - rotation cylinder
+	    // 20210506_PRA - END_IF; Check FOTOCELICA_PRED_MESTOM_LOCEVANJA only once IF "dbDigitalSensors".FOTOCELICA_PRED_MESTOM_LOCEVANJA.InputF THEN
+	      IF #FillingLineSelector=1 THEN
+	        // Fill line LEVO, if leg present infront of rotation cilinder
+	        IF NOT "dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_LEVO.InputF AND "dbDigitalSensors".FOTOCELICA_PRED_MESTOM_LOCEVANJA.InputF AND (#InletLineStep=0) THEN
+	          #InletLineStep      := 1;
+	          "dbTimers".Num[#i1].EE    := True;
+	          "dbTimers".Num[#i1].PRE   := #TimeToLoadInletLine; // 10s
+	        ELSIF (#InletLineStep =1) AND NOT "dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_LEVO.InputF AND "dbTimers".Num[#i1].TT THEN
+	          "dbTimers".Num[#i1].EE    := True;
+	          #Y18_RotCilipozLevo.AutoON := True;
+	        ELSIF "dbTimers".Num[#i1].EE AND "dbTimers".Num[#i1].DN AND (#InletLineStep =1) THEN
+	          "dbTimers".Num[#i1].ACC    := 0;
+	          #InletLineStep      := 2;
+	        ELSIF (#InletLineStep=2) THEN
+	          "dbTimers".Num[#i1].EE    := True;
+	          "dbTimers".Num[#i1].PRE   := #TimeToReleaseInletLine;
+	          IF ("dbTimers".Num[#i1].EE AND "dbTimers".Num[#i1].DN AND "dbTimers".Num[#i1].ACC>0) THEN
+	            "dbTimers".Num[#i1].EE    := FALSE;
+	            #InletLineStep      := 0;
+	          END_IF;
+	        END_IF;
+	
+	        IF "dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_LEVO.InputF THEN // Go to filling opposite line, if line is full
+	
+	          #InletLineStep       := 3;
+	          #FillingLineSelector := 2;
+	        END_IF;
+	
+	      ELSIF #FillingLineSelector=2 THEN
+	        // Fill line DESNO, if leg present infront of rotation cilinder
+	        IF NOT "dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_DESNO.InputF AND "dbDigitalSensors".FOTOCELICA_PRED_MESTOM_LOCEVANJA.InputF AND (#InletLineStep=3) THEN
+	          #InletLineStep      := 4;
+	          "dbTimers".Num[#i1].EE    := True;
+	          "dbTimers".Num[#i1].PRE   := #TimeToLoadInletLine; // 10s
+	        ELSIF (#InletLineStep =4) AND NOT "dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_DESNO.InputF AND "dbTimers".Num[#i1].TT THEN
+	          "dbTimers".Num[#i1].EE    := True;
+	          #Y17_RotCilipozDesno.AutoON := True;
+	        ELSIF "dbTimers".Num[#i1].EE AND "dbTimers".Num[#i1].DN AND (#InletLineStep =4) THEN
+	          "dbTimers".Num[#i1].ACC    := 0;
+	          #InletLineStep      := 5;
+	        ELSIF (#InletLineStep=5) THEN
+	          "dbTimers".Num[#i1].EE    := True;
+	          "dbTimers".Num[#i1].PRE   := #TimeToReleaseInletLine;
+	          IF ("dbTimers".Num[#i1].EE AND "dbTimers".Num[#i1].DN AND "dbTimers".Num[#i1].ACC>0) THEN
+	            "dbTimers".Num[#i1].EE    := FALSE;
+	            #InletLineStep      := 3;
+	          END_IF;
+	        END_IF;
+	
+	        IF "dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_DESNO.InputF THEN // Go to filling opposite line, if line is full
+	          #Mode          := 2; // Go to #CurrentStep (filing once LEVO then DESNO...)
+	          #CurrentStep   := 5; // reset variables
+	        END_IF;
+	
+	      END_IF; // #FillingLineSelector
+	    // 20210506_PRA - END_IF; Check FOTOCELICA_PRED_MESTOM_LOCEVANJA only once  // "dbDigitalSensors".FOTOCELICA_PRED_MESTOM_LOCEVANJA.InputF 
+	    END_REGION
+	  
+	    REGION MODE = 1 OUTLET HELIXS - left and right lines 
+	      // *************************************************************************** //  
+	      // ****************** BEGIN - Release legs from slide line ******************* // 
+	      // *************************************************************************** // 
+	      // LEVO
+	      IF (#LeftLegIndex<=1 AND ("ph_Helix_1_DB".LeftLegIndex=2 OR #LeftFirstLegIndex<2)) THEN
+	          IF "dbDigitalSensors".FOTOCELICA_LOC_IZH_DRCA_LEVO.InputF AND #LeftOutletLineStep=0  THEN
+	            "dbTimers".Num[#i2].EE  := "dbMotors".VKLOP_M_TRAKA_VIJACNIKA.XS;
+	            "dbTimers".Num[#i2].PRE := #TimeToReleaseOutletLine; // 200 ms
+	            #LeftOutletLineStep := 1;
+	          END_IF;
+	          IF (#LeftOutletLineStep=1) THEN
+	            "dbTimers".Num[#i2].EE  := True;
+	            IF "dbDigitalSensors".FOTOCELICA_LOC_IZH_DRCA_LEVO.InputF THEN
+	              "dbTimers".Num[#i2].ACC  := 0;
+	            END_IF;
+	            #Y7_DrcaLocev_Lev.AutoON := True;
+	          END_IF;
+	          IF (#LeftOutletLineStep=1) AND "dbTimers".Num[#i2].EE AND "dbTimers".Num[#i2].DN THEN
+	            "dbTimers".Num[#i2].EE := False;
+	            "dbTimers".Num[#i2].ACC  := 0;
+	            #LeftOutletLineStep := 0;
+	            #LeftLegIndex := #LeftLegIndex + 1; // Clear (#LeftLegIndex=0,  if is #LeftLegIndex=2, in phase ph_Helix_1
+	            IF #LeftFirstLegIndex < 2 THEN
+	              #LeftFirstLegIndex := #LeftFirstLegIndex + 1;
+	            END_IF;
+	          END_IF;
+	      END_IF;
+	  
+	      // DESNO
+	      IF (#RightLegIndex<=1 AND ("ph_Helix_1_DB".RightLegIndex=2 OR #RightFirstLegIndex<2)) THEN
+	          IF "dbDigitalSensors".FOTOCELICA_LOC_IZH_DRCA_DESNO.InputF AND #RightOutletLineStep=0 THEN
+	            "dbTimers".Num[#i3].EE  := "dbMotors".VKLOP_M_TRAKA_VIJACNIKA.XS;
+	            "dbTimers".Num[#i3].PRE := #TimeToReleaseOutletLine; // 200 ms
+	            #RightOutletLineStep := 1;
+	          END_IF;
+	          IF (#RightOutletLineStep=1) THEN
+	            "dbTimers".Num[#i3].EE  := True;
+	            IF "dbDigitalSensors".FOTOCELICA_LOC_IZH_DRCA_DESNO.InputF THEN
+	              "dbTimers".Num[#i3].ACC  := 0;
+	            END_IF;
+	            #Y6_DrcaLocev_Des.AutoON := True;
+	          END_IF;
+	          IF (#RightOutletLineStep=1) AND "dbTimers".Num[#i3].EE AND "dbTimers".Num[#i3].DN THEN
+	            "dbTimers".Num[#i3].EE := False;
+	            "dbTimers".Num[#i3].ACC  := 0;
+	            #RightOutletLineStep := 0;
+	            #RightLegIndex := #RightLegIndex + 1; // Clear (#RightLegIndex=0,  if is #RightLegIndex=2, in phase ph_Helix_1
+	            IF #RightFirstLegIndex < 2 THEN
+	              #RightFirstLegIndex := #RightFirstLegIndex + 1;
+	            END_IF;
+	          END_IF;
+	      END_IF;
+	      // *************************************************************************** //  
+	      // ********************* END - Release legs from slide line ****************** // 
+	      // *************************************************************************** //
+	    END_REGION
+	
+	  20:  // Fill once leg to LEVO and then once leg to DESNO, till line gets full
+	    // ******************* BEGIN - ALARM STATE *********** // 
+	    IF NOT #AlarmPresent THEN
+	      "dbTimers".Num[#i1].FR    := False;
+	      "dbTimers".Num[#i2].FR    := False;
+	      "dbTimers".Num[#i3].FR    := False;
+	    ELSE
+	      "dbTimers".Num[#i1].FR    := True;
+	      "dbTimers".Num[#i2].FR    := True;
+	      "dbTimers".Num[#i3].FR    := True;
+	    END_IF;
+	    // ********************* END - ALARM STATE ************ // 
+	
+	    REGION MODE = 2 INLET HELIXS - rotation cylinder  
+	    // 20210506_PRA - END_IF; Check FOTOCELICA_PRED_MESTOM_LOCEVANJA only once IF "dbDigitalSensors".FOTOCELICA_PRED_MESTOM_LOCEVANJA.InputF THEN
+	      // Fill line LEVO, if leg present infront of rotation cilinder
+	      IF NOT "dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_LEVO.InputF AND "dbDigitalSensors".FOTOCELICA_PRED_MESTOM_LOCEVANJA.InputF AND (#InletLineStep=0) THEN
+	        "dbTimers".Num[#i1].EE    := True;
+	        "dbTimers".Num[#i1].PRE   := #TimeToLoadInletLine; // 10s
+	        "dbTimers".Num[#i1].ACC    := 0;
+	        #InletLineStep      := 1;
+	      ELSIF (#InletLineStep =1) AND NOT "dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_LEVO.InputF AND "dbTimers".Num[#i1].TT THEN // "dbTimers".Num[#i1].EE AND NOT "dbTimers".Num[#i1].DN 
+	        "dbTimers".Num[#i1].EE    := True;  
+	        #Y18_RotCilipozLevo.AutoON := True;
+	      ELSIF "dbTimers".Num[#i1].EE AND "dbTimers".Num[#i1].DN AND (#InletLineStep =1) AND "dbPDO".#Y18_RotCilipozLevo THEN
+	        "dbTimers".Num[#i1].ACC    := 0;
+	        #InletLineStep      := 2;
+	      ELSIF (#InletLineStep=2) THEN
+	        "dbTimers".Num[#i1].EE    := True;
+	        "dbTimers".Num[#i1].PRE   := #TimeToReleaseInletLine;
+	        IF ("dbTimers".Num[#i1].EE AND "dbTimers".Num[#i1].DN AND "dbTimers".Num[#i1].ACC>0) THEN
+	          #DRCA_DESNO_LATCH         := False;
+	          "dbTimers".Num[#i1].ACC    := 0;
+	          #InletLineStep      := 3;
+	        END_IF;
+	
+	      // Fill line DESNO, if leg present infront of rotation cilinder
+	      ELSIF NOT "dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_DESNO.InputF AND "dbDigitalSensors".FOTOCELICA_PRED_MESTOM_LOCEVANJA.InputF AND (#InletLineStep=3) THEN
+	        "dbTimers".Num[#i1].EE    := True;
+	        "dbTimers".Num[#i1].PRE   := #TimeToLoadInletLine; // 10s
+	        #InletLineStep      := 4;
+	        "dbTimers".Num[#i1].ACC    := 0;
+	      ELSIF (#InletLineStep =4) AND NOT "dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_DESNO.InputF AND "dbTimers".Num[#i1].TT THEN // AND NOT "dbTimers".Num[#i1].DN 
+	        "dbTimers".Num[#i1].EE    := True;
+	        #Y17_RotCilipozDesno.AutoON := True;
+	      ELSIF "dbTimers".Num[#i1].EE AND "dbTimers".Num[#i1].DN AND (#InletLineStep =4) AND "dbPDO".#Y17_RotCilipozDesno THEN
+	        "dbTimers".Num[#i1].ACC    := 0;
+	        #InletLineStep      := 5;
+	      ELSIF (#InletLineStep=5) THEN  
+	        "dbTimers".Num[#i1].EE    := True;
+	        "dbTimers".Num[#i1].PRE   := #TimeToReleaseInletLine;
+	        IF ("dbTimers".Num[#i1].EE AND "dbTimers".Num[#i1].DN AND "dbTimers".Num[#i1].ACC>0) THEN
+	          #DRCA_LEVO_LATCH         := False;
+	          "dbTimers".Num[#i1].ACC    := 0;
+	          #InletLineStep      := 0;
+	        END_IF;
+	      END_IF;
+	    // 20210506_PRA - END_IF; Check FOTOCELICA_PRED_MESTOM_LOCEVANJA only once END_IF;
+	
+	    IF "dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_LEVO.InputF AND NOT #DRCA_LEVO_LATCH THEN // Go to filling opposite line, if line is full
+	      #InletLineStep      := 3;
+	      #DRCA_LEVO_LATCH    := True;
+	      "dbTimers".Num[#i1].EE    := False;
+	    ELSIF "dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_DESNO.InputF AND NOT #DRCA_DESNO_LATCH THEN // Go to filling opposite line, if line is full
+	      #InletLineStep      := 0;
+	      #DRCA_DESNO_LATCH   := True;
+	      "dbTimers".Num[#i1].EE    := False;
+	    END_IF;
+	
+	    END_REGION
+	  
+	    REGION MODE = 2 OUTLET HELIXS - left and right lines 
+	      // *************************************************************************** //  
+	      // ****************** BEGIN - Release legs from slide line ******************* // 
+	      // *************************************************************************** // 
+	      // LEVO
+	      IF (#LeftLegIndex<=1 AND ("ph_Helix_1_DB".LeftLegIndex=2 OR #LeftFirstLegIndex<2)) THEN
+	          IF "dbDigitalSensors".FOTOCELICA_LOC_IZH_DRCA_LEVO.InputF AND #LeftOutletLineStep=0  THEN
+	            "dbTimers".Num[#i2].EE  := "dbMotors".VKLOP_M_TRAKA_VIJACNIKA.XS;
+	            "dbTimers".Num[#i2].PRE := #TimeToReleaseOutletLine; // 200 ms
+	            #LeftOutletLineStep := 1;
+	          END_IF;
+	          IF (#LeftOutletLineStep=1) THEN
+	            "dbTimers".Num[#i2].EE  := True;
+	            IF "dbDigitalSensors".FOTOCELICA_LOC_IZH_DRCA_LEVO.InputF THEN
+	              "dbTimers".Num[#i2].ACC  := 0;
+	            END_IF;
+	            #Y7_DrcaLocev_Lev.AutoON := True;
+	          END_IF;
+	          IF (#LeftOutletLineStep=1) AND "dbTimers".Num[#i2].EE AND "dbTimers".Num[#i2].DN THEN
+	            "dbTimers".Num[#i2].EE := False;
+	            "dbTimers".Num[#i2].ACC  := 0;
+	            #LeftOutletLineStep := 0;
+	            #LeftLegIndex := #LeftLegIndex + 1; // Clear (#LeftLegIndex=0,  if is #LeftLegIndex=2, in phase ph_Helix_1
+	            IF #LeftFirstLegIndex < 2 THEN
+	              #LeftFirstLegIndex := #LeftFirstLegIndex + 1;
+	            END_IF;
+	          END_IF;
+	      END_IF;
+	  
+	      // DESNO
+	      IF (#RightLegIndex<=1 AND ("ph_Helix_1_DB".RightLegIndex=2 OR #RightFirstLegIndex<2)) THEN
+	          IF "dbDigitalSensors".FOTOCELICA_LOC_IZH_DRCA_DESNO.InputF AND #RightOutletLineStep=0 THEN
+	            "dbTimers".Num[#i3].EE  := "dbMotors".VKLOP_M_TRAKA_VIJACNIKA.XS;
+	            "dbTimers".Num[#i3].PRE := #TimeToReleaseOutletLine; // 200 ms
+	            #RightOutletLineStep := 1;
+	          END_IF;
+	          IF (#RightOutletLineStep=1) THEN
+	            "dbTimers".Num[#i3].EE  := True;
+	            IF "dbDigitalSensors".FOTOCELICA_LOC_IZH_DRCA_DESNO.InputF THEN
+	              "dbTimers".Num[#i3].ACC  := 0;
+	            END_IF;
+	            #Y6_DrcaLocev_Des.AutoON := True;
+	          END_IF;
+	          IF (#RightOutletLineStep=1) AND "dbTimers".Num[#i3].EE AND "dbTimers".Num[#i3].DN THEN
+	            "dbTimers".Num[#i3].EE := False;
+	            "dbTimers".Num[#i3].ACC  := 0;
+	            #RightOutletLineStep := 0;
+	            #RightLegIndex := #RightLegIndex + 1; // Clear (#RightLegIndex=0,  if is #RightLegIndex=2, in phase ph_Helix_1
+	            IF #RightFirstLegIndex < 2 THEN
+	              #RightFirstLegIndex := #RightFirstLegIndex + 1;
+	            END_IF;
+	          END_IF;
+	      END_IF;
+	      // *************************************************************************** //  
+	      // ********************* END - Release legs from slide line ****************** // 
+	      // *************************************************************************** //
+	    END_REGION
+	
+	END_CASE;
+	
+	// ALARMS SECTION
+	IF #PhaseStatus = 5 THEN
+	  // Alarm 1
+	  IF #Y18_RotCilipozLevo.Alarm THEN
+	    "dbAlarms".PLI[#PLIIndex, 1] := 1;
+	  END_IF;
+	  
+	  // Alarm 2
+	  IF #Y17_RotCilipozDesno.Alarm THEN
+	    "dbAlarms".PLI[#PLIIndex, 2] := 1;
+	  END_IF;
+	  
+	  // Alarm 3
+	  IF #Y7_DrcaLocev_Lev.Alarm THEN
+	    "dbAlarms".PLI[#PLIIndex, 3] := 1;
+	  END_IF;
+	  
+	  // Alarm 4
+	  IF #Y6_DrcaLocev_Des.Alarm THEN
+	    "dbAlarms".PLI[#PLIIndex, 4] := 1;
+	  END_IF;
+	  
+	  // Alarm 5
+	  // Začetna pozicija rotacijskega cilindra ni dosežena
+	  IF #CurrentStep = 2 AND (#IEC_TimerOnDly_DN_1) THEN
+	    "dbAlarms".PLI[#PLIIndex, 5] := 1;
+	  END_IF;
+	
+	  // Alarms action
+	  IF (NOT #AlarmPresentOLD AND #AlarmPresent) OR (NOT #InitPositionOLD AND #InitPosition) THEN
+	    ; // #CurrentStep := 6;
+	  END_IF;
+	END_IF;
+	
+	#AlarmPresentOLD  := #AlarmPresent;
+	#InitPositionOLD  := #InitPosition;
+END_FUNCTION_BLOCK
+

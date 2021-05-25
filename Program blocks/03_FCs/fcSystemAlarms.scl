@@ -1,0 +1,51 @@
+﻿FUNCTION "fcSystemAlarms" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_TEMP 
+      z : Int;
+      k : Int;
+      i : Int;
+      j : Int;
+      m : Int;
+   END_VAR
+
+
+BEGIN
+	// Short summary:
+	(*
+	  Alarms that stop the whole system
+	*)
+	// 
+	//**********************************************************************
+	// Revision control:
+	//----------------------------------------------------------------------
+	// Use only for revisions of original code
+	// V0.01
+	// Description of revision
+	
+	//----------------------------------------------------------------------
+	// Comments:
+	(*
+	  Every change in the code is documented with following:
+	  // CCC-yyymmdd: .....
+	  yyyy year when change was made
+	  mm   month when change was made
+	  dd   day when change was made
+	  CCC  authors initials
+	*)
+	//**********************************************************************
+	IF "AlarmAck" THEN
+	    FOR #z := 1 TO 1024 BY 1 DO
+	        "dbSystemAlarms".SysAlm[#z] := False;
+	    END_FOR;
+	END_IF;
+	
+	// System Alarm  - Emergency stop,...
+	"dbSystemAlarms".SysAlm[01] := NOT "dbDigitalSensors".ZAUSTAVITEV_V_SILI_NI_AKTIVIRANA.InputF;
+	"dbSystemAlarms".SysAlm[02] := NOT "dbDigitalSensors".PRISOTNOST_ZRAKA_NA_NAPRAVI.InputF;
+	
+	"dbSystemAlarms".SysAlm[03] := NOT "dbDigitalSensors".FOTO_ZAVESA_KANAL_1.InputF;
+	"dbSystemAlarms".SysAlm[04] := NOT "dbDigitalSensors".FOTO_ZAVESA_KANAL_2.InputF;
+	"dbSystemAlarms".SysAlm[05] := NOT "dbDigitalSensors".FOTO_ZAVESA_KANAL_1.InputF OR NOT "dbDigitalSensors".FOTO_ZAVESA_KANAL_2.InputF; // Used on HMI
+END_FUNCTION
+

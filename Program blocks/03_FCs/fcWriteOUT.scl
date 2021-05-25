@@ -1,0 +1,37 @@
+﻿FUNCTION "fcWriteOUT" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+
+BEGIN
+	// Write DO output (14x) to CPU
+	// Write outputs from DB11.DBB0 with 2 bytes to Q0.0-Q1.0 
+	POKE_BLK(area_src := 16#84, // DB
+	         dbNumber_src := 11,
+	         byteOffset_src := 0,
+	         area_dest := 16#82, // PQ
+	         dbNumber_dest := 0,
+	         byteOffset_dest := 0,
+	         count := 2);
+	
+	// Write DO output (16x2) to Weidmuller UR20-FBC-PN-IRT-V2
+	// Write outputs from DB11.DBB2 with 4 bytes to Q2.0-Q5.0
+	POKE_BLK(area_src := 16#84, // DB
+	         dbNumber_src := 11,
+	         byteOffset_src := 2,
+	         area_dest := 16#82, // PQ
+	         dbNumber_dest := 0,
+	         byteOffset_dest := 2,
+	         count := 4);
+	
+	// Write PDO output (32) to SMC_EX260-S1
+	// Write outputs from DB12.DBB0 with 4 bytes to Q6.0-Q9.0 
+	POKE_BLK(area_src := 16#84, // DB
+	         dbNumber_src := 12,
+	         byteOffset_src := 0,
+	         area_dest := 16#82, // PQ
+	         dbNumber_dest := 0,
+	         byteOffset_dest := 6,
+	         count := 4);
+	
+END_FUNCTION
+

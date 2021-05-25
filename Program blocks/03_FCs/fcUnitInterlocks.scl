@@ -1,0 +1,116 @@
+﻿FUNCTION "fcUnitInterlocks" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_TEMP 
+      i : Int;
+      GenIntl_1 : Bool;
+      GenIntl_2 : Bool;
+      GenIntl_3 : Bool;
+      GenIntl_4 : Bool;
+      GenIntl_5 : Bool;
+      GenIntl_6 : Bool;
+      GenIntl_7 : Bool;
+      GenIntl_8 : Bool;
+   END_VAR
+
+
+BEGIN
+	// Short summary:
+	(*
+	  Unit interlocks
+	*)
+	// 
+	//**********************************************************************
+	// Revision control:
+	//----------------------------------------------------------------------
+	// Use only for revisions of original code
+	// V0.01
+	// Description of revision
+	
+	//----------------------------------------------------------------------
+	// Comments:
+	(*
+	  Every change in the code is documented with following:
+	  // CCC-yyymmdd: .....
+	  yyyy year when change was made
+	  mm   month when change was made
+	  dd   day when change was made
+	  CCC  authors initials
+	*)
+	//**********************************************************************
+	
+	//----------------------------------------------------------------------
+	//  General Interlock - All Units
+	//  System Alarm - Emergency STOP 
+	#GenIntl_1       :=     "dbSystemAlarms".SysAlm[1] OR "dbSystemAlarms".SysAlm[2] OR False; // E_STOP + AirSupply
+	#GenIntl_2       :=     "dbSystemAlarms".SysAlm[3] OR "dbSystemAlarms".SysAlm[4] OR False; // Safety light curtain
+	
+	//----------------------------------------------------------------------
+	//  DigitalValves
+	"dbDigitalValves".Y2_VijaDesZad_Dvig.Interlock      := #GenIntl_1 OR NOT "dbDigitalSensors".MESTO_VIJAC_STOP_DESNO_ZAD_NAPREJ.InputF;
+	IF "dbDigitalValves".Y2_VijaDesZad_Dvig.Interlock THEN
+	  "dbDigitalValves".Y2_VijaDesZad_Dvig.ManON := False;
+	END_IF;
+	"dbDigitalValves".Y3_VijaDesSpr_Dvig.Interlock      := #GenIntl_1;
+	"dbDigitalValves".Y4_VijaLevZad_Dvig.Interlock      := #GenIntl_1 OR NOT "dbDigitalSensors".MESTO_VIJAC_STOP_LEVO_ZAD_NAPREJ.InputF;
+	IF "dbDigitalValves".Y4_VijaLevZad_Dvig.Interlock THEN
+	  "dbDigitalValves".Y4_VijaLevZad_Dvig.ManON := False;
+	END_IF;
+	"dbDigitalValves".Y5_VijaLevSpr_Dvig.Interlock      := #GenIntl_1;
+	IF (#GenIntl_1 OR False) THEN
+	  "dbPDO".Y2_VijaDesZad_Spust      := FALSE;
+	END_IF;
+	IF (#GenIntl_1 OR False) THEN
+	  "dbPDO".Y3_VijaDesSpr_Spust      := False;
+	END_IF;
+	IF (#GenIntl_1 OR False) THEN
+	  "dbPDO".Y4_VijaLevZad_Spust     := False;
+	END_IF;
+	IF (#GenIntl_1 OR False) THEN
+	  "dbPDO".Y5_VijaLevSpr_Spust     := False;
+	END_IF;
+	
+	"dbDigitalValves".Y6_DrcaLocev_Des.Interlock         := #GenIntl_1;
+	"dbDigitalValves".Y7_DrcaLocev_Lev.Interlock         := #GenIntl_1;
+	"dbDigitalValves".Y8_VijaLocev_Des.Interlock         := #GenIntl_1;
+	
+	"dbDigitalValves".Y9_VijaStop_DesZad.Interlock       := #GenIntl_1;
+	IF NOT "dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_DVIG_DOL.InputF THEN
+	  "dbDigitalValves".Y9_VijaStop_DesZad.Interlock  := True; // prevent to move back, if motor in UP and interlock present
+	END_IF;
+	
+	"dbDigitalValves".Y10_Centri_DesZad.Interlock        := #GenIntl_1;
+	"dbDigitalValves".Y11_Centri_DesSpr.Interlock        := #GenIntl_1;
+	"dbDigitalValves".Y12_VijaLocev_Lev.Interlock        := #GenIntl_1;
+	
+	"dbDigitalValves".Y13_VijaStop_LevZad.Interlock      := #GenIntl_1;
+	IF NOT "dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_DVIG_DOL.InputF THEN
+	  "dbDigitalValves".Y13_VijaStop_LevZad.Interlock  := True; // prevent to move back, if motor in UP and interlock present
+	END_IF;
+	"dbDigitalValves".Y14_Centri_LevZad.Interlock        := #GenIntl_1;
+	"dbDigitalValves".Y15_Centri_LevSpr.Interlock        := #GenIntl_1;
+	"dbDigitalValves".Y16_VpenjanjeDna.Interlock         := #GenIntl_1;
+	"dbDigitalValves".Y17_RotCilipozDesno.Interlock      := #GenIntl_1 OR ("dbDigitalValves".Y18_RotCilipozLevo.XS)  OR False; // Interlock opposite valve
+	IF "dbDigitalSensors".ROTACIJSKI_CIL_DESNO.InputF AND "dbDigitalValves".Y18_RotCilipozLevo.ManON THEN
+	  "dbDigitalValves".Y18_RotCilipozLevo.ManON := False; // prenvent move to directlly move from DESNO >>> LEVO. First HMI user needs to press SREDINA
+	END_IF;
+	
+	"dbDigitalValves".Y18_RotCilipozLevo.Interlock       := #GenIntl_1 OR ("dbDigitalValves".Y17_RotCilipozDesno.XS) OR False; // Interlock opposite valve
+	IF "dbDigitalSensors".ROTACIJSKI_CIL_LEVO.InputF AND "dbDigitalValves".Y17_RotCilipozDesno.ManON THEN
+	  "dbDigitalValves".Y17_RotCilipozDesno.ManON := False; // prenvent move to directlly move from DESNO >>> LEVO. First HMI user needs to press SREDINA
+	END_IF;
+	
+	"dbDigitalValves".SEMAFOR_ZELENA.Interlock           := False;
+	"dbDigitalValves".SEMAFOR_RUMENA.Interlock           := False;
+	"dbDigitalValves".SEMAFOR_RDECA.Interlock            := False;
+	//----------------------------------------------------------------------
+	//  Motors
+	"dbMotors".VKLOP_M_TRACNEGA_TRANS_NOGIC.Interlock      := #GenIntl_1 OR False;
+	"dbMotors".M1_ZADAJ_DESNO.Interlock                    := #GenIntl_1 OR #GenIntl_2;
+	"dbMotors".M2_SPREDAJ_DESNO.Interlock                  := #GenIntl_1 OR #GenIntl_2;
+	"dbMotors".M1_ZADAJ_LEVO.Interlock                     := #GenIntl_1 OR #GenIntl_2;
+	"dbMotors".M2_SPREDAJ_LEVO.Interlock                   := #GenIntl_1 OR #GenIntl_2;
+	"dbMotors".VKLOP_VIBRATORJA.Interlock                  := #GenIntl_1 OR False;
+	"dbMotors".VKLOP_M_TRAKA_VIJACNIKA.Interlock           := #GenIntl_1; // OR #GenIntl_2 TRAK se ne ustavi če zavesa ni OK
+END_FUNCTION
+

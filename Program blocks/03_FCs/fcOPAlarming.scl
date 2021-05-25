@@ -1,0 +1,147 @@
+﻿FUNCTION "fcOPAlarming" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_TEMP 
+      i : Int;
+      j : Int;
+      WordTmp1 : Word;
+      WordTmp2 : Word;
+   END_VAR
+
+
+BEGIN
+	//-------------------------------------------------------------------------------------------------
+	// reset alarms
+	IF "AlarmAck" THEN
+	(*
+	  "dbProfinetAlrm".ULS_HMIAlarm_WDT := 0;
+	  "dbProfinetAlrm".LS_HMIAlarm_WDT := 0;
+	  "dbProfinetAlrm".LS_HMIAlarm_Bit := False;
+	  "dbProfinetAlrm".ULS_HMIAlarm_Bit := False;
+	  "dbProfinetAlrm".ProfinetAlarm := False;
+	  *)
+	    FOR #i := 0 TO 63 BY 1 DO
+	      "dbOPAlarms".Alarm[#i] := false;
+	  END_FOR;
+	END_IF;
+	//-------------------------------------------------------------------------------------------------
+	
+	// #Y8_VijaLocev_Des
+	"dbOPAlarms".Alarm[0] := "dbAlarms".PLI[1, 1];
+	
+	// #V5_VijaStop_DesZad
+	"dbOPAlarms".Alarm[1] := "dbAlarms".PLI[1, 2];
+	
+	// #V6_VijaDesZad_Dvig
+	"dbOPAlarms".Alarm[2] := "dbAlarms".PLI[1, 3];
+	
+	// #V7_Centri_DesZad
+	"dbOPAlarms".Alarm[3] := "dbAlarms".PLI[1, 4];
+	
+	// #V9_VijaDesSpr_Dvig
+	"dbOPAlarms".Alarm[4] := "dbAlarms".PLI[1, 5];
+	
+	// #V10_Centri_DesSpr
+	"dbOPAlarms".Alarm[5] := "dbAlarms".PLI[1, 6];
+	
+	// #V11_VijaLocev_Lev
+	"dbOPAlarms".Alarm[6] := "dbAlarms".PLI[1, 7];
+	
+	// #V12_VijaStop_LevZad
+	"dbOPAlarms".Alarm[7] := "dbAlarms".PLI[1, 8];
+	
+	// #V13_VijaLevZad_Dvig
+	"dbOPAlarms".Alarm[8] := "dbAlarms".PLI[1, 9];
+	
+	// #V14_Centri_LevZad
+	"dbOPAlarms".Alarm[9] := "dbAlarms".PLI[1, 10];
+	
+	// #V16_VijaLevSpr_Dvig
+	"dbOPAlarms".Alarm[10] := "dbAlarms".PLI[1, 11];
+	
+	// #V17_Centri_LevSpr
+	"dbOPAlarms".Alarm[11] := "dbAlarms".PLI[1, 12];
+	
+	// #V18_VpenjanjeDna
+	"dbOPAlarms".Alarm[12] := "dbAlarms".PLI[1, 13];
+	
+	// #M1_ZADAJ_LEVO
+	"dbOPAlarms".Alarm[13] := "dbAlarms".PLI[1, 14];
+	
+	// #M2_SPREDAJ_LEVO
+	"dbOPAlarms".Alarm[14] := "dbAlarms".PLI[1, 15];
+	
+	// #M1_ZADAJ_DESNO
+	"dbOPAlarms".Alarm[15] := "dbAlarms".PLI[1, 16];
+	
+	// #M2_SPREDAJ_DESNO
+	"dbOPAlarms".Alarm[16] := "dbAlarms".PLI[1, 17];
+	
+	// #VKLOP_M_TRAKA_VIJACNIKA
+	"dbOPAlarms".Alarm[17] := "dbAlarms".PLI[1, 18];
+	
+	// Začetne pozicije vijačnega dela niso dosežene
+	"dbOPAlarms".Alarm[28] := "dbAlarms".PLI[1, 19];
+	
+	// Manjka ena od nogic na pozicijah za vijačenje-ročno odstrani nogice
+	"dbOPAlarms".Alarm[31] := "dbAlarms".PLI[1, 20];
+	
+	// Dovoljeni čas vijačenja nogice levo-spredaj potekel
+	"dbOPAlarms".Alarm[32] := "dbAlarms".PLI[1, 21];
+	
+	// Dovoljeni čas vijačenja nogice levo-zadaj potekel
+	"dbOPAlarms".Alarm[33] := "dbAlarms".PLI[1, 22];
+	
+	// Dovoljeni čas vijačenja nogice desno-spredaj potekel
+	"dbOPAlarms".Alarm[34] := "dbAlarms".PLI[1, 23];
+	
+	// Dovoljeni čas vijačenja nogice desno-zadaj potekel
+	"dbOPAlarms".Alarm[35] := "dbAlarms".PLI[1, 24];
+	
+	// #V1_RotCilipozLevo
+	"dbOPAlarms".Alarm[18] := "dbAlarms".PLI[2, 1];
+	
+	// #V1_RotCilipozDesno
+	"dbOPAlarms".Alarm[19] := "dbAlarms".PLI[2, 2];
+	
+	// #V3_DrcaLocev_Lev
+	"dbOPAlarms".Alarm[20] := "dbAlarms".PLI[2, 3];
+	
+	// #V2_DrcaLocev_Des
+	"dbOPAlarms".Alarm[21] := "dbAlarms".PLI[2, 4];
+	
+	// Začetna pozicija rotacijskega cilindra ni dosežena
+	"dbOPAlarms".Alarm[29] := "dbAlarms".PLI[2, 5];
+	
+	// ZAUSTAVITEV_V_SILI_NI_AKTIVIRANA
+	"dbOPAlarms".Alarm[22] := "dbAlarms".PLI[3, 1];
+	
+	// PRISOTNOST_ZRAKA_NA_NAPRAVI
+	"dbOPAlarms".Alarm[23] := "dbAlarms".PLI[3, 2];
+	
+	// FOTO_ZAVESA_KANAL_1
+	"dbOPAlarms".Alarm[24] := "dbAlarms".PLI[3, 3];
+	
+	// FOTO_ZAVESA_KANAL_2
+	"dbOPAlarms".Alarm[25] := "dbAlarms".PLI[3, 4];
+	
+	// #VKLOP_M_TRACNEGA_TRANS_NOGIC
+	"dbOPAlarms".Alarm[26] := "dbAlarms".PLI[3, 5];
+	
+	// #VKLOP_VIBRATORJA
+	"dbOPAlarms".Alarm[27] := "dbAlarms".PLI[3, 6];
+	
+	// Prisoten eden od alarmov
+	"dbOPAlarms".Alarm[30] := "dbAlarms".PLI[3, 7];
+	
+	// Opozorilo - dodaj nogice v vstopni zalogovnik
+	"dbOPAlarms".Alarm[36] := "dbAlarms".PLI[3, 8];
+	
+	// shift words for OP
+	"dbOPAlarms".OPAlarmWord[00] := INT_TO_WORD(BYTE_TO_INT(%DB112.DBB1) * 256 + BYTE_TO_INT(%DB112.DBB0));
+	"dbOPAlarms".OPAlarmWord[01] := INT_TO_WORD(BYTE_TO_INT(%DB112.DBB3) * 256 + BYTE_TO_INT(%DB112.DBB2));
+	"dbOPAlarms".OPAlarmWord[02] := INT_TO_WORD(BYTE_TO_INT(%DB112.DBB5) * 256 + BYTE_TO_INT(%DB112.DBB4));
+	"dbOPAlarms".OPAlarmWord[03] := INT_TO_WORD(BYTE_TO_INT(%DB112.DBB7) * 256 + BYTE_TO_INT(%DB112.DBB6));
+	
+END_FUNCTION
+

@@ -1,0 +1,42 @@
+﻿FUNCTION "cmHSC" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_INPUT 
+      HdrAdr : HW_HSC;
+      Direction : Bool;
+      CV : Bool;
+      RV : Bool;
+      Period : Bool;
+      New_dir : Int;
+      New_CV : DInt;
+      New_RV : DInt;
+      New_period : Int;
+      HdrAdr_Counter : DWord;
+   END_VAR
+
+   VAR_OUTPUT 
+      Busy : Bool;
+      Status : Word;
+      CounterValue : DWord;
+   END_VAR
+
+   VAR_TEMP 
+      i : Int;
+   END_VAR
+
+
+BEGIN
+	"CTRL_HSC_0_DB"(HSC:=#HdrAdr,
+	                DIR:=#Direction,
+	                CV:=#CV,
+	                RV:=#RV,
+	                PERIOD:=#Period,
+	                NEW_DIR:=#New_dir,
+	                NEW_CV:=#New_CV,
+	                NEW_RV:=#New_RV,
+	                NEW_PERIOD:=#New_period,
+	                BUSY=>#Busy,
+	                STATUS=>#Status);
+	#CounterValue := #HdrAdr_Counter;
+END_FUNCTION
+

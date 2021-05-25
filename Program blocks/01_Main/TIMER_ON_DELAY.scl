@@ -1,0 +1,56 @@
+﻿FUNCTION "TIMER_ON_DELAY" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_TEMP 
+      i : Int;
+      j : Int;
+      MAX_TIMER_NO : Int;
+   END_VAR
+
+
+BEGIN
+	#i := 0;
+	#MAX_TIMER_NO := 10 * "MaxPLITimersIndex";
+	
+	WHILE (#i <= #MAX_TIMER_NO) DO
+	    
+	    // timer reset bit = 1 
+	    IF "dbTimers".Num[#i].RS THEN
+	        "dbTimers".Num[#i].ACC := 0;                           // ACC value = 0
+	        "dbTimers".Num[#i].TT := FALSE;                        // timing bit = 0
+	        "dbTimers".Num[#i].DN := FALSE;                        // done bit = 0   
+	        "dbTimers".Num[#i].RS := FALSE;
+	    END_IF;
+	    
+	    IF "dbTimers".Num[#i].EE THEN
+	        // timer enable bit = 1
+	        
+	        IF "dbTimers".Num[#i].ACC < "dbTimers".Num[#i].PRE AND NOT "dbTimers".Num[#i].FR THEN
+	          IF "100msOSR" = TRUE THEN
+	            "dbTimers".Num[#i].ACC := "dbTimers".Num[#i].ACC + 1;
+	          END_IF;
+	          "dbTimers".Num[#i].TT := TRUE;   // PRE < ACC -> timing bit = 1
+	          "dbTimers".Num[#i].DN := FALSE;  // PRE < ACC -> done bit = 0               
+	        END_IF;
+	        
+	        IF "dbTimers".Num[#i].ACC >= "dbTimers".Num[#i].PRE THEN
+	            "dbTimers".Num[#i].TT := FALSE;  // PRE = ACC -> timing bit = 0
+	            "dbTimers".Num[#i].DN := TRUE;   // PRE = ACC -> done bit = 1               
+	        END_IF;
+	        
+	        //      "dbTimers".Num[i].EE := False;
+	    ELSE
+	        // timer enable bit = 0
+	        "dbTimers".Num[#i].ACC := 0;     // ACC = 0
+	        "dbTimers".Num[#i].TT := FALSE;  // timing bit = 0
+	        "dbTimers".Num[#i].DN := FALSE;  // done bit = 0
+	        
+	    END_IF;
+	    ;
+	    
+	    #i := #i + 1;
+	    
+	END_WHILE;
+	
+END_FUNCTION
+

@@ -1,0 +1,78 @@
+﻿FUNCTION "cmDigitalSensor" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_IN_OUT 
+      Sensor : "udtDigitalSensor";
+   END_VAR
+
+   VAR_TEMP 
+      tmpTimer : Int;
+      tmpTimerDelay : Int;
+   END_VAR
+
+
+BEGIN
+	//----------------------------------------------------------------------   
+	// init timers
+	#tmpTimer := CHAR_TO_INT(BYTE_TO_CHAR(#Sensor.Timer1));
+	#tmpTimerDelay := CHAR_TO_INT(BYTE_TO_CHAR(#Sensor.FilterTime));
+	
+	IF #Sensor.ManOn = 1 OR #Sensor.ManOff = 1 THEN
+	    #Sensor.Manual := True;
+	    IF #Sensor.ManOn THEN
+	        IF NOT #Sensor.Invert THEN
+	            #Sensor.Input := True;
+	        ELSE
+	            #Sensor.Input := False;
+	        END_IF;
+	    ELSIF #Sensor.ManOff THEN
+	        IF NOT #Sensor.Invert THEN
+	            #Sensor.Input := False;
+	        ELSE
+	            #Sensor.Input := True;
+	        END_IF;
+	    END_IF;
+	ELSE
+	    #Sensor.Manual := False;
+	END_IF;
+	
+	// reset timer
+	IF (NOT #Sensor.Invert AND #Sensor.Input = #Sensor.InputF) OR (#Sensor.Invert AND #Sensor.Input <> #Sensor.InputF) THEN
+	    #Sensor.Timer1 := 0;
+	END_IF;
+	
+	// change of DI raw value
+	IF (NOT #Sensor.Invert AND #Sensor.Input <> #Sensor.InputF) OR (#Sensor.Invert AND #Sensor.Input = #Sensor.InputF) THEN
+	    
+	    // filter time
+	    IF "100msOSR" AND #tmpTimer < #tmpTimerDelay THEN
+	        #tmpTimer := #tmpTimer + 1;
+	        #Sensor.Timer1 := CHAR_TO_BYTE(INT_TO_CHAR(#tmpTimer));
+	    END_IF;
+	    
+	    // filter time ends
+	    IF #tmpTimer >= #tmpTimerDelay THEN
+	        IF #Sensor.Invert THEN
+	            #Sensor.InputF := NOT (#Sensor.Input);
+	        ELSE
+	            #Sensor.InputF := #Sensor.Input;
+	        END_IF;
+	    END_IF;
+	END_IF;
+	
+	// OSR
+	#Sensor.OSR := FALSE;
+	IF #Sensor.Input <> #Sensor.OSRHist AND #Sensor.Input THEN
+	    #Sensor.OSR := TRUE;
+	END_IF;
+	#Sensor.OSRHist := #Sensor.Input;
+	
+	// OSF
+	#Sensor.OSF := FALSE;
+	IF #Sensor.Input <> #Sensor.OSFHist AND NOT #Sensor.Input THEN
+	    #Sensor.OSF := TRUE;
+	END_IF;
+	#Sensor.OSFHist := #Sensor.Input;
+	
+END_FUNCTION
+

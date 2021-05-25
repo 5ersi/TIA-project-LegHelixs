@@ -1,0 +1,162 @@
+﻿FUNCTION "fcMotors" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR CONSTANT 
+      CONST_FILTER_TIME_EA : USInt := 10;
+      CONST_FILTER_TIME_FSL : USInt := 50;
+   END_VAR
+
+
+BEGIN
+	// Short summary:
+	(*
+	  fcMotors - call motors
+	*)
+	// 
+	//**********************************************************************
+	// Revision control:
+	//----------------------------------------------------------------------
+	// Use only for revisions of original code
+	// V0.01
+	// Description of revision
+	
+	//----------------------------------------------------------------------
+	// Comments:
+	(*
+	  Every change in the code is documented with following:
+	  // CCC-yyymmdd: .....
+	  yyyy year when change was made
+	  mm   month when change was made
+	  dd   day when change was made
+	  CCC  authors initials
+	*)
+	//**********************************************************************
+	
+	//  set motor parameters
+	"dbMotors".VKLOP_M_TRACNEGA_TRANS_NOGIC.MaxEng  := 100.0; // Max motor RPM
+	"dbMotors".VKLOP_M_TRACNEGA_TRANS_NOGIC.MinEng  := 0.0;   // Min motor RPM
+	"dbMotors".VKLOP_M_TRACNEGA_TRANS_NOGIC.ESA     := NOT "dbDigitalSensors".BIMETAL_TRANSPORTA_NOGIC_IZKLJUCIL.InputF;
+	"dbMotors".VKLOP_M_TRACNEGA_TRANS_NOGIC.EA      := "dbDO".VKLOP_M_TRACNEGA_TRANS_NOGIC;
+	"dbMotors".VKLOP_M_TRACNEGA_TRANS_NOGIC.FSL     := "dbDO".VKLOP_M_TRACNEGA_TRANS_NOGIC;
+	"dbMotors".VKLOP_M_TRACNEGA_TRANS_NOGIC.AlarmAck := "AlarmAck";
+	// "dbDO". := "dbMotors".M_TRACNEGA_TRANSPORTA.ResetFCAlarm;
+	"dbMotors".VKLOP_M_TRACNEGA_TRANS_NOGIC.FILTER_TIME_EA  := #CONST_FILTER_TIME_EA;   // 10 sec
+	"dbMotors".VKLOP_M_TRACNEGA_TRANS_NOGIC.FILTER_TIME_FSL := #CONST_FILTER_TIME_FSL;  // 50 sec
+	
+	"dbMotors".M1_ZADAJ_DESNO.MaxEng  := 100.0; // Max motor RPM
+	"dbMotors".M1_ZADAJ_DESNO.MinEng  := 0.0;   // Min motor RPM
+	"dbMotors".M1_ZADAJ_DESNO.ESA     := "dbDigitalSensors".FR_MOTORJA1_ZADAJ_DESNO_READY.InputF;
+	"dbMotors".M1_ZADAJ_DESNO.EA      := "dbMotors".M1_ZADAJ_DESNO.XS;
+	"dbMotors".M1_ZADAJ_DESNO.FSL     := "dbMotors".M1_ZADAJ_DESNO.XS;
+	"dbMotors".M1_ZADAJ_DESNO.AlarmAck:= "AlarmAck";
+	"dbDO".MOTOR_1_ZADAJ_DESNO_RESET  := "dbMotors".M1_ZADAJ_DESNO.ResetFCAlarm;
+	"dbMotors".M1_ZADAJ_DESNO.FILTER_TIME_EA    := #CONST_FILTER_TIME_EA;   // 10 sec
+	"dbMotors".M1_ZADAJ_DESNO.FILTER_TIME_FSL   := #CONST_FILTER_TIME_FSL;  // 50 sec
+	// Check "dbMotors".M1_ZADAJ_DESNO.Alarm       := False;
+	
+	"dbMotors".M2_SPREDAJ_DESNO.MaxEng := 100.0; // Max motor RPM
+	"dbMotors".M2_SPREDAJ_DESNO.MinEng := 0.0;   // Min motor RPM
+	"dbMotors".M2_SPREDAJ_DESNO.ESA := "dbDigitalSensors".FR_MOTORJA2_SPREDAJ_DESNO_READY.InputF;
+	"dbMotors".M2_SPREDAJ_DESNO.EA := "dbMotors".M2_SPREDAJ_DESNO.XS;
+	"dbMotors".M2_SPREDAJ_DESNO.FSL := "dbMotors".M2_SPREDAJ_DESNO.XS;
+	"dbMotors".M2_SPREDAJ_DESNO.AlarmAck := "AlarmAck";
+	"dbDO".MOTOR_2_SPREDAJ_DESNO_RESET := "dbMotors".M2_SPREDAJ_DESNO.ResetFCAlarm;
+	"dbMotors".M2_SPREDAJ_DESNO.FILTER_TIME_EA := #CONST_FILTER_TIME_EA;   // 10 sec
+	"dbMotors".M2_SPREDAJ_DESNO.FILTER_TIME_FSL := #CONST_FILTER_TIME_FSL;  // 50 sec
+	// Check "dbMotors".M2_SPREDAJ_DESNO.Alarm       := False; // Check
+	
+	"dbMotors".M1_ZADAJ_LEVO.MaxEng := 100.0; // Max motor RPM
+	"dbMotors".M1_ZADAJ_LEVO.MinEng := 0.0;   // Min motor RPM
+	"dbMotors".M1_ZADAJ_LEVO.ESA := "dbDigitalSensors".FR_MOTORJA1_ZADAJ_LEVO_READY.InputF;
+	"dbMotors".M1_ZADAJ_LEVO.EA := "dbMotors".M1_ZADAJ_LEVO.XS;
+	"dbMotors".M1_ZADAJ_LEVO.FSL := "dbMotors".M1_ZADAJ_LEVO.XS;
+	"dbMotors".M1_ZADAJ_LEVO.AlarmAck := "AlarmAck";
+	"dbDO".MOTOR_1_ZADAJ_LEVO_RESET := "dbMotors".M1_ZADAJ_LEVO.ResetFCAlarm;
+	"dbMotors".M1_ZADAJ_LEVO.FILTER_TIME_EA := #CONST_FILTER_TIME_EA;   // 10 sec
+	"dbMotors".M1_ZADAJ_LEVO.FILTER_TIME_FSL := #CONST_FILTER_TIME_FSL;  // 50 sec
+	// Check "dbMotors".M1_ZADAJ_LEVO.Alarm       := False; // Check
+	
+	"dbMotors".M2_SPREDAJ_LEVO.MaxEng := 100.0; // Max motor RPM
+	"dbMotors".M2_SPREDAJ_LEVO.MinEng := 0.0;   // Min motor RPM
+	"dbMotors".M2_SPREDAJ_LEVO.ESA := "dbDigitalSensors".FR_MOTORJA2_SPREDAJ_LEVO_READY.InputF;
+	"dbMotors".M2_SPREDAJ_LEVO.EA := "dbMotors".M2_SPREDAJ_LEVO.XS;
+	"dbMotors".M2_SPREDAJ_LEVO.FSL := "dbMotors".M2_SPREDAJ_LEVO.XS;
+	"dbMotors".M2_SPREDAJ_LEVO.AlarmAck := "AlarmAck";
+	"dbDO".MOTOR_2_SPREDAJ_LEVO_RESET := "dbMotors".M2_SPREDAJ_LEVO.ResetFCAlarm;
+	"dbMotors".M2_SPREDAJ_LEVO.FILTER_TIME_EA := #CONST_FILTER_TIME_EA;   // 10 sec
+	"dbMotors".M2_SPREDAJ_LEVO.FILTER_TIME_FSL := #CONST_FILTER_TIME_FSL;  // 50 sec
+	// Check "dbMotors".M2_SPREDAJ_LEVO.Alarm       := False; // Check
+	
+	"dbMotors".VKLOP_VIBRATORJA.MaxEng := 100.0; // Max motor RPM
+	"dbMotors".VKLOP_VIBRATORJA.MinEng := 0.0;   // Min motor RPM
+	"dbMotors".VKLOP_VIBRATORJA.ESA := TRUE;
+	"dbMotors".VKLOP_VIBRATORJA.EA := "dbDO".VKLOP_VIBRATORJA; // NOT EL. INSTALLED "dbDigitalSensors".VIBRATOR_NOGIC_READY.InputF
+	"dbMotors".VKLOP_VIBRATORJA.FSL := "dbDO".VKLOP_VIBRATORJA;
+	"dbMotors".VKLOP_VIBRATORJA.AlarmAck := "AlarmAck";
+	// "dbDO". := "dbMotors".VKLOP_VIBRATORJA.ResetFCAlarm;
+	"dbMotors".VKLOP_VIBRATORJA.FILTER_TIME_EA := #CONST_FILTER_TIME_EA;   // 10 sec
+	"dbMotors".VKLOP_VIBRATORJA.FILTER_TIME_FSL := #CONST_FILTER_TIME_FSL;  // 50 sec
+	
+	"dbMotors".VKLOP_M_TRAKA_VIJACNIKA.MaxEng := 100.0; // Max motor RPM
+	"dbMotors".VKLOP_M_TRAKA_VIJACNIKA.MinEng := 0.0;   // Min motor RPM
+	"dbMotors".VKLOP_M_TRAKA_VIJACNIKA.ESA :=  NOT "dbDigitalSensors".BIMETAL_VIJACENJA_NOGIC_IZKLJUCIL.InputF;
+	"dbMotors".VKLOP_M_TRAKA_VIJACNIKA.EA := "dbDO".VKLOP_M_TRAKA_VIJACNIKA;
+	"dbMotors".VKLOP_M_TRAKA_VIJACNIKA.FSL := "dbDO".VKLOP_M_TRAKA_VIJACNIKA;
+	"dbMotors".VKLOP_M_TRAKA_VIJACNIKA.AlarmAck := "AlarmAck";
+	// "dbDO". := "dbMotors".VKLOP_M_TRAKA_VIJACNIKA.ResetFCAlarm;
+	"dbMotors".VKLOP_M_TRAKA_VIJACNIKA.FILTER_TIME_EA := #CONST_FILTER_TIME_EA;   // 10 sec
+	"dbMotors".VKLOP_M_TRAKA_VIJACNIKA.FILTER_TIME_FSL := #CONST_FILTER_TIME_FSL;  // 50 sec
+	
+	// Reset Manual Regime, if selected AUTO regime on HMI
+	//----------------------------------------------------------------------
+	IF "dbUnit".Unit[1].Regime = 0 AND "dbUnit".Unit[1].StartStop THEN
+	  "dbMotors".VKLOP_M_TRACNEGA_TRANS_NOGIC.ManON   := False;
+	  "dbMotors".M1_ZADAJ_DESNO.ManON                 := False;
+	  "dbMotors".M2_SPREDAJ_DESNO.ManON               := False;
+	  "dbMotors".M1_ZADAJ_LEVO.ManON                  := False;
+	  "dbMotors".M2_SPREDAJ_LEVO.ManON                := False;
+	  "dbMotors".VKLOP_VIBRATORJA.ManON               := False;
+	  "dbMotors".VKLOP_M_TRAKA_VIJACNIKA.ManON        := False;
+	ELSIF "dbUnit".Unit[1].Regime = 1 AND NOT "dbUnit".Unit[1].StartStop THEN
+	  "dbMotors".VKLOP_M_TRACNEGA_TRANS_NOGIC.ManON   := False;
+	  "dbMotors".M1_ZADAJ_DESNO.ManON                 := False;
+	  "dbMotors".M2_SPREDAJ_DESNO.ManON               := False;
+	  "dbMotors".M1_ZADAJ_LEVO.ManON                  := False;
+	  "dbMotors".M2_SPREDAJ_LEVO.ManON                := False;
+	  "dbMotors".VKLOP_VIBRATORJA.ManON               := False;
+	  "dbMotors".VKLOP_M_TRAKA_VIJACNIKA.ManON        := False;
+	END_IF;
+	
+	//----------------------------------------------------------------------
+	// fc call
+	"cmMotor"(Regime := "dbUnit".Unit[1].Regime, FQ := "dbMotors".VKLOP_M_TRACNEGA_TRANS_NOGIC);
+	"cmMotor"(Regime := "dbUnit".Unit[1].Regime, FQ := "dbMotors".M1_ZADAJ_DESNO);
+	"cmMotor"(Regime := "dbUnit".Unit[1].Regime, FQ := "dbMotors".M2_SPREDAJ_DESNO);
+	"cmMotor"(Regime := "dbUnit".Unit[1].Regime, FQ := "dbMotors".M1_ZADAJ_LEVO);
+	"cmMotor"(Regime := "dbUnit".Unit[1].Regime, FQ := "dbMotors".M2_SPREDAJ_LEVO);
+	"cmMotor"(Regime := "dbUnit".Unit[1].Regime, FQ := "dbMotors".VKLOP_VIBRATORJA);
+	"cmMotor"(Regime := "dbUnit".Unit[1].Regime, FQ := "dbMotors".VKLOP_M_TRAKA_VIJACNIKA);
+	//----------------------------------------------------------------------
+	//  write output
+	"dbDO".VKLOP_M_TRACNEGA_TRANS_NOGIC := "dbMotors".VKLOP_M_TRACNEGA_TRANS_NOGIC.XS;
+	
+	"dbDO".MOTOR_1_ZADAJ_DESNO_START        := "dbMotors".M1_ZADAJ_DESNO.XS;
+	"dbDO".MOTOR_1_ZADAJ_DESNO_HITROST      := "dbMotors".M1_ZADAJ_DESNO.Speed1Out;
+	"dbDO".MOTOR_1_ZADAJ_DESNO_SMER         := "dbMotors".M1_ZADAJ_DESNO.Direction;
+	
+	"dbDO".MOTOR_2_SPREDAJ_DESNO_START      := "dbMotors".M2_SPREDAJ_DESNO.XS;
+	"dbDO".MOTOR_2_SPREDAJ_DESNO_HITROST    := "dbMotors".M2_SPREDAJ_DESNO.Speed1Out;
+	"dbDO".MOTOR_2_SPREDAJ_DESNO_SMER       := "dbMotors".M2_SPREDAJ_DESNO.Direction;
+	
+	"dbDO".MOTOR_1_ZADAJ_LEVO_START         := "dbMotors".M1_ZADAJ_LEVO.XS;
+	"dbDO".MOTOR_1_ZADAJ_LEVO_HITROST       := "dbMotors".M1_ZADAJ_LEVO.Speed1Out;
+	"dbDO".MOTOR_1_ZADAJ_LEVO_SMER          := "dbMotors".M1_ZADAJ_LEVO.Direction;
+	
+	"dbDO".MOTOR_2_SPREDAJ_LEVO_START       := "dbMotors".M2_SPREDAJ_LEVO.XS;
+	"dbDO".MOTOR_2_SPREDAJ_LEVO_HITROST     := "dbMotors".M2_SPREDAJ_LEVO.Speed1Out;
+	"dbDO".MOTOR_2_SPREDAJ_LEVO_SMER        := "dbMotors".M2_SPREDAJ_LEVO.Direction;
+	
+	"dbDO".VKLOP_VIBRATORJA := "dbMotors".VKLOP_VIBRATORJA.XS;
+	"dbDO".VKLOP_M_TRAKA_VIJACNIKA := "dbMotors".VKLOP_M_TRAKA_VIJACNIKA.XS;
+END_FUNCTION
+

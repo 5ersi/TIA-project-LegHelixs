@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V16" />
+  <DocumentInfo>
+    <Created>2021-05-25T16:14:42.3691804Z</Created>
+    <ExportSetting>WithDefaults</ExportSetting>
+    <InstalledProducts>
+      <Product>
+        <DisplayName>Totally Integrated Automation Portal</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </Product>
+      <OptionPackage>
+        <DisplayName>TIA Portal Version Control Interface</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </OptionPackage>
+      <OptionPackage>
+        <DisplayName>TIA Portal Openness</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </OptionPackage>
+      <Product>
+        <DisplayName>STEP 7 Professional</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </Product>
+      <OptionPackage>
+        <DisplayName>STEP 7 Safety</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </OptionPackage>
+      <Product>
+        <DisplayName>WinCC Unified SCADA Engineering System</DisplayName>
+        <DisplayVersion>V16</DisplayVersion>
+      </Product>
+    </InstalledProducts>
+  </DocumentInfo>
+  <SW.Blocks.GlobalDB ID="0">
+    <AttributeList>
+      <AutoNumber>false</AutoNumber>
+      <DBAccessibleFromOPCUA>false</DBAccessibleFromOPCUA>
+      <HeaderAuthor />
+      <HeaderFamily />
+      <HeaderName />
+      <HeaderVersion>0.1</HeaderVersion>
+      <Interface><Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v4">
+  <Section Name="Static">
+    <Member Name="VKLOP_M_TRACNEGA_TRANS_NOGIC" Datatype="&quot;udtMotor&quot;" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="AutoSpeed" Datatype="Real" /><Member Name="ManSpeed" Datatype="Real" /><Member Name="OutRPM" Datatype="Real" /><Member Name="OutPrc" Datatype="Real" /><Member Name="MaxEng" Datatype="Real" /><Member Name="MinEng" Datatype="Real" /><Member Name="AutoON" Datatype="Bool" /><Member Name="ManON" Datatype="Bool" /><Member Name="ManOFF" Datatype="Bool" /><Member Name="Interlock" Datatype="Bool" /><Member Name="EA" Datatype="Bool" /><Member Name="ESA" Datatype="Bool" /><Member Name="FSL" Datatype="Bool" /><Member Name="XS" Datatype="Bool" /><Member Name="Manual" Datatype="Bool" /><Member Name="AlarmEA" Datatype="Bool" /><Member Name="AlarmESA" Datatype="Bool" /><Member Name="AlarmFSL" Datatype="Bool" /><Member Name="Alarm" Datatype="Bool" /><Member Name="AlarmAck" Datatype="Bool" /><Member Name="ResetFCAlarm" Datatype="Bool" /><Member Name="DirectionReq" Datatype="Bool" /><Member Name="Direction" Datatype="Bool" /><Member Name="Speed1Out" Datatype="Bool" /><Member Name="Speed2Out" Datatype="Bool" /><Member Name="ToggleCmd" Datatype="Bool" /><Member Name="Timer_EA" Datatype="UInt" /><Member Name="Timer_FSL" Datatype="UInt" /><Member Name="Timer_ResetFCAlarm" Datatype="UInt" /><Member Name="FILTER_TIME_EA" Datatype="UInt" /><Member Name="FILTER_TIME_FSL" Datatype="UInt" /></Section></Sections></Member>
+    <Member Name="M1_ZADAJ_DESNO" Datatype="&quot;udtMotor&quot;" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="AutoSpeed" Datatype="Real" /><Member Name="ManSpeed" Datatype="Real" /><Member Name="OutRPM" Datatype="Real" /><Member Name="OutPrc" Datatype="Real" /><Member Name="MaxEng" Datatype="Real" /><Member Name="MinEng" Datatype="Real" /><Member Name="AutoON" Datatype="Bool" /><Member Name="ManON" Datatype="Bool" /><Member Name="ManOFF" Datatype="Bool" /><Member Name="Interlock" Datatype="Bool" /><Member Name="EA" Datatype="Bool" /><Member Name="ESA" Datatype="Bool" /><Member Name="FSL" Datatype="Bool" /><Member Name="XS" Datatype="Bool" /><Member Name="Manual" Datatype="Bool" /><Member Name="AlarmEA" Datatype="Bool" /><Member Name="AlarmESA" Datatype="Bool" /><Member Name="AlarmFSL" Datatype="Bool" /><Member Name="Alarm" Datatype="Bool" /><Member Name="AlarmAck" Datatype="Bool" /><Member Name="ResetFCAlarm" Datatype="Bool" /><Member Name="DirectionReq" Datatype="Bool" /><Member Name="Direction" Datatype="Bool" /><Member Name="Speed1Out" Datatype="Bool" /><Member Name="Speed2Out" Datatype="Bool" /><Member Name="ToggleCmd" Datatype="Bool" /><Member Name="Timer_EA" Datatype="UInt" /><Member Name="Timer_FSL" Datatype="UInt" /><Member Name="Timer_ResetFCAlarm" Datatype="UInt" /><Member Name="FILTER_TIME_EA" Datatype="UInt" /><Member Name="FILTER_TIME_FSL" Datatype="UInt" /></Section></Sections></Member>
+    <Member Name="M2_SPREDAJ_DESNO" Datatype="&quot;udtMotor&quot;" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="AutoSpeed" Datatype="Real" /><Member Name="ManSpeed" Datatype="Real" /><Member Name="OutRPM" Datatype="Real" /><Member Name="OutPrc" Datatype="Real" /><Member Name="MaxEng" Datatype="Real" /><Member Name="MinEng" Datatype="Real" /><Member Name="AutoON" Datatype="Bool" /><Member Name="ManON" Datatype="Bool" /><Member Name="ManOFF" Datatype="Bool" /><Member Name="Interlock" Datatype="Bool" /><Member Name="EA" Datatype="Bool" /><Member Name="ESA" Datatype="Bool" /><Member Name="FSL" Datatype="Bool" /><Member Name="XS" Datatype="Bool" /><Member Name="Manual" Datatype="Bool" /><Member Name="AlarmEA" Datatype="Bool" /><Member Name="AlarmESA" Datatype="Bool" /><Member Name="AlarmFSL" Datatype="Bool" /><Member Name="Alarm" Datatype="Bool" /><Member Name="AlarmAck" Datatype="Bool" /><Member Name="ResetFCAlarm" Datatype="Bool" /><Member Name="DirectionReq" Datatype="Bool" /><Member Name="Direction" Datatype="Bool" /><Member Name="Speed1Out" Datatype="Bool" /><Member Name="Speed2Out" Datatype="Bool" /><Member Name="ToggleCmd" Datatype="Bool" /><Member Name="Timer_EA" Datatype="UInt" /><Member Name="Timer_FSL" Datatype="UInt" /><Member Name="Timer_ResetFCAlarm" Datatype="UInt" /><Member Name="FILTER_TIME_EA" Datatype="UInt" /><Member Name="FILTER_TIME_FSL" Datatype="UInt" /></Section></Sections></Member>
+    <Member Name="M1_ZADAJ_LEVO" Datatype="&quot;udtMotor&quot;" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="AutoSpeed" Datatype="Real" /><Member Name="ManSpeed" Datatype="Real" /><Member Name="OutRPM" Datatype="Real" /><Member Name="OutPrc" Datatype="Real" /><Member Name="MaxEng" Datatype="Real" /><Member Name="MinEng" Datatype="Real" /><Member Name="AutoON" Datatype="Bool" /><Member Name="ManON" Datatype="Bool" /><Member Name="ManOFF" Datatype="Bool" /><Member Name="Interlock" Datatype="Bool" /><Member Name="EA" Datatype="Bool" /><Member Name="ESA" Datatype="Bool" /><Member Name="FSL" Datatype="Bool" /><Member Name="XS" Datatype="Bool" /><Member Name="Manual" Datatype="Bool" /><Member Name="AlarmEA" Datatype="Bool" /><Member Name="AlarmESA" Datatype="Bool" /><Member Name="AlarmFSL" Datatype="Bool" /><Member Name="Alarm" Datatype="Bool" /><Member Name="AlarmAck" Datatype="Bool" /><Member Name="ResetFCAlarm" Datatype="Bool" /><Member Name="DirectionReq" Datatype="Bool" /><Member Name="Direction" Datatype="Bool" /><Member Name="Speed1Out" Datatype="Bool" /><Member Name="Speed2Out" Datatype="Bool" /><Member Name="ToggleCmd" Datatype="Bool" /><Member Name="Timer_EA" Datatype="UInt" /><Member Name="Timer_FSL" Datatype="UInt" /><Member Name="Timer_ResetFCAlarm" Datatype="UInt" /><Member Name="FILTER_TIME_EA" Datatype="UInt" /><Member Name="FILTER_TIME_FSL" Datatype="UInt" /></Section></Sections></Member>
+    <Member Name="M2_SPREDAJ_LEVO" Datatype="&quot;udtMotor&quot;" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="AutoSpeed" Datatype="Real" /><Member Name="ManSpeed" Datatype="Real" /><Member Name="OutRPM" Datatype="Real" /><Member Name="OutPrc" Datatype="Real" /><Member Name="MaxEng" Datatype="Real" /><Member Name="MinEng" Datatype="Real" /><Member Name="AutoON" Datatype="Bool" /><Member Name="ManON" Datatype="Bool" /><Member Name="ManOFF" Datatype="Bool" /><Member Name="Interlock" Datatype="Bool" /><Member Name="EA" Datatype="Bool" /><Member Name="ESA" Datatype="Bool" /><Member Name="FSL" Datatype="Bool" /><Member Name="XS" Datatype="Bool" /><Member Name="Manual" Datatype="Bool" /><Member Name="AlarmEA" Datatype="Bool" /><Member Name="AlarmESA" Datatype="Bool" /><Member Name="AlarmFSL" Datatype="Bool" /><Member Name="Alarm" Datatype="Bool" /><Member Name="AlarmAck" Datatype="Bool" /><Member Name="ResetFCAlarm" Datatype="Bool" /><Member Name="DirectionReq" Datatype="Bool" /><Member Name="Direction" Datatype="Bool" /><Member Name="Speed1Out" Datatype="Bool" /><Member Name="Speed2Out" Datatype="Bool" /><Member Name="ToggleCmd" Datatype="Bool" /><Member Name="Timer_EA" Datatype="UInt" /><Member Name="Timer_FSL" Datatype="UInt" /><Member Name="Timer_ResetFCAlarm" Datatype="UInt" /><Member Name="FILTER_TIME_EA" Datatype="UInt" /><Member Name="FILTER_TIME_FSL" Datatype="UInt" /></Section></Sections></Member>
+    <Member Name="VKLOP_VIBRATORJA" Datatype="&quot;udtMotor&quot;" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="AutoSpeed" Datatype="Real" /><Member Name="ManSpeed" Datatype="Real" /><Member Name="OutRPM" Datatype="Real" /><Member Name="OutPrc" Datatype="Real" /><Member Name="MaxEng" Datatype="Real" /><Member Name="MinEng" Datatype="Real" /><Member Name="AutoON" Datatype="Bool" /><Member Name="ManON" Datatype="Bool" /><Member Name="ManOFF" Datatype="Bool" /><Member Name="Interlock" Datatype="Bool" /><Member Name="EA" Datatype="Bool" /><Member Name="ESA" Datatype="Bool" /><Member Name="FSL" Datatype="Bool" /><Member Name="XS" Datatype="Bool" /><Member Name="Manual" Datatype="Bool" /><Member Name="AlarmEA" Datatype="Bool" /><Member Name="AlarmESA" Datatype="Bool" /><Member Name="AlarmFSL" Datatype="Bool" /><Member Name="Alarm" Datatype="Bool" /><Member Name="AlarmAck" Datatype="Bool" /><Member Name="ResetFCAlarm" Datatype="Bool" /><Member Name="DirectionReq" Datatype="Bool" /><Member Name="Direction" Datatype="Bool" /><Member Name="Speed1Out" Datatype="Bool" /><Member Name="Speed2Out" Datatype="Bool" /><Member Name="ToggleCmd" Datatype="Bool" /><Member Name="Timer_EA" Datatype="UInt" /><Member Name="Timer_FSL" Datatype="UInt" /><Member Name="Timer_ResetFCAlarm" Datatype="UInt" /><Member Name="FILTER_TIME_EA" Datatype="UInt" /><Member Name="FILTER_TIME_FSL" Datatype="UInt" /></Section></Sections></Member>
+    <Member Name="VKLOP_M_TRAKA_VIJACNIKA" Datatype="&quot;udtMotor&quot;" Remanence="NonRetain" Accessibility="Public"><AttributeList><BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute><BooleanAttribute Name="SetPoint" SystemDefined="true">false</BooleanAttribute></AttributeList><Sections><Section Name="None"><Member Name="AutoSpeed" Datatype="Real" /><Member Name="ManSpeed" Datatype="Real" /><Member Name="OutRPM" Datatype="Real" /><Member Name="OutPrc" Datatype="Real" /><Member Name="MaxEng" Datatype="Real" /><Member Name="MinEng" Datatype="Real" /><Member Name="AutoON" Datatype="Bool" /><Member Name="ManON" Datatype="Bool" /><Member Name="ManOFF" Datatype="Bool" /><Member Name="Interlock" Datatype="Bool" /><Member Name="EA" Datatype="Bool" /><Member Name="ESA" Datatype="Bool" /><Member Name="FSL" Datatype="Bool" /><Member Name="XS" Datatype="Bool" /><Member Name="Manual" Datatype="Bool" /><Member Name="AlarmEA" Datatype="Bool" /><Member Name="AlarmESA" Datatype="Bool" /><Member Name="AlarmFSL" Datatype="Bool" /><Member Name="Alarm" Datatype="Bool" /><Member Name="AlarmAck" Datatype="Bool" /><Member Name="ResetFCAlarm" Datatype="Bool" /><Member Name="DirectionReq" Datatype="Bool" /><Member Name="Direction" Datatype="Bool" /><Member Name="Speed1Out" Datatype="Bool" /><Member Name="Speed2Out" Datatype="Bool" /><Member Name="ToggleCmd" Datatype="Bool" /><Member Name="Timer_EA" Datatype="UInt" /><Member Name="Timer_FSL" Datatype="UInt" /><Member Name="Timer_ResetFCAlarm" Datatype="UInt" /><Member Name="FILTER_TIME_EA" Datatype="UInt" /><Member Name="FILTER_TIME_FSL" Datatype="UInt" /></Section></Sections></Member>
+  </Section>
+</Sections></Interface>
+      <IsOnlyStoredInLoadMemory>false</IsOnlyStoredInLoadMemory>
+      <IsRetainMemResEnabled>false</IsRetainMemResEnabled>
+      <IsWriteProtectedInAS>false</IsWriteProtectedInAS>
+      <MemoryLayout>Optimized</MemoryLayout>
+      <MemoryReserve>100</MemoryReserve>
+      <Name>dbMotors</Name>
+      <Number>33</Number>
+      <ProgrammingLanguage>DB</ProgrammingLanguage>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>sl-SI</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <MultilingualText ID="4" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="5" CompositionName="Items">
+            <AttributeList>
+              <Culture>sl-SI</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="6" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.GlobalDB>
+</Document>

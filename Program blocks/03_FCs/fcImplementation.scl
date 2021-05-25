@@ -1,0 +1,37 @@
+﻿FUNCTION "fcImplementation" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+
+BEGIN
+	"ph_Helix_1_DB"(Y8_VijaLocev_Des:= "dbDigitalValves".Y8_VijaLocev_Des,
+	                Y9_VijaStop_DesZad:= "dbDigitalValves".Y9_VijaStop_DesZad,
+	                Y2_VijaDesZad_Dvig:= "dbDigitalValves".Y2_VijaDesZad_Dvig,
+	                Y10_Centri_DesZad:= "dbDigitalValves".Y10_Centri_DesZad,
+	                Y3_VijaDesSpr_Dvig:= "dbDigitalValves".Y3_VijaDesSpr_Dvig,
+	                Y11_Centri_DesSpr:= "dbDigitalValves".Y11_Centri_DesSpr,
+	                Y12_VijaLocev_Lev:= "dbDigitalValves".Y12_VijaLocev_Lev,
+	                Y13_VijaStop_LevZad:= "dbDigitalValves".Y13_VijaStop_LevZad,
+	                Y4_VijaLevZad_Dvig:= "dbDigitalValves".Y4_VijaLevZad_Dvig,
+	                Y14_Centri_LevZad:= "dbDigitalValves".Y14_Centri_LevZad,
+	                Y5_VijaLevSpr_Dvig:= "dbDigitalValves".Y5_VijaLevSpr_Dvig,
+	                Y15_Centri_LevSpr:= "dbDigitalValves".Y15_Centri_LevSpr,
+	                Y16_VpenjanjeDna:= "dbDigitalValves".Y16_VpenjanjeDna,
+	                M1_ZADAJ_LEVO:= "dbMotors".M1_ZADAJ_LEVO,
+	                M2_SPREDAJ_LEVO:= "dbMotors".M2_SPREDAJ_LEVO,
+	                M1_ZADAJ_DESNO:= "dbMotors".M1_ZADAJ_DESNO,
+	                M2_SPREDAJ_DESNO:= "dbMotors".M2_SPREDAJ_DESNO,
+	                VKLOP_M_TRAKA_VIJACNIKA:="dbMotors".VKLOP_M_TRAKA_VIJACNIKA);
+	
+	"ph_LegsShifter_2_DB"(Y17_RotCilipozDesno := "dbDigitalValves".Y17_RotCilipozDesno,
+	                      Y18_RotCilipozLevo := "dbDigitalValves".Y18_RotCilipozLevo,
+	                      Y6_DrcaLocev_Des := "dbDigitalValves".Y6_DrcaLocev_Des,
+	                      Y7_DrcaLocev_Lev := "dbDigitalValves".Y7_DrcaLocev_Lev);
+	
+	"op_ButtonHelix_3_DB"(SEMAFOR_ZELENA:= "dbDigitalValves".SEMAFOR_ZELENA,
+	                      SEMAFOR_RUMENA:= "dbDigitalValves".SEMAFOR_RUMENA,
+	                      SEMAFOR_RDECA:= "dbDigitalValves".SEMAFOR_RDECA,
+	                      VKLOP_VIBRATORJA:= "dbMotors".VKLOP_VIBRATORJA,
+	                      VKLOP_M_TRACNEGA_TRANS_NOGIC:= "dbMotors".VKLOP_M_TRACNEGA_TRANS_NOGIC);
+	
+END_FUNCTION
+

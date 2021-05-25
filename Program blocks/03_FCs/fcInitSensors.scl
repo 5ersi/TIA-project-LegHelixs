@@ -1,0 +1,199 @@
+﻿FUNCTION "fcInitSensors" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+
+BEGIN
+	// Short summary:
+	(*
+	  Initialization of sensors
+	*)
+	// 
+	//**********************************************************************
+	// Revision control:
+	//----------------------------------------------------------------------
+	// Use only for revisions of original code
+	// V0.01
+	// Description of revision
+	
+	//----------------------------------------------------------------------
+	// Comments:
+	(*
+	  Every change in the code is documented with following:
+	  // CCC-yyymmdd: .....
+	  yyyy year when change was made
+	  mm   month when change was made
+	  dd   day when change was made
+	  CCC  authors initials
+	*)
+	//**********************************************************************
+	
+	//----------------------------------------------------------------------
+	//  Digital Sensors
+	// Invert
+	// CPU Inputs
+	"dbDigitalSensors".ZAUSTAVITEV_V_SILI_NI_AKTIVIRANA.Invert  := False;
+	"dbDigitalSensors".FOTO_ZAVESA_KANAL_1.Invert               := False;
+	"dbDigitalSensors".FOTO_ZAVESA_KANAL_2.Invert               := False;
+	"dbDigitalSensors".START_LEVO_NA_VPENJANJU.Invert           := False;
+	"dbDigitalSensors".START_DESNO_NA_VPENJANJU.Invert          := False;
+	"dbDigitalSensors".PRISOTNOST_ZRAKA_NA_NAPRAVI.Invert       := False;
+	// Weidmuller inputs
+	"dbDigitalSensors".BIMETAL_TRANSPORTA_NOGIC_IZKLJUCIL.Invert  := False;
+	"dbDigitalSensors".VIBRATOR_NOGIC_READY.Invert                := False;
+	"dbDigitalSensors".BIMETAL_VIJACENJA_NOGIC_IZKLJUCIL.Invert   := False;
+	"dbDigitalSensors".FR_MOTORJA1_ZADAJ_DESNO_READY.Invert       := False;
+	"dbDigitalSensors".FR_MOTORJA2_SPREDAJ_DESNO_READY.Invert     := False;
+	"dbDigitalSensors".FR_MOTORJA1_ZADAJ_LEVO_READY.Invert        := False;
+	"dbDigitalSensors".FR_MOTORJA2_SPREDAJ_LEVO_READY.Invert      := False;
+	"dbDigitalSensors".Spare20_7.Invert                           := False;
+	"dbDigitalSensors".FOTOCELICA_TRANSPORTA_NOGIC.Invert         := False;
+	"dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_NOGIC.Invert         := False;
+	"dbDigitalSensors".FOTOCELICA_PRED_MESTOM_LOCEVANJA.Invert    := False;
+	"dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_LEVO.Invert          := False;
+	"dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_DESNO.Invert         := False;
+	"dbDigitalSensors".FOTOCELICA_LOC_IZH_DRCA_LEVO.Invert        := False;
+	"dbDigitalSensors".FOTOCELICA_LOC_IZH_DRCA_DESNO.Invert       := False;
+	"dbDigitalSensors".NOGICE_V_VIBRATORJU.Invert                 := False;
+	"dbDigitalSensors".ROTACIJSKI_CIL_DESNO.Invert                := False;
+	"dbDigitalSensors".ROTACIJSKI_CIL_SREDINA.Invert              := False;
+	"dbDigitalSensors".ROTACIJSKI_CIL_LEVO.Invert                 := False;
+	"dbDigitalSensors".LOC_DRCA_DESNO_NAPREJ.Invert               := False;
+	"dbDigitalSensors".LOC_DRCA_DESNO_NAZAJ.Invert                := False;
+	"dbDigitalSensors".LOC_DRCA_LEVO_NAZAJ.Invert                 := False;
+	"dbDigitalSensors".LOC_DRCA_LEVO_NAPREJ.Invert                := False;
+	"dbDigitalSensors".Spare22_7.Invert                           := False;
+	"dbDigitalSensors".FOTOCELICA_LOC_TRAK_DESNO1.Invert          := False;
+	"dbDigitalSensors".FOTOCELICA_LOC_TRAK_DESNO2.Invert          := False;
+	"dbDigitalSensors".FOTOCELICA_VIJACENJE_DESNOZADAJ.Invert     := False;
+	"dbDigitalSensors".FOTOCELICA_VIJACENJE_DESNOSPREDAJ.Invert   := False;
+	"dbDigitalSensors".VIJACENJE_DESNO_1_NAZAJ.Invert             := False;
+	"dbDigitalSensors".VIJACENJE_DESNO_1_NAPREJ.Invert            := False;
+	"dbDigitalSensors".MESTO_VIJAC_STOP_DESNO_ZAD_NAZAJ.Invert    := False;
+	"dbDigitalSensors".MESTO_VIJAC_STOP_DESNO_ZAD_NAPREJ.Invert   := False;
+	"dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_DVIG_DOL.Invert  := False;
+	"dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_CENT_NARAZEN.Invert  := False;
+	"dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_CENT_SKUPAJ.Invert   := False;
+	"dbDigitalSensors".Spare24_3.Invert                               := False;
+	"dbDigitalSensors".Spare24_4.Invert                               := False;
+	"dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_DVIG_DOL.Invert      := False;
+	"dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_CENT_NARAZEN.Invert  := False;
+	"dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_CENT_SKUPAJ.Invert   := False;
+	"dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_DES_NAZAJ.Invert       := False;
+	"dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_DES_NAPREJ.Invert      := False;
+	"dbDigitalSensors".Spare25_2.Invert                                 := False;
+	"dbDigitalSensors".Spare25_3.Invert                                 := False;
+	"dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_LEVO_NAZAJ.Invert      := False;
+	"dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_LEVO_NAPREJ.Invert     := False;
+	"dbDigitalSensors".Spare25_6.Invert                                 := False;
+	"dbDigitalSensors".Spare25_7.Invert                                 := False;
+	"dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO1.Invert                 := False;
+	"dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO2.Invert                 := False;
+	"dbDigitalSensors".FOTOCELICA_VIJACENJE_LEVO_ZADAJ.Invert           := False;
+	"dbDigitalSensors".FOTOCELICA_VIJACENJE_LEVO_SPREDAJ.Invert         := False;
+	"dbDigitalSensors".VIJACENJE_LEVO_1_NAZAJ.Invert                    := False;
+	"dbDigitalSensors".VIJACENJE_LEVO_1_NAPREJ.Invert                   := False;
+	"dbDigitalSensors".MESTO_VIJAC_STOP_LEVO_ZAD_NAZAJ.Invert           := False;
+	"dbDigitalSensors".MESTO_VIJAC_STOP_LEVO_ZAD_NAPREJ.Invert          := False;
+	"dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_DVIG_DOL.Invert         := False;
+	"dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_CENT_NARAZEN.Invert     := False;
+	"dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_CENT_SKUPAJ.Invert      := False;
+	"dbDigitalSensors".Spare27_3.Invert                                 := False;
+	"dbDigitalSensors".Spare27_4.Invert                                 := False;
+	"dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_DVIG_DOL.Invert       := False;
+	"dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_CENT_NARAZEN.Invert   := False;
+	"dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_CENT_SKUPAJ.Invert    := False;
+	"dbDigitalSensors".INDUKTIVEC_PRAVILNA_VLOZITEV_DNA_1.Invert        := False;
+	"dbDigitalSensors".INDUKTIVEC_PRAVILNA_VLOZITEV_DNA_2.Invert        := False;
+	"dbDigitalSensors".VPENJANJE_DNA_LEVO_ZADAJ_GOR.Invert              := False;
+	"dbDigitalSensors".VPENJANJE_DNA_LEVO_ZADAJ_DOL.Invert              := False;
+	"dbDigitalSensors".VPENJANJE_DNA_LEVO_SPREDAJ_GOR.Invert            := False;
+	"dbDigitalSensors".VPENJANJE_DNA_LEVO_SPREDAJ_DOL.Invert            := False;
+	"dbDigitalSensors".VPENJANJE_DNA_DESNO_ZADAJ_GOR.Invert             := False;
+	"dbDigitalSensors".VPENJANJE_DNA_DESNO_ZADAJ_DOL.Invert             := False;
+	"dbDigitalSensors".VPENJANJE_DNA_DESNO_SPREDAJ_GOR.Invert           := False;
+	"dbDigitalSensors".VPENJANJE_DNA_DESNO_SPREDAJ_DOL.Invert           := False;
+	"dbDigitalSensors".NOGICE_V_VIBRATORJU.Invert                       := False;
+	
+	// FilterTime
+	"dbDigitalSensors".ZAUSTAVITEV_V_SILI_NI_AKTIVIRANA.FilterTime          := 0;
+	"dbDigitalSensors".FOTO_ZAVESA_KANAL_1.FilterTime                       := 0;
+	"dbDigitalSensors".FOTO_ZAVESA_KANAL_2.FilterTime                       := 0;
+	"dbDigitalSensors".START_LEVO_NA_VPENJANJU.FilterTime                   := 1;
+	"dbDigitalSensors".START_DESNO_NA_VPENJANJU.FilterTime                  := 1;
+	"dbDigitalSensors".PRISOTNOST_ZRAKA_NA_NAPRAVI.FilterTime               := 0;
+	"dbDigitalSensors".BIMETAL_VIJACENJA_NOGIC_IZKLJUCIL.FilterTime         := 0;
+	"dbDigitalSensors".VIBRATOR_NOGIC_READY.FilterTime                      := 0;
+	"dbDigitalSensors".BIMETAL_VIJACENJA_NOGIC_IZKLJUCIL.FilterTime         := 0;
+	"dbDigitalSensors".FR_MOTORJA1_ZADAJ_DESNO_READY.FilterTime             := 0;
+	"dbDigitalSensors".FR_MOTORJA2_SPREDAJ_DESNO_READY.FilterTime           := 0;
+	"dbDigitalSensors".FR_MOTORJA1_ZADAJ_LEVO_READY.FilterTime              := 0;
+	"dbDigitalSensors".FR_MOTORJA2_SPREDAJ_LEVO_READY.FilterTime            := 0;
+	"dbDigitalSensors".Spare20_7.FilterTime                                 := 0;
+	"dbDigitalSensors".FOTOCELICA_TRANSPORTA_NOGIC.FilterTime               := 30;
+	"dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_NOGIC.FilterTime               := 5;
+	"dbDigitalSensors".FOTOCELICA_PRED_MESTOM_LOCEVANJA.FilterTime          := 5;
+	"dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_LEVO.FilterTime                := 10; // Delect helix only when line is full, helix flying through must NOT be detected
+	"dbDigitalSensors".FOTOCELICA_VSTOP_DRCA_DESNO.FilterTime               := 10; // Delect helix only when line is full, helix flying through must NOT be detected
+	"dbDigitalSensors".FOTOCELICA_LOC_IZH_DRCA_LEVO.FilterTime              := 5;
+	"dbDigitalSensors".FOTOCELICA_LOC_IZH_DRCA_DESNO.FilterTime             := 5;
+	"dbDigitalSensors".NOGICE_V_VIBRATORJU.FilterTime                       := 0;
+	"dbDigitalSensors".ROTACIJSKI_CIL_DESNO.FilterTime                      := 3;
+	"dbDigitalSensors".ROTACIJSKI_CIL_SREDINA.FilterTime                    := 3;
+	"dbDigitalSensors".ROTACIJSKI_CIL_LEVO.FilterTime                       := 3;
+	"dbDigitalSensors".LOC_DRCA_DESNO_NAPREJ.FilterTime                     := 3;
+	"dbDigitalSensors".LOC_DRCA_DESNO_NAZAJ.FilterTime                      := 3;
+	"dbDigitalSensors".LOC_DRCA_LEVO_NAZAJ.FilterTime                       := 3;
+	"dbDigitalSensors".LOC_DRCA_LEVO_NAPREJ.FilterTime                      := 3;
+	"dbDigitalSensors".Spare22_7.FilterTime                                 := 0;
+	"dbDigitalSensors".FOTOCELICA_LOC_TRAK_DESNO1.FilterTime                := 0;
+	"dbDigitalSensors".FOTOCELICA_LOC_TRAK_DESNO2.FilterTime                := 0;
+	"dbDigitalSensors".FOTOCELICA_VIJACENJE_DESNOZADAJ.FilterTime           := 10;
+	"dbDigitalSensors".FOTOCELICA_VIJACENJE_DESNOSPREDAJ.FilterTime         := 10;
+	"dbDigitalSensors".VIJACENJE_DESNO_1_NAZAJ.FilterTime                   := 3;
+	"dbDigitalSensors".VIJACENJE_DESNO_1_NAPREJ.FilterTime                  := 3;
+	"dbDigitalSensors".MESTO_VIJAC_STOP_DESNO_ZAD_NAZAJ.FilterTime          := 3;
+	"dbDigitalSensors".MESTO_VIJAC_STOP_DESNO_ZAD_NAPREJ.FilterTime         := 3;
+	"dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_DVIG_DOL.FilterTime        := 15;
+	"dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_CENT_NARAZEN.FilterTime    := 3;
+	"dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_CENT_SKUPAJ.FilterTime     := 3;
+	"dbDigitalSensors".Spare24_3.FilterTime                                 := 3;
+	"dbDigitalSensors".Spare24_4.FilterTime                                 := 3;
+	"dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_DVIG_DOL.FilterTime      := 15;
+	"dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_CENT_NARAZEN.FilterTime  := 3;
+	"dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_CENT_SKUPAJ.FilterTime   := 3;
+	// "dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_DES_NAZAJ.FilterTime       := "dbSystemParam".KONCNA_POZICIJA_VIJACENJA_DES_NAZAJ_FilterTime;  // Moved to fcUtilities
+	// "dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_DES_NAPREJ.FilterTime      := "dbSystemParam".KONCNA_POZICIJA_VIJACENJA_DES_NAPREJ_FilterTime; // Moved to fcUtilities
+	"dbDigitalSensors".Spare25_2.FilterTime                                 := 0;
+	"dbDigitalSensors".Spare25_3.FilterTime                                 := 0;
+	// "dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_LEVO_NAZAJ.FilterTime      := "dbSystemParam".KONCNA_POZICIJA_VIJACENJA_LEVO_NAZAJ_FilterTime; // Moved to fcUtilities
+	// "dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_LEVO_NAPREJ.FilterTime     := "dbSystemParam".KONCNA_POZICIJA_VIJACENJA_DES_NAPREJ_FilterTime; // Moved to fcUtilities
+	"dbDigitalSensors".Spare25_6.FilterTime                                 := 0;
+	"dbDigitalSensors".Spare25_7.FilterTime                                 := 0;
+	"dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO1.FilterTime                 := 0;
+	"dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO2.FilterTime                 := 0;
+	"dbDigitalSensors".FOTOCELICA_VIJACENJE_LEVO_ZADAJ.FilterTime           := 10;
+	"dbDigitalSensors".FOTOCELICA_VIJACENJE_LEVO_SPREDAJ.FilterTime         := 10;
+	"dbDigitalSensors".VIJACENJE_LEVO_1_NAZAJ.FilterTime                    := 3;
+	"dbDigitalSensors".VIJACENJE_LEVO_1_NAPREJ.FilterTime                   := 3;
+	"dbDigitalSensors".MESTO_VIJAC_STOP_LEVO_ZAD_NAZAJ.FilterTime           := 3;
+	"dbDigitalSensors".MESTO_VIJAC_STOP_LEVO_ZAD_NAPREJ.FilterTime          := 3;
+	"dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_DVIG_DOL.FilterTime         := 15;
+	"dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_CENT_NARAZEN.FilterTime     := 3;
+	"dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_CENT_SKUPAJ.FilterTime      := 3;
+	"dbDigitalSensors".Spare27_3.FilterTime                                 := 3;
+	"dbDigitalSensors".Spare27_4.FilterTime                                 := 3;
+	"dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_DVIG_DOL.FilterTime       := 15;
+	"dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_CENT_NARAZEN.FilterTime   := 3;
+	"dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_CENT_SKUPAJ.FilterTime    := 3;
+	"dbDigitalSensors".INDUKTIVEC_PRAVILNA_VLOZITEV_DNA_1.FilterTime        := 3;
+	"dbDigitalSensors".INDUKTIVEC_PRAVILNA_VLOZITEV_DNA_2.FilterTime        := 3;
+	"dbDigitalSensors".VPENJANJE_DNA_LEVO_ZADAJ_GOR.FilterTime              := 3;
+	"dbDigitalSensors".VPENJANJE_DNA_LEVO_ZADAJ_DOL.FilterTime              := 3;
+	"dbDigitalSensors".VPENJANJE_DNA_LEVO_SPREDAJ_GOR.FilterTime            := 3;
+	"dbDigitalSensors".VPENJANJE_DNA_LEVO_SPREDAJ_DOL.FilterTime            := 3;
+	"dbDigitalSensors".VPENJANJE_DNA_DESNO_ZADAJ_GOR.FilterTime             := 3;
+	"dbDigitalSensors".VPENJANJE_DNA_DESNO_ZADAJ_DOL.FilterTime             := 3;
+	"dbDigitalSensors".VPENJANJE_DNA_DESNO_SPREDAJ_GOR.FilterTime           := 3;
+	"dbDigitalSensors".VPENJANJE_DNA_DESNO_SPREDAJ_DOL.FilterTime           := 3;
+END_FUNCTION
+

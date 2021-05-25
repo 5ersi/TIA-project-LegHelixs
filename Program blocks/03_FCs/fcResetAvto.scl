@@ -1,0 +1,64 @@
+﻿FUNCTION "fcResetAvto" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+
+BEGIN
+	// Short summary:
+	(*
+	  Reset of control elements performed every cycle
+	*)
+	// 
+	//**********************************************************************
+	// Revision control:
+	//----------------------------------------------------------------------
+	// Use only for revisions of original code
+	// V0.01
+	// Description of revision
+	
+	//----------------------------------------------------------------------
+	// Comments:
+	(*
+	  Every change in the code is documented with following:
+	  // CCC-yyymmdd: .....
+	  yyyy year when change was made
+	  mm   month when change was made
+	  dd   day when change was made
+	  CCC  authors initials
+	*)
+	//**********************************************************************
+	
+	//----------------------------------------------------------------------
+	//  DigitalValves
+	"dbDigitalValves".Y17_RotCilipozDesno.AutoON       := False;
+	"dbDigitalValves".Y18_RotCilipozLevo.AutoON        := False;
+	"dbDigitalValves".Y2_VijaDesZad_Dvig.AutoON       := False;
+	"dbDigitalValves".Y3_VijaDesSpr_Dvig.AutoON       := False;
+	"dbDigitalValves".Y4_VijaLevZad_Dvig.AutoON      := False;
+	"dbDigitalValves".Y5_VijaLevSpr_Dvig.AutoON      := False;
+	"dbDigitalValves".Y6_DrcaLocev_Des.AutoON         := False;
+	"dbDigitalValves".Y7_DrcaLocev_Lev.AutoON         := False;
+	"dbDigitalValves".Y8_VijaLocev_Des.AutoON         := False;
+	"dbDigitalValves".Y9_VijaStop_DesZad.AutoON       := False;
+	"dbDigitalValves".Y10_Centri_DesZad.AutoON         := False;
+	"dbDigitalValves".Y11_Centri_DesSpr.AutoON        := False;
+	"dbDigitalValves".Y12_VijaLocev_Lev.AutoON        := False;
+	"dbDigitalValves".Y13_VijaStop_LevZad.AutoON      := False;
+	"dbDigitalValves".Y14_Centri_LevZad.AutoON        := False;
+	"dbDigitalValves".Y15_Centri_LevSpr.AutoON        := False;
+	"dbDigitalValves".Y16_VpenjanjeDna.AutoON         := False;
+	"dbDigitalValves".SEMAFOR_ZELENA.AutoON           := False;
+	"dbDigitalValves".SEMAFOR_RUMENA.AutoON           := False;
+	"dbDigitalValves".SEMAFOR_RDECA.AutoON            := False;
+	//----------------------------------------------------------------------
+	
+	//----------------------------------------------------------------------
+	//  Motors
+	"dbMotors".VKLOP_M_TRACNEGA_TRANS_NOGIC.AutoON      := False;
+	"dbMotors".M1_ZADAJ_DESNO.AutoON                    := False;
+	"dbMotors".M2_SPREDAJ_DESNO.AutoON                  := False;
+	"dbMotors".M1_ZADAJ_LEVO.AutoON                     := False;
+	"dbMotors".M2_SPREDAJ_LEVO.AutoON                   := False;
+	"dbMotors".VKLOP_VIBRATORJA.AutoON                  := False;
+	"dbMotors".VKLOP_M_TRAKA_VIJACNIKA.AutoON           := False;
+END_FUNCTION
+

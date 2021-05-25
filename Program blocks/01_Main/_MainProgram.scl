@@ -1,0 +1,101 @@
+﻿FUNCTION "_MainProgram" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_TEMP 
+      tmpINT : Int;
+      k : Int;
+   END_VAR
+
+
+BEGIN
+	//**********************************************************************
+	// Project:      P21003
+	// Source name:  _MainProgram
+	// Author:       PRA: R-TRONIC Slovenia-EU
+	// Date:         20210322
+	// Version:      0.01
+	// Reference:    Vijacenje nog v dno pečice MiniTec, d.o.o.
+	//**********************************************************************
+	// Short summary:
+	(*
+	  Main PLC program
+	*)
+	// 
+	//**********************************************************************
+	// Revision control:
+	//----------------------------------------------------------------------
+	// Use only for revisions of original code
+	// V0.01
+	// Description of revision
+	
+	//----------------------------------------------------------------------
+	// Comments:
+	(*
+	  Every change in the code is documented with following:
+	  // CCC-yyymmdd: .....
+	  yyyy year when change was made
+	  mm   month when change was made
+	  dd   day when change was made
+	  CCC  authors initials
+	*)
+	//**********************************************************************
+	
+	"SWVersion" := 2.00;
+	
+	//======================================================================
+	//                           Main Program                              //
+	//======================================================================
+	//----------------------------------------------------------------------
+	//  INIT Global Variables
+	"MaxPLITimersIndex" := 4;
+	
+	//  ProgramMode (MW2) = 0=normal, 1=IQ, 2=Simulation
+	IF ("ProgramMode" < 0 OR "ProgramMode" > 2) THEN "ProgramMode" := 0; END_IF;
+	
+	//================================ READ ================================
+	//  Ignore if ProgramMode is set to Simulation
+	IF "ProgramMode" <> 2 THEN "fcReadIN"(); END_IF;
+	
+	//================================ RUN =================================
+	//  Ignore if ProgramMode is set to IQ
+	IF "ProgramMode" <> 1 THEN
+	//----------------------------------------------------------------------
+	//  Global functions
+	   // PRA "PLC_CLOCK"();           //  PLC clock
+	    // To se stestiram in dost za danes
+	    // To se stestiram in dost za danes 2
+	    
+	//----------------------------------------------------------------------
+	//  Control Modules - inputs
+	  "fcDigitalSensors"();    //  Digital Sensors
+	  "fcHSCEncoder"();
+	
+	//----------------------------------------------------------------------
+	//  System functions
+	  "fcSystemAlarms"();      //  System Alarms
+	  "fcResetAvto"();         //  Reset Avto Commands
+	  "fcOPAlarming"();        //  Generate HMI alarms
+	  
+	//----------------------------------------------------------------------
+	//  UNIT SUPERVISON
+	  "fcUnitInterlocks"();    //  Unit interlocks
+	
+	//  Procedural Model
+	  "TIMER_ON_DELAY"();      //  PLI Timers  
+	  "fcImplementation"();
+	   
+	// Utilities   
+	   "fcUtilities"();         //  Program utilities
+	   
+	//----------------------------------------------------------------------
+	//  Control Modules - outputs
+	   "fcDigitalValves"();     //  Digital on/off elements
+	   "fcMotors"();            //  Motors elements
+	   
+	END_IF;
+	
+	//=============================== WRITE ================================
+	//  Ignore if ProgramMode is set to Simulation
+	IF "ProgramMode" <> 2 THEN "fcWriteOUT"(); END_IF;
+END_FUNCTION
+

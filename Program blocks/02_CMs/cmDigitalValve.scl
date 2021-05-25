@@ -1,0 +1,150 @@
+﻿FUNCTION "cmDigitalValve" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_IN_OUT 
+      Regime : USInt;
+      Valve : "udtDigitalValve";
+   END_VAR
+
+   VAR_TEMP 
+      tmpTimer : Int;
+      tmpTimerDelay : Int;
+   END_VAR
+
+   VAR CONSTANT 
+      AlarmAutoResetDly : UInt := 50;
+   END_VAR
+
+
+BEGIN
+	// ALARMING
+	#tmpTimer := CHAR_TO_INT(BYTE_TO_CHAR(#Valve.Timer1));
+	#tmpTimerDelay := CHAR_TO_INT(BYTE_TO_CHAR(#Valve.FilterTime));
+	
+	IF (NOT #Valve.GSLEnable AND NOT #Valve.GSHEnable) THEN
+	    #Valve.Alarm := FALSE;
+	    #tmpTimer := 0;
+	END_IF;
+	
+	IF ((#Valve.GSLEnable AND NOT #Valve.GSHEnable) AND ((NOT #Valve.SCADAVis AND NOT #Valve.GSL) OR (#Valve.SCADAVis AND #Valve.GSL))) OR
+	    ((NOT #Valve.GSLEnable AND #Valve.GSHEnable) AND ((#Valve.SCADAVis AND NOT #Valve.GSH) OR (NOT #Valve.SCADAVis AND #Valve.GSH))) OR
+	    ((#Valve.GSLEnable AND #Valve.GSHEnable) AND ((#Valve.SCADAVis AND (#Valve.GSL OR NOT #Valve.GSH)) OR (NOT #Valve.SCADAVis AND (NOT #Valve.GSL OR #Valve.GSH)))) THEN
+	    
+	    IF (NOT #Valve.Alarm) AND "100msOSR" AND (#tmpTimer <= #tmpTimerDelay) THEN
+	        #tmpTimer := #tmpTimer + 1;
+	        IF #tmpTimer >= #tmpTimerDelay THEN
+	            #Valve.Alarm := TRUE;
+	            #Valve.GSLAlarm := ((#Valve.GSLEnable) AND ((NOT #Valve.SCADAVis AND NOT #Valve.GSL) OR (#Valve.SCADAVis AND #Valve.GSL)));
+	            #Valve.GSHAlarm := ((#Valve.GSHEnable) AND ((#Valve.SCADAVis AND NOT #Valve.GSH) OR (NOT #Valve.SCADAVis AND #Valve.GSH)));
+	            #tmpTimer := 0;
+	        END_IF;
+	    END_IF;
+	    IF (#Valve.Alarm) THEN
+	        #tmpTimer := 0;
+	    END_IF;
+	// ELSIF ((#Valve.GSLEnable AND NOT #Valve.GSHEnable) AND (NOT #Valve.SCADAVis AND #Valve.GSL) OR // 20210429_PRA
+	   ELSIF ((#Valve.GSLEnable AND NOT #Valve.GSHEnable) AND (NOT #Valve.SCADAVis AND #Valve.GSL) OR #Valve.SCADAVis) OR // 20210429_PRA-added to reset timer when valve activated
+	    ((NOT #Valve.GSLEnable AND #Valve.GSHEnable) AND (#Valve.SCADAVis AND #Valve.GSH)) OR
+	    ((#Valve.GSLEnable AND #Valve.GSHEnable) AND ((#Valve.SCADAVis AND #Valve.GSH) OR (NOT #Valve.SCADAVis AND #Valve.GSL))) THEN
+	   
+	    #tmpTimer := 0;
+	    ;
+	    (*
+	    IF (#Valve.Alarm) AND "100msOSR" AND (#tmpTimer < AlarmAutoResetDly) THEN // Auto-reset of the alarm after 5 seconds
+	        #tmpTimer := #tmpTimer + 1;
+	        IF #tmpTimer >= AlarmAutoResetDly THEN
+	            #Valve.Alarm := FALSE;
+	            #Valve.GSLAlarm := FALSE;
+	            #Valve.GSHAlarm := FALSE;
+	            #tmpTimer := 0;
+	        END_IF;
+	    END_IF;
+	    IF (NOT #Valve.Alarm) THEN
+	        #tmpTimer := 0;
+	    END_IF;
+	    *)
+	END_IF;
+	
+	//  ALARMING MODULE
+	IF #Valve.AlarmAck THEN
+	    #Valve.Alarm := FALSE;
+	    #Valve.GSLAlarm := FALSE;
+	    #Valve.GSHAlarm := FALSE;
+	    #Valve.AlarmAck := FALSE;
+	    
+	    #tmpTimer := 0;
+	END_IF;
+	
+	#Valve.Timer1 := CHAR_TO_BYTE(INT_TO_CHAR(#tmpTimer));
+	
+	//----------------------------------------------------------------------
+	//  OUTPUT   
+	#Valve.XS := FALSE;
+	
+	IF #Regime = 0 THEN
+	    #Valve.ManON := FALSE;
+	    #Valve.ManOFF := FALSE;
+	    #Valve.XS := #Valve.AutoON;
+	    #Valve.HMICmd := false;
+	ELSIF #Regime > 0 THEN
+	    IF #Valve.HMICmd THEN
+	        IF NOT #Valve.SCADAVis THEN
+	            #Valve.ManON := true;
+	            #Valve.ManOFF := false;
+	        END_IF;
+	        IF #Valve.SCADAVis THEN
+	            #Valve.ManON := false;
+	            #Valve.ManOFF := true;
+	        END_IF;
+	        #Valve.HMICmd := false;
+	    END_IF;
+	    #Valve.XS := (#Valve.AutoON AND NOT #Valve.ManON AND NOT #Valve.ManOFF) OR (#Valve.ManON AND NOT #Valve.ManOFF);
+	END_IF;
+	
+	//----------------------------------------------------------------------
+	//  MANUAL BIT
+	#Valve.Manual := #Valve.ManON OR #Valve.ManOFF;
+	
+	//----------------------------------------------------------------------
+	//  INTERLOCK
+	IF (#Valve.Interlock AND #Regime < 2) THEN
+	    #Valve.XS := FALSE;
+	END_IF;
+	
+	//----------------------------------------------------------------------
+	//  NORMALY OPEN VALVES
+	IF (#Valve.Invert) THEN
+	    #Valve.XS := NOT (#Valve.XS);
+	END_IF;
+	
+	//----------------------------------------------------------------------
+	// SCADA VIS flag
+	IF #Valve.Invert = TRUE THEN
+	    #Valve.SCADAVis := NOT (#Valve.XS);
+	ELSE
+	    #Valve.SCADAVis := #Valve.XS;
+	END_IF;
+	
+	//----------------------------------------------------------------------
+	// Valve Status
+	IF NOT #Valve.SCADAVis THEN
+	    #Valve.Status := 0;
+	END_IF;
+	IF #Valve.SCADAVis THEN
+	    #Valve.Status := 1;
+	END_IF;
+	IF #Valve.Alarm THEN
+	    #Valve.Status := 2;
+	END_IF;
+	(*
+	IF #Valve.GSLAlarm THEN
+	    #Valve.Status := 3;
+	END_IF;
+	IF #Valve.GSHAlarm THEN
+	    #Valve.Status := 4;
+	END_IF;
+	*)
+	
+	
+END_FUNCTION
+

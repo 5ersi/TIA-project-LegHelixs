@@ -1,0 +1,1226 @@
+﻿FUNCTION_BLOCK "ph_Helix_1"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_IN_OUT 
+      Y8_VijaLocev_Des : "udtDigitalValve";
+      Y9_VijaStop_DesZad : "udtDigitalValve";
+      Y2_VijaDesZad_Dvig : "udtDigitalValve";
+      Y10_Centri_DesZad : "udtDigitalValve";
+      Y3_VijaDesSpr_Dvig : "udtDigitalValve";
+      Y11_Centri_DesSpr : "udtDigitalValve";
+      Y12_VijaLocev_Lev : "udtDigitalValve";
+      Y13_VijaStop_LevZad : "udtDigitalValve";
+      Y4_VijaLevZad_Dvig : "udtDigitalValve";
+      Y14_Centri_LevZad : "udtDigitalValve";
+      Y5_VijaLevSpr_Dvig : "udtDigitalValve";
+      Y15_Centri_LevSpr : "udtDigitalValve";
+      Y16_VpenjanjeDna : "udtDigitalValve";
+      M1_ZADAJ_LEVO : "udtMotor";
+      M2_SPREDAJ_LEVO : "udtMotor";
+      M1_ZADAJ_DESNO : "udtMotor";
+      M2_SPREDAJ_DESNO : "udtMotor";
+      VKLOP_M_TRAKA_VIJACNIKA : "udtMotor";
+   END_VAR
+
+   VAR RETAIN
+      CurrentStep { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      PhaseStatus { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;   // // 0=IDLE, 5=RUNNING, 6=HOLD
+   END_VAR
+   VAR 
+      AlarmPresent { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      InitPosition { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      StartCmd { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      AlarmPresentOLD { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      InitPositionOLD { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      IEC_TimerOnDly_1 {InstructionName := 'TONR_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TONR_TIME;
+      IEC_TimerOnDly_2 {InstructionName := 'TONR_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TONR_TIME;
+      IEC_TimerOnDly_3 {InstructionName := 'TONR_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TONR_TIME;
+      IEC_TimerOnDly_4 {InstructionName := 'TONR_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TONR_TIME;
+      IEC_TimerOnDly_5 {InstructionName := 'TONR_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TONR_TIME;
+      IEC_TimerOnDly_6 {InstructionName := 'TONR_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TONR_TIME;
+      IEC_TimerOnDly_7 {InstructionName := 'TONR_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TONR_TIME;
+      IEC_TimerOnDly_8 {InstructionName := 'TONR_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TONR_TIME;
+      IEC_TimerOnDly_9 {InstructionName := 'TONR_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TONR_TIME;
+      IEC_TimerOnDly_10 {InstructionName := 'TONR_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TONR_TIME;
+      IEC_TimerOnDly_ET_1 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      IEC_TimerOnDly_ET_2 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      IEC_TimerOnDly_ET_3 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      IEC_TimerOnDly_ET_4 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      IEC_TimerOnDly_ET_5 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      IEC_TimerOnDly_ET_6 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      IEC_TimerOnDly_ET_7 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      IEC_TimerOnDly_ET_8 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      IEC_TimerOnDly_ET_9 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      IEC_TimerOnDly_ET_10 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      IEC_TimerOnDly_DN_1 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      IEC_TimerOnDly_DN_2 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      IEC_TimerOnDly_DN_3 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      IEC_TimerOnDly_DN_4 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      IEC_TimerOnDly_DN_5 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      IEC_TimerOnDly_DN_6 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      IEC_TimerOnDly_DN_7 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      IEC_TimerOnDly_DN_8 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      IEC_TimerOnDly_DN_9 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      IEC_TimerOnDly_DN_10 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      LeftLegIndex { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      RightLegIndex { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      LeftLegsArrayIndex { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Array[1..6] of Bool;
+      RightLegsArrayIndex { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Array[1..6] of Bool;
+      ButtomFasting_Activated { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      Helix_Activated { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+   END_VAR
+   VAR RETAIN
+      DlyToFinishButtonFasten { S7_SetPoint := 'True'} : Int := 50;
+   END_VAR
+   VAR 
+      MovingUPDOWN_Activated { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      MoveUPDOWN_LevoSpredaj { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      MoveUPDOWN_LevoZadaj { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      MoveUPDOWN_DESNOSpredaj { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      MoveUPDOWN_DESNOZadaj { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+   END_VAR
+   VAR RETAIN
+      DlyToRotateOpposite { S7_SetPoint := 'True'} : Int := 60;
+      WaitTimeBeforeMoveDown { S7_SetPoint := 'True'} : Int := 100;
+   END_VAR
+   VAR 
+      WaitLevoSpredaj { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      WaitLevoZadaj { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      WaitDesnoSpredaj { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      WaitDesnoZadaj { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      FOTOCELICA_LOC_TRAK_LEVO1_Latch { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      FOTOCELICA_LOC_TRAK_LEVO2_Latch { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      FOTOCELICA_LOC_TRAK_DESNO1_Latch { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      FOTOCELICA_LOC_TRAK_DESNO2_Latch { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+   END_VAR
+   VAR RETAIN
+      WEndTimeToRemovePlate { S7_SetPoint := 'True'} : Int := 20;
+   END_VAR
+   VAR 
+      LeftLegIndexOLD { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      RightLegIndexOLD { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      StartReleaseTimer1 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      StartReleaseTimer2 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      FOTOCELICA_LEVO_SPREDAJ_LATCH { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      FOTOCELICA_LEVO_ZADAJ_LATCH { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      FOTOCELICA_DESNO_SPREDAJ_LATCH { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      FOTOCELICA_DESNO_ZADAJ_LATCH { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+   END_VAR
+   VAR RETAIN
+      DlyToStartButtomFasten { S7_SetPoint := 'True'} : Int := 50;
+   END_VAR
+   VAR 
+      EndLevoSpredaj { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      EndLevoZadaj { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      EndDesnoSpredaj { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      EndDesnoZadaj { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+   END_VAR
+   VAR RETAIN
+      DlyToInitRunTrakVijac { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'True'} : Int := 50;
+   END_VAR
+   VAR 
+      LegsReadyOnPosToHelix { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      VpenjanjeDnaActived { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+   END_VAR
+   VAR RETAIN
+      RegimeHelix { S7_SetPoint := 'True'} : Bool;
+      TotalButtomPlateCounter : UDInt;
+   END_VAR
+   VAR 
+      DetectStartButtom { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      InsertNewButtom { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : USInt;
+   END_VAR
+   VAR RETAIN
+      TimeoutToEndHelix { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'True'} : UInt := 80;
+   END_VAR
+   VAR 
+      FirstButtom { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+   END_VAR
+
+   VAR_TEMP 
+      i : Int;
+      i1 : Int;
+      i2 : Int;
+      i3 : Int;
+      i4 : Int;
+      i5 : Int;
+      i6 : Int;
+      i7 : Int;
+      i8 : Int;
+      i9 : Int;
+      i10 : Int;
+   END_VAR
+
+   VAR CONSTANT 
+      ReleaseValOnBeltSepaTime : Int := 20;
+      PLIIndex : Int := 1;
+   END_VAR
+
+
+BEGIN
+	// Initialize variables
+	#i1   := #PLIIndex;                          // 1
+	#i2   := #PLIIndex + "MaxPLITimersIndex";    // 5
+	#i3   := #PLIIndex + 2*"MaxPLITimersIndex";  // 9
+	#i4   := #PLIIndex + 3*"MaxPLITimersIndex";  // 13
+	#i5   := #PLIIndex + 4*"MaxPLITimersIndex";  // 17
+	#i6   := #PLIIndex + 5*"MaxPLITimersIndex";  // 21
+	#i7   := #PLIIndex + 6*"MaxPLITimersIndex";  // 25
+	#i8   := #PLIIndex + 7*"MaxPLITimersIndex";  // 29
+	#i9   := #PLIIndex + 8*"MaxPLITimersIndex";  // 33
+	#i10  := #PLIIndex + 9*"MaxPLITimersIndex";  // 37
+	
+	// Check alarms
+	#AlarmPresent := 0;
+	FOR #i := 1 TO 32 DO
+	  IF "dbAlarms".PLI[#PLIIndex, #i] THEN
+	    #AlarmPresent := 1;
+	    // #StartCmd     := False;
+	  END_IF;
+	  IF "AlarmAck" THEN
+	    "dbAlarms".PLI[#PLIIndex, #i] := 0;
+	  END_IF;
+	END_FOR;
+	
+	// Timers section
+	#IEC_TimerOnDly_DN_1 := 0;
+	#IEC_TimerOnDly_1(IN := #CurrentStep = 1 AND NOT #InitPosition,
+	                  R := #CurrentStep <> 1,
+	                  PT := T#3s,
+	                  Q => #IEC_TimerOnDly_DN_1,
+	                  ET => #IEC_TimerOnDly_ET_1);
+	
+	// PHASE STATUS
+	#PhaseStatus := 0;
+	IF #CurrentStep >= 1 AND #StartCmd THEN
+	  #PhaseStatus := 5;
+	END_IF;
+	IF #CurrentStep >= 1 AND NOT #StartCmd THEN
+	  #PhaseStatus := 7;
+	END_IF;
+	IF #CurrentStep >= 1 AND #AlarmPresent THEN
+	  #PhaseStatus := 6;
+	END_IF;
+	
+	// Stop phase if START CMD=0
+	IF NOT #StartCmd AND #CurrentStep > 0 THEN
+	  #CurrentStep := 0;
+	END_IF;
+	
+	CASE #CurrentStep OF
+	  0: // Sequence permissives
+	  "dbTimers".Num[#i1].EE    := False;
+	
+	  IF (#StartCmd AND TRUE) THEN // Local  mode
+	    IF #PhaseStatus=0 THEN
+	
+	      // BEGIN - Init variable only at the begining
+	      #LeftLegIndex  := 0;  // Reset at the begining only, next filling new legs when moved away from #Y12_VijaLocev_Lev
+	      #LeftLegsArrayIndex[1] := False;
+	      #LeftLegsArrayIndex[2] := False;
+	      #LeftLegsArrayIndex[3] := False;
+	      #LeftLegsArrayIndex[4] := False;
+	      #LeftLegsArrayIndex[5] := False;
+	      #LeftLegsArrayIndex[6] := False;
+	  
+	      #RightLegIndex := 0;  // Reset at the begining only, next filling new legs when moved away from #Y8_VijaLocev_Des 
+	      #RightLegsArrayIndex[1] := False;
+	      #RightLegsArrayIndex[2] := False;
+	      #RightLegsArrayIndex[3] := False;
+	      #RightLegsArrayIndex[4] := False;
+	      #RightLegsArrayIndex[5] := False;
+	      #RightLegsArrayIndex[6] := False;
+	
+	      #LegsReadyOnPosToHelix := False;
+	
+	      #InitPosition       := False;
+	      #InsertNewButtom    := 0;
+	
+	      #FOTOCELICA_LOC_TRAK_LEVO1_Latch  := False;
+	      #FOTOCELICA_LOC_TRAK_LEVO2_Latch  := False;
+	      #FOTOCELICA_LOC_TRAK_DESNO1_Latch := False;
+	      #FOTOCELICA_LOC_TRAK_DESNO2_Latch := False;
+	      // END - Init variable only at the begining
+	      
+	      #FirstButtom := True;
+	
+	      #CurrentStep := 1;
+	    END_IF;   
+	  END_IF;
+	
+	  1: // Check initial positions
+	    #InitPosition := (
+	                       (#LeftLegIndex=0 AND #RightLegIndex=0)
+	                       AND
+	                       (
+	                         ("dbDigitalSensors".MESTO_VIJAC_STOP_LEVO_ZAD_NAPREJ.InputF AND "dbDigitalSensors".MESTO_VIJAC_STOP_DESNO_ZAD_NAPREJ.InputF) AND
+	                          // Begin with legs already present on positions for helixs FOTOCELICA_VIJACENJE_LEVO_ZADAJ,FOTOCELICA_VIJACENJE_LEVO_SPREDAJ
+	                          // FOTOCELICA_VIJACENJE_DESNOZADAJ, FOTOCELICA_VIJACENJE_DESNOSPREDAJ
+	                         (*
+	                         (NOT "dbDigitalSensors".FOTOCELICA_VIJACENJE_LEVO_ZADAJ.InputF AND NOT "dbDigitalSensors".FOTOCELICA_VIJACENJE_LEVO_SPREDAJ.InputF AND 
+	                         NOT "dbDigitalSensors".FOTOCELICA_VIJACENJE_DESNOZADAJ.InputF AND NOT "dbDigitalSensors".FOTOCELICA_VIJACENJE_DESNOSPREDAJ.InputF)
+	                         AND
+	                         *)
+	                         ("dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_DVIG_DOL.InputF AND "dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_DVIG_DOL.InputF AND
+	                         "dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_DVIG_DOL.InputF AND "dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_DVIG_DOL.InputF)
+	                         AND
+	                         ("dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_CENT_NARAZEN.InputF AND "dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_CENT_NARAZEN.InputF AND 
+	                         "dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_CENT_NARAZEN.InputF AND "dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_CENT_NARAZEN.InputF)
+	                         AND
+	                         ("dbDigitalSensors".VPENJANJE_DNA_LEVO_ZADAJ_GOR.InputF AND "dbDigitalSensors".VPENJANJE_DNA_LEVO_SPREDAJ_GOR.InputF AND 
+	                         "dbDigitalSensors".VPENJANJE_DNA_DESNO_ZADAJ_GOR.InputF AND "dbDigitalSensors".VPENJANJE_DNA_DESNO_SPREDAJ_GOR.InputF)
+	                       )
+	                     )
+	                     OR 
+	                     (
+	                       (#LeftLegIndex=2 AND #RightLegIndex=2)
+	                       AND
+	                       (
+	                         ("dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_DVIG_DOL.InputF AND "dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_DVIG_DOL.InputF AND
+	                         "dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_DVIG_DOL.InputF AND "dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_DVIG_DOL.InputF)
+	                         AND
+	                         ("dbDigitalSensors".VPENJANJE_DNA_LEVO_ZADAJ_GOR.InputF AND "dbDigitalSensors".VPENJANJE_DNA_LEVO_SPREDAJ_GOR.InputF AND 
+	                         "dbDigitalSensors".VPENJANJE_DNA_DESNO_ZADAJ_GOR.InputF AND "dbDigitalSensors".VPENJANJE_DNA_DESNO_SPREDAJ_GOR.InputF)
+	                       )
+	                     );
+	
+	    IF #InitPosition THEN
+	      #CurrentStep := 2;
+	    END_IF;
+	
+	  2: // Check, if helixs already present on positions: FOTOCELICA_LOC_TRAK_LEVO1 | FOTOCELICA_LOC_TRAK_LEVO2 | FOTOCELICA_LOC_TRAK_DESNO1 | FOTOCELICA_LOC_TRAK_DESNO2
+	    // OR on positions: FOTOCELICA_VIJACENJE_LEVO_SPREDAJ | FOTOCELICA_VIJACENJE_LEVO_ZADAJ | FOTOCELICA_VIJACENJE_DESNO_SPREDAJ | FOTOCELICA_VIJACENJE_DESNO_ZADAJ
+	    
+	    // REGION CENTRIRANJE AT BEGIN v funkciji v primeru že narejena vijačenja in da ni bila nobena nogica privijačena v pladenj
+	    // in je bila vrnjena pred fotocelice na pozicijah za start vijačenja
+	    (*
+	    REGION CENTRIRANJE AT BEGIN
+	    // *************** BEGIN - Stop ZADAJ and centring *************** //
+	    // Stop moving second leg, with open valve
+	    IF #LeftLegIndex=1 OR #LeftLegIndex=2 THEN
+	      #Y13_VijaStop_LevZad.AutoON := True;
+	    END_IF;
+	    IF #LeftLegsArrayIndex[1] THEN
+	      #Y15_Centri_LevSpr.AutoON := TRUE;
+	    END_IF;
+	    IF #LeftLegsArrayIndex[2] THEN
+	      #Y14_Centri_LevZad.AutoON := TRUE;
+	    END_IF;
+	
+	    // Stop moving second leg, with open valve
+	    IF #RightLegIndex=1 OR #RightLegIndex=2 THEN
+	      #Y9_VijaStop_DesZad.AutoON := True;
+	    END_IF;
+	    IF #RightLegsArrayIndex[1] THEN
+	      #Y11_Centri_DesSpr.AutoON := TRUE;
+	    END_IF;
+	    IF #RightLegsArrayIndex[2] THEN
+	      #Y10_Centri_DesZad.AutoON := TRUE;
+	    END_IF;
+	    // **************** END - Stop ZADAJ and centring **************** //  
+	    END_REGION CENTRIRANJE
+	    *)
+	
+	    "dbTimers".Num[#i1].FR    := False;
+	    "dbTimers".Num[#i2].FR    := False;
+	    "dbTimers".Num[#i3].FR    := False;
+	    "dbTimers".Num[#i4].FR    := False;
+	    "dbTimers".Num[#i1].EE    := True;
+	    "dbTimers".Num[#i1].PRE   := #DlyToInitRunTrakVijac;
+	
+	    #VKLOP_M_TRAKA_VIJACNIKA.AutoON := True; // See "ph_LegsShifter_2_DB".#StartCmd := True in op_ButtonHelix_3 (Run #VKLOP_M_TRAKA_VIJACNIKA, before checking if legs present in ph_LegsShifter_2, CurrentStep=3)
+	
+	    // Next step
+	    IF ("dbTimers".Num[#i1].EE AND "dbTimers".Num[#i1].DN) THEN
+	      // Check if all legs ready on positions to move motors UP and start with execute helix
+	      IF #LeftLegIndex=2 OR #RightLegIndex=2 THEN
+	        #LegsReadyOnPosToHelix := True;
+	      END_IF;
+	      IF #FirstButtom THEN
+	        // 20210512_PRA Added to start with helixs already present
+	        IF "dbDigitalSensors".FOTOCELICA_VIJACENJE_LEVO_ZADAJ.InputF AND "dbDigitalSensors".FOTOCELICA_VIJACENJE_LEVO_SPREDAJ.InputF THEN
+	          #LeftLegIndex := 2;
+	        END_IF;
+	        IF "dbDigitalSensors".FOTOCELICA_VIJACENJE_DESNOZADAJ.InputF AND "dbDigitalSensors".FOTOCELICA_VIJACENJE_DESNOSPREDAJ.InputF THEN
+	          #RightLegIndex := 2;
+	        END_IF;
+	      END_IF;
+	      // 20210512_PRA
+	      #CurrentStep := 3;
+	    END_IF;
+	
+	  3: // Preveri stanje nogic na poziciji za vijačenje
+	     // DOVOLJENO STANJE:
+	     // 1. Prisotne vse 4. nogice na poziciji za vijačenje (po koncu neuspešnega vijačenja nogic. Nogice niso bile privijačene is čakajo na poziciji vijačenja - po koncu CurrentStep=10)
+	     // 2. Manjkajo vse 4. nogice na poziciji za vijačenje (po STARTu iz začetnega koraka; CurrentStep=0)
+	    #CurrentStep := 5;
+	
+	  5: // Init variables
+	
+	    // BEGIN - Init variable for each next buttom
+	    "dbTimers".Num[#i1].EE    := False;
+	    "dbTimers".Num[#i2].EE    := False;
+	    "dbTimers".Num[#i3].EE    := False;
+	    "dbTimers".Num[#i4].EE    := False;
+	    "dbTimers".Num[#i5].EE    := False;
+	    "dbTimers".Num[#i6].EE    := False;
+	    "dbTimers".Num[#i7].EE    := False;
+	    "dbTimers".Num[#i8].EE    := False;
+	    "dbTimers".Num[#i9].EE    := False;
+	    "dbTimers".Num[#i10].EE   := False; // Used for delay time. Delay time for button plate present on helix positions (see: #ButtonFasting_Activated)
+	    
+	    "dbTimers".Num[#i1].DN    := False;
+	    "dbTimers".Num[#i2].DN    := False;
+	    "dbTimers".Num[#i3].DN    := False;
+	    "dbTimers".Num[#i4].DN    := False;
+	    "dbTimers".Num[#i5].DN    := False;
+	    "dbTimers".Num[#i6].DN    := False;
+	    "dbTimers".Num[#i7].DN    := False;
+	    "dbTimers".Num[#i8].DN    := False;
+	    "dbTimers".Num[#i9].DN    := False;
+	    "dbTimers".Num[#i10].DN   := False;
+	
+	    "dbTimers".Num[#i1].FR    := False;
+	    "dbTimers".Num[#i2].FR    := False;
+	    "dbTimers".Num[#i3].FR    := False;
+	    "dbTimers".Num[#i4].FR    := False;
+	    "dbTimers".Num[#i5].FR    := False;
+	    "dbTimers".Num[#i6].FR    := False;
+	    "dbTimers".Num[#i7].FR    := False;
+	    "dbTimers".Num[#i8].FR    := False;
+	    "dbTimers".Num[#i9].FR    := False;
+	    "dbTimers".Num[#i10].FR   := False;
+	
+	    #ButtomFasting_Activated  := False;
+	    #Helix_Activated          := False;
+	    #MovingUPDOWN_Activated   := False;
+	
+	    #WaitLevoSpredaj          := False;
+	    #MoveUPDOWN_LevoSpredaj   := False;
+	    #WaitLevoZadaj            := False;
+	    #MoveUPDOWN_LevoZadaj     := False;
+	    #WaitDesnoSpredaj         := False;
+	    #MoveUPDOWN_DESNOSpredaj  := False;
+	    #WaitDesnoZadaj           := False;
+	    #MoveUPDOWN_DESNOZadaj    := False;
+	    #EndLevoSpredaj           := False;
+	    #EndLevoZadaj             := False;
+	    #EndDesnoSpredaj          := False;
+	    #EndDesnoZadaj            := False;
+	
+	    #FOTOCELICA_LEVO_SPREDAJ_LATCH  := False;
+	    #FOTOCELICA_LEVO_ZADAJ_LATCH    := False;
+	    #FOTOCELICA_DESNO_SPREDAJ_LATCH := False;
+	    #FOTOCELICA_DESNO_ZADAJ_LATCH   := False;
+	    
+	    #StartReleaseTimer1 := FALSE;
+	    #StartReleaseTimer2 := FALSE;
+	
+	    // Check PRA_20210425 "ph_LegsShifter_2_DB".LeftLegIndex  := 0;
+	    // Check PRA_20210425 "ph_LegsShifter_2_DB".RightLegIndex := 0;
+	
+	    "TestINT_01" := 0;
+	    "IND_VIJAC_LEVO_NAPREJ"   := False;
+	    "IND_VIJAC_LEVO_NAZAJ"    := False;
+	    "IND_VIJAC_DES_NAPREJ"    := False;
+	    "IND_VIJAC_DES_NAZAJ"     := False;
+	    
+	    #VpenjanjeDnaActived := False;
+	    #DetectStartButtom := False;
+	    // END - Init variable for each next buttom
+	    
+	    #FirstButtom := False; // Clear NOT set #LeftLegIndex=2, #RightLegIndex=2
+	
+	    #CurrentStep := 10;
+	  
+	  10: // Main step - moving legs through legs conveyor and helix legs to the button plate
+	    // ******************* BEGIN - ALARM STATE *********** // 
+	    IF NOT #AlarmPresent THEN
+	      "dbTimers".Num[#i1].FR    := False;
+	      "dbTimers".Num[#i2].FR    := False;
+	      "dbTimers".Num[#i3].FR    := False;
+	      "dbTimers".Num[#i4].FR    := False;
+	      "dbTimers".Num[#i5].FR    := False;
+	      "dbTimers".Num[#i6].FR    := False;
+	      "dbTimers".Num[#i7].FR    := False;
+	      "dbTimers".Num[#i8].FR    := False;
+	      "dbTimers".Num[#i10].FR   := False;
+	    ELSE
+	      "dbTimers".Num[#i1].FR    := True;
+	      "dbTimers".Num[#i2].FR    := True;
+	      "dbTimers".Num[#i3].FR    := True;
+	      "dbTimers".Num[#i4].FR    := True;
+	      "dbTimers".Num[#i5].FR    := True;
+	      "dbTimers".Num[#i6].FR    := True;
+	      "dbTimers".Num[#i7].FR    := True;
+	      "dbTimers".Num[#i8].FR    := True;
+	      "dbTimers".Num[#i10].FR   := True;
+	    END_IF;
+	    // ********************* END - ALARM STATE ************ // 
+	
+	    IF NOT #AlarmPresent AND NOT #Helix_Activated THEN // Run #VKLOP_M_TRAKA_VIJACNIKA when helix is not active
+	      #VKLOP_M_TRAKA_VIJACNIKA.AutoON := True; 
+	    END_IF;
+	
+	    REGION RELEASE HELIXS ON VIJACNJI DEL
+	    IF NOT #ButtomFasting_Activated THEN // Prevent to use timer[#1] at the same time (Legs moving on conveyor+Start moving UP/DOWN and with helix)
+	      // *************** BEGIN - Legs moving on conveyor - left side *************** //
+	      (*
+	      IF (("dbDigitalSensors".START_LEVO_NA_VPENJANJU.OSR OR "dbDigitalSensors".START_DESNO_NA_VPENJANJU.OSR) AND
+	          ("dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO1.InputF AND "dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO2.InputF // open first time when 2 legs infront and NO button plate present on helix positions
+	           AND #LeftLegIndex = 0))
+	           OR
+	           ("dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO1.InputF AND #LeftLegIndex=1 AND NOT #StartReleaseTimer1 AND "dbDigitalSensors".VIJACENJE_LEVO_1_NAPREJ.InputF)
+	        THEN
+	        #StartReleaseTimer1 := True;
+	      END_IF;
+	      *)
+	      "StartCondToReleaseVijacenje1" := ("ph_LegsShifter_2_DB".LeftLegIndex=2 OR ("ph_LegsShifter_2_DB".LeftLegIndex=0 AND "dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO1.InputF AND "dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO2.InputF));
+	      "StartCondToReleaseVijacenje2" := ("dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO1.InputF AND "dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO2.InputF AND #LeftLegIndex = 0);
+	      "StartCondToReleaseVijacenje3" := ("dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO1.InputF AND #LeftLegIndex=1 AND NOT #StartReleaseTimer1 AND "dbDigitalSensors".VIJACENJE_LEVO_1_NAPREJ.InputF);
+	      (* // 20210512_PRA
+	      IF  (("ph_LegsShifter_2_DB".LeftLegIndex=2 OR "ph_LegsShifter_2_DB".LeftLegIndex=0) AND // LeftLegIndex=2 -> naslednje spust s drce, LeftLegIndex=0 -> prvi spust s drce
+	          ("dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_DVIG_DOL.InputF AND "dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_DVIG_DOL.InputF AND "dbMotors".VKLOP_M_TRAKA_VIJACNIKA.XS))
+	          AND
+	          (
+	          // ("dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO1.InputF AND "dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO2.InputF AND #LeftLegIndex = 0)
+	          ("ph_LegsShifter_2_DB".LeftLegIndex=2 AND NOT #StartReleaseTimer1 AND #LeftLegIndex = 0)
+	          OR
+	          // ("dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO1.InputF AND #LeftLegIndex=1 AND NOT #StartReleaseTimer1 AND "dbDigitalSensors".VIJACENJE_LEVO_1_NAPREJ.InputF)
+	          ("ph_LegsShifter_2_DB".LeftLegIndex=2 AND #LeftLegIndex=1 AND NOT #StartReleaseTimer1 AND "dbDigitalSensors".VIJACENJE_LEVO_1_NAPREJ.InputF)
+	          )
+	        THEN
+	        #StartReleaseTimer1 := True;
+	      END_IF;
+	      *)
+	      IF "dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO1.InputF AND NOT #FOTOCELICA_LOC_TRAK_LEVO1_Latch THEN
+	        #FOTOCELICA_LOC_TRAK_LEVO1_Latch := "dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO1.InputF;
+	      END_IF;
+	      IF "dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO2.InputF AND NOT #FOTOCELICA_LOC_TRAK_LEVO2_Latch AND #FOTOCELICA_LOC_TRAK_LEVO1_Latch THEN
+	        #FOTOCELICA_LOC_TRAK_LEVO2_Latch := "dbDigitalSensors".FOTOCELICA_LOC_TRAK_LEVO2.InputF;
+	      END_IF;
+	
+	      IF  (("ph_LegsShifter_2_DB".LeftLegIndex=2 AND #LeftLegIndex<>2) AND // For first buttom not need to prepare new helix if helixs already ready on helix positions 
+	          ("dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_DVIG_DOL.InputF AND "dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_DVIG_DOL.InputF AND "dbMotors".VKLOP_M_TRAKA_VIJACNIKA.XS))
+	          AND
+	          (
+	          (NOT #StartReleaseTimer1 AND #LeftLegIndex=0 AND #FOTOCELICA_LOC_TRAK_LEVO1_Latch)
+	          OR
+	          (NOT #StartReleaseTimer1 AND #LeftLegIndex=1 AND "dbDigitalSensors".VIJACENJE_LEVO_1_NAPREJ.InputF AND #FOTOCELICA_LOC_TRAK_LEVO2_Latch)
+	          )
+	        THEN
+	        #StartReleaseTimer1 := True;
+	      END_IF;
+	
+	      "dbTimers".Num[#i1].EE  := #StartReleaseTimer1;
+	      "dbTimers".Num[#i1].PRE := #ReleaseValOnBeltSepaTime; // 1000 ms
+	      IF "dbTimers".Num[#i1].EE AND "dbTimers".Num[#i1].DN THEN
+	          "dbTimers".Num[#i1].EE := False;
+	          "dbTimers".Num[#i1].DN := False;
+	          #StartReleaseTimer1    := False;
+	          #LeftLegIndex := #LeftLegIndex + 1; // Counts leg after it is moved away from FOTOCELICA_LOC_TRAK_LEVO1
+	          IF #LeftLegIndex = 2 THEN
+	            #FOTOCELICA_LOC_TRAK_LEVO1_Latch := False;
+	            #FOTOCELICA_LOC_TRAK_LEVO2_Latch := False;
+	            "ph_LegsShifter_2_DB".LeftLegIndex := 0; // Clear (#LeftLegIndex=0) if is #LeftLegIndex=2, inside phase ph_Helix_1
+	          END_IF;
+	      END_IF;
+	      #Y12_VijaLocev_Lev.AutoON := ("dbTimers".Num[#i1].TT); // Release line until delay time expired
+	      // *************** END - Legs moving on conveyor - left side *************** //  
+	    
+	      // *************** BEGIN - Legs moving on conveyor - right side *************** //
+	      (*
+	      IF (("dbDigitalSensors".START_LEVO_NA_VPENJANJU.OSR OR "dbDigitalSensors".START_DESNO_NA_VPENJANJU.OSR) AND
+	          ("dbDigitalSensors".FOTOCELICA_LOC_TRAK_DESNO1.InputF AND "dbDigitalSensors".FOTOCELICA_LOC_TRAK_DESNO2.InputF // open first time when 2 legs infront and NO button plate present on helix positions
+	           AND #RightLegIndex = 0))
+	           OR
+	           ("dbDigitalSensors".FOTOCELICA_LOC_TRAK_DESNO1.InputF AND #RightLegIndex=1 AND NOT #StartReleaseTimer2 AND "dbDigitalSensors".VIJACENJE_DESNO_1_NAPREJ.InputF)
+	        THEN
+	        #StartReleaseTimer2 := True;
+	      END_IF;
+	      *)
+	      (* // 20210512_PRA
+	      IF  (("ph_LegsShifter_2_DB".RightLegIndex=2 OR "ph_LegsShifter_2_DB".RightLegIndex=0) AND // RightLegIndex=2 -> naslednje spust s drce, RightLegIndex=0 -> prvi spust s drce
+	          ("dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_DVIG_DOL.InputF AND "dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_DVIG_DOL.InputF AND "dbMotors".VKLOP_M_TRAKA_VIJACNIKA.XS))
+	          AND
+	          (
+	          // ("dbDigitalSensors".FOTOCELICA_LOC_TRAK_DESNO1.InputF AND "dbDigitalSensors".FOTOCELICA_LOC_TRAK_DESNO2.InputF AND #RightLegIndex = 0)
+	          ("ph_LegsShifter_2_DB".RightLegIndex=2 AND NOT #StartReleaseTimer2 AND #RightLegIndex = 0)
+	          OR
+	          ("ph_LegsShifter_2_DB".RightLegIndex=2 AND #RightLegIndex=1 AND NOT #StartReleaseTimer2 AND "dbDigitalSensors".VIJACENJE_DESNO_1_NAPREJ.InputF)
+	          )
+	        THEN
+	        #StartReleaseTimer2 := True;
+	      END_IF;
+	      *)
+	      IF "dbDigitalSensors".FOTOCELICA_LOC_TRAK_DESNO1.InputF AND NOT #FOTOCELICA_LOC_TRAK_DESNO1_Latch THEN
+	        #FOTOCELICA_LOC_TRAK_DESNO1_Latch := "dbDigitalSensors".FOTOCELICA_LOC_TRAK_DESNO1.InputF;
+	      END_IF;
+	      IF "dbDigitalSensors".FOTOCELICA_LOC_TRAK_DESNO2.InputF AND NOT #FOTOCELICA_LOC_TRAK_DESNO2_Latch AND #FOTOCELICA_LOC_TRAK_DESNO1_Latch THEN
+	        #FOTOCELICA_LOC_TRAK_DESNO2_Latch := "dbDigitalSensors".FOTOCELICA_LOC_TRAK_DESNO2.InputF;
+	      END_IF;
+	
+	      IF  (("ph_LegsShifter_2_DB".RightLegIndex=2 AND #RightLegIndex<>2) AND // For first buttom not needed to prepare new helixs if helixs already ready on helix positions 
+	          ("dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_DVIG_DOL.InputF AND "dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_DVIG_DOL.InputF AND "dbMotors".VKLOP_M_TRAKA_VIJACNIKA.XS))
+	          AND
+	          (
+	          (NOT #StartReleaseTimer2 AND #RightLegIndex=0 AND #FOTOCELICA_LOC_TRAK_DESNO1_Latch)
+	          OR
+	          (NOT #StartReleaseTimer2 AND #RightLegIndex=1 AND "dbDigitalSensors".VIJACENJE_DESNO_1_NAPREJ.InputF AND #FOTOCELICA_LOC_TRAK_DESNO2_Latch)
+	          )
+	        THEN
+	        #StartReleaseTimer2 := True;
+	      END_IF;
+	
+	
+	      "dbTimers".Num[#i2].EE  := #StartReleaseTimer2;
+	      "dbTimers".Num[#i2].PRE := #ReleaseValOnBeltSepaTime; // 1000 ms
+	      IF "dbTimers".Num[#i2].EE AND "dbTimers".Num[#i2].DN THEN
+	          "dbTimers".Num[#i2].EE := False;
+	          "dbTimers".Num[#i2].DN := False;
+	          #StartReleaseTimer2    := False;
+	          #RightLegIndex := #RightLegIndex + 1; // Counts leg after it is moved away from FOTOCELICA_LOC_TRAK_DESNO1
+	          IF #RightLegIndex = 2 THEN
+	            #FOTOCELICA_LOC_TRAK_DESNO1_Latch := False;
+	            #FOTOCELICA_LOC_TRAK_DESNO2_Latch := False;
+	            "ph_LegsShifter_2_DB".#RightLegIndex := 0; // Clear (#RightLegIndex=0) if is #RightLegIndex=2, inside phase ph_Helix_1
+	          END_IF;
+	      END_IF;
+	
+	      #Y8_VijaLocev_Des.AutoON := ("dbTimers".Num[#i2].TT); // Release line until delay time expired
+	    END_IF; // #ButtonFasting_Activated - Prevent to use timer[#1] at the same time (Legs moving on conveyor+Start moving UP/DOWN and with helix)
+	    // *************** END - Legs moving on conveyor - right side *************** //  
+	    END_REGION RELEASE HELIXS ON VIJACNJI DEL
+	
+	    REGION CENTRIRANJE AT BEGIN
+	    // *************** BEGIN - Stop ZADAJ and centring *************** //
+	    // Do not centring, if previous buttom not been removed
+	    IF (#InsertNewButtom=1) AND NOT "dbDigitalSensors".INDUKTIVEC_PRAVILNA_VLOZITEV_DNA_1.InputF AND
+	      NOT "dbDigitalSensors".INDUKTIVEC_PRAVILNA_VLOZITEV_DNA_2.InputF THEN
+	      "dbHMIUser".CurrMachineStep := 'Pritisni start vijacenja';
+	      #InsertNewButtom := 2;
+	    END_IF;
+	    IF #RegimeHelix AND (#InsertNewButtom=2) AND "dbDigitalSensors".INDUKTIVEC_PRAVILNA_VLOZITEV_DNA_1.InputF AND
+	      "dbDigitalSensors".INDUKTIVEC_PRAVILNA_VLOZITEV_DNA_2.InputF THEN
+	      #InsertNewButtom := 3;
+	    END_IF;
+	
+	    // Stop moving second leg, with open valve
+	    // 20210506_PRA - Valve normal position changed. Without control signal "VijaStop_LevZad" is outside (helix stopped), With control signal "VijaStop_LevZad" is inside (helix not stopped)
+	    // IF #LeftLegIndex=1 OR #LeftLegIndex=2 THEN
+	    IF #LeftLegIndex=0 AND "dbTimers".Num[#i1].TT THEN
+	      #Y13_VijaStop_LevZad.AutoON := True;
+	    END_IF;
+	    // Prepare front position for centring
+	    IF "dbDigitalSensors".FOTOCELICA_VIJACENJE_LEVO_SPREDAJ.InputF AND NOT #FOTOCELICA_LEVO_SPREDAJ_LATCH THEN
+	      #LeftLegsArrayIndex[1] := "dbDigitalSensors".FOTOCELICA_VIJACENJE_LEVO_SPREDAJ.InputF; // Reset, ko je vijacenje koncano
+	      #FOTOCELICA_LEVO_SPREDAJ_LATCH := True;
+	    END_IF;
+	    IF #LeftLegsArrayIndex[1] AND #InsertNewButtom=0 AND #MoveUPDOWN_LevoSpredaj THEN
+	      #Y15_Centri_LevSpr.AutoON := TRUE;
+	    END_IF;
+	    // Prepare rear position for centring
+	    IF "dbDigitalSensors".FOTOCELICA_VIJACENJE_LEVO_ZADAJ.InputF AND NOT #FOTOCELICA_LEVO_ZADAJ_LATCH THEN
+	      #LeftLegsArrayIndex[2] := "dbDigitalSensors".FOTOCELICA_VIJACENJE_LEVO_ZADAJ.InputF; // Reset, ko je vijacenje koncano
+	      #FOTOCELICA_LEVO_ZADAJ_LATCH := True;
+	    END_IF;
+	    IF #LeftLegsArrayIndex[2] AND #InsertNewButtom=0 AND #MoveUPDOWN_LevoZadaj THEN
+	      #Y14_Centri_LevZad.AutoON := TRUE;
+	    END_IF;
+	
+	    // Stop moving second leg, with open valve
+	    // 20210506_PRA - Valve normal position changed. Without control signal "#Y9_VijaStop_DesZad" is outside (helix stopped), With control signal "#Y9_VijaStop_DesZad" is inside (helix not stopped)
+	    // IF #RightLegIndex=1 OR #RightLegIndex=2 THEN
+	    IF #RightLegIndex=0 AND "dbTimers".Num[#i2].TT THEN
+	      #Y9_VijaStop_DesZad.AutoON := True;
+	    END_IF;
+	    // Prepare front position for centring
+	    IF "dbDigitalSensors".FOTOCELICA_VIJACENJE_DESNOSPREDAJ.InputF AND NOT #FOTOCELICA_DESNO_SPREDAJ_LATCH THEN
+	      #RightLegsArrayIndex[1] := "dbDigitalSensors".FOTOCELICA_VIJACENJE_DESNOSPREDAJ.InputF;  // Reset, ko je vijacenje koncano
+	      #FOTOCELICA_DESNO_SPREDAJ_LATCH := True;
+	    END_IF;
+	    IF #RightLegsArrayIndex[1] AND #InsertNewButtom=0 AND #MoveUPDOWN_DESNOSpredaj THEN
+	      #Y11_Centri_DesSpr.AutoON := TRUE;
+	    END_IF;
+	    // Prepare rear position for centring
+	    IF "dbDigitalSensors".FOTOCELICA_VIJACENJE_DESNOZADAJ.InputF AND NOT #FOTOCELICA_DESNO_ZADAJ_LATCH THEN
+	      #RightLegsArrayIndex[2] := "dbDigitalSensors".FOTOCELICA_VIJACENJE_DESNOZADAJ.InputF;  // Reset, ko je vijacenje koncano
+	      #FOTOCELICA_DESNO_ZADAJ_LATCH := True;
+	    END_IF;
+	    IF #RightLegsArrayIndex[2] AND #InsertNewButtom=0 AND #MoveUPDOWN_DESNOZadaj THEN
+	      #Y10_Centri_DesZad.AutoON := TRUE;
+	    END_IF;
+	    IF #LeftLegIndex=0 OR #RightLegIndex=0 THEN
+	      "dbHMIUser".CurrMachineStep := 'Transport nogic na pozicijo centriranja';
+	    END_IF;
+	    IF #LeftLegIndex=2 OR #RightLegIndex=2 THEN
+	      "dbHMIUser".CurrMachineStep := 'Vstavi dno';
+	    END_IF;
+	    // **************** END - Stop ZADAJ and centring **************** //  
+	    END_REGION CENTRIRANJE
+	
+	    // *************************************************************************** //  
+	    // ************************* BEGIN - Button fastening ************************ // 
+	    // *************************************************************************** // 
+	    IF ("dbDigitalSensors".INDUKTIVEC_PRAVILNA_VLOZITEV_DNA_1.InputF AND "dbDigitalSensors".INDUKTIVEC_PRAVILNA_VLOZITEV_DNA_2.InputF) AND
+	      #LeftLegsArrayIndex[1] AND #LeftLegsArrayIndex[2] AND #RightLegsArrayIndex[1] AND #RightLegsArrayIndex[2]
+	      AND (#LeftLegIndex=2 AND #RightLegIndex=2) THEN
+	      "dbTimers".Num[#i10].PRE  := #DlyToStartButtomFasten;
+	      #ButtomFasting_Activated := True;
+	    END_IF;
+	    // *************************************************************************** // 
+	    // ************************** END - Button fastening ************************* // 
+	    // *************************************************************************** // 
+	  
+	    // *************************************************************************** //  
+	    // *************** BEGIN - Start moving UP/DOWN and with helix *************** // 
+	    // *************************************************************************** //
+	    IF (NOT #RegimeHelix AND ("dbDigitalSensors".START_LEVO_NA_VPENJANJU.OSR OR "dbDigitalSensors".START_DESNO_NA_VPENJANJU.OSR) AND
+	      (#InsertNewButtom=0 OR #InsertNewButtom=2))
+	      THEN
+	      #DetectStartButtom := TRUE;
+	      #InsertNewButtom := 0; // Actived centering
+	    ELSIF (#RegimeHelix AND (#InsertNewButtom=0 OR #InsertNewButtom=3)) THEN // Buttom removed, new inserted THEN
+	      #DetectStartButtom := TRUE;
+	      #InsertNewButtom := 0; // Actived centering
+	    END_IF;
+	
+	    "dbTimers".Num[#i10].EE := (#ButtomFasting_Activated AND "dbDigitalSensors".FOTO_ZAVESA_KANAL_1.InputF AND "dbDigitalSensors".FOTO_ZAVESA_KANAL_2.InputF) 
+	                               AND
+	                               (
+	                                #DetectStartButtom
+	                               );
+	
+	    IF #ButtomFasting_Activated AND ("dbTimers".Num[#i10].EE AND "dbTimers".Num[#i10].DN) THEN
+	      #Helix_Activated := True;
+	    END_IF;    
+	    IF #Helix_Activated THEN
+	      #Y16_VpenjanjeDna.AutoON := True;
+	      #VpenjanjeDnaActived     := True;
+	      "dbHMIUser".CurrMachineStep := 'Vpenjanje dna aktivirano';
+	    END_IF;
+	
+	    // V13_VijaLevZad_Dvig, V16_VijaLevSpr_Dvig, V6_VijaDesZad_Dvig, V9_VijaDesSpr_Dvig
+	    IF #Helix_Activated THEN
+	      IF NOT #MovingUPDOWN_Activated THEN // Timer expired only once
+	        "dbTimers".Num[#i1].EE  := True;
+	        "dbTimers".Num[#i1].PRE := #DlyToFinishButtonFasten; // 2 s
+	        // PRA_20212604 - Activated #Y16_VpenjanjeDna after user press START button, before legs automatically were positioned
+	        // #MovingUPDOWN_Activated := ("dbTimers".Num[#i1].EE AND "dbTimers".Num[#i1].DN) AND ("dbDigitalSensors".START_LEVO_NA_VPENJANJU.OSR OR "dbDigitalSensors".START_DESNO_NA_VPENJANJU.OSR);
+	        
+	        IF "dbTimers".Num[#i1].EE AND "dbTimers".Num[#i1].DN THEN
+	          #MovingUPDOWN_Activated := True;
+	          "dbTimers".Num[#i1].EE := FALSE;
+	          "dbTimers".Num[#i1].DN := FALSE;
+	        END_IF;
+	      END_IF;
+	  
+	      IF #MovingUPDOWN_Activated AND ("dbDigitalSensors".INDUKTIVEC_PRAVILNA_VLOZITEV_DNA_1.InputF AND "dbDigitalSensors".INDUKTIVEC_PRAVILNA_VLOZITEV_DNA_2.InputF) THEN
+	        "dbHMIUser".CurrMachineStep := 'Vijacenje dna v teku';
+	
+	        REGION VIJACENJE LEVO SPREDAJ
+	        // ***** BEGIN - LEVO SPREDAJ ***** //
+	        // Latch present leg
+	        IF #LeftLegsArrayIndex[1] AND NOT #MoveUPDOWN_LevoSpredaj THEN
+	          "dbTimers".Num[#i1].ACC := 0;
+	          "dbTimers".Num[#i1].DN  := FALSE;
+	          #MoveUPDOWN_LevoSpredaj := True;
+	        END_IF;
+	        // Start moving with present leg
+	        IF #MoveUPDOWN_LevoSpredaj THEN
+	          IF #LeftLegsArrayIndex[1] AND NOT #WaitLevoSpredaj THEN
+	            #Y5_VijaLevSpr_Dvig.AutoON   := True;
+	            #M2_SPREDAJ_LEVO.AutoON      := True;
+	            #M2_SPREDAJ_LEVO.Speed1Out   := True;
+	          END_IF;
+	
+	          IF NOT #WaitLevoSpredaj THEN
+	            IF #M2_SPREDAJ_LEVO.AutoON THEN
+	              "dbTimers".Num[#i1].EE  := #M2_SPREDAJ_LEVO.AutoON;
+	              "dbTimers".Num[#i1].PRE  := #DlyToRotateOpposite; // 3 s
+	            END_IF;
+	            IF ("dbTimers".Num[#i1].EE AND NOT "dbTimers".Num[#i1].DN) THEN
+	              #M2_SPREDAJ_LEVO.DirectionReq := True; // Rotate opposite for proper landing leg to button hole
+	            ELSIF ("dbTimers".Num[#i1].EE AND "dbTimers".Num[#i1].DN) THEN // Leg needs to touch button and delay expired
+	              #M2_SPREDAJ_LEVO.DirectionReq := False; // Change direction to start helix
+	            END_IF;
+	
+	            // Leg hegix succeeded, wait to reach end cilinder position "DVIG_DOL=1"
+	            IF (NOT #M2_SPREDAJ_LEVO.DirectionReq AND "dbTimers".Num[#i1].EE AND "dbTimers".Num[#i1].DN) AND ("IND_VIJAC_LEVO_NAPREJ" OR "dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_LEVO_NAPREJ.InputF) THEN
+	              #M2_SPREDAJ_LEVO.AutoON       := False;
+	              "dbTimers".Num[#i1].EE        := False;
+	              "dbTimers".Num[#i1].DN        := False;
+	              "dbTimers".Num[#i1].ACC       := 0;
+	             
+	              #WaitLevoSpredaj              := True;
+	            END_IF;
+	          END_IF;
+	
+	          // Start moving down after timer expired
+	          IF #WaitLevoSpredaj THEN
+	            "dbTimers".Num[#i1].EE  := True;
+	            "dbTimers".Num[#i1].PRE  := #WaitTimeBeforeMoveDown;
+	
+	            IF "dbTimers".Num[#i1].EE AND NOT "dbTimers".Num[#i1].DN THEN
+	              #Y5_VijaLevSpr_Dvig.AutoON    := True; // Dvig gor, till timer expired
+	            END_IF;
+	
+	            // Wait to reached end position
+	            IF "dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_DVIG_DOL.InputF THEN
+	              #LeftLegsArrayIndex[1]  := "dbDigitalSensors".FOTOCELICA_VIJACENJE_LEVO_SPREDAJ.InputF; // Check if helix present at the end of moving motor down
+	              #WaitLevoSpredaj        := False;
+	              #MoveUPDOWN_LevoSpredaj := False;
+	              #EndLevoSpredaj := True;
+	            END_IF;
+	          END_IF;
+	        END_IF;
+	        // ***** END - LEVO SPREDAJ ***** //
+	        END_REGION VIJACENJE LEVO SPREDAJ
+	
+	        REGION VIJACENJE LEVO ZADAJ
+	        // ***** BEGIN - LEVO ZADAJ ***** //
+	        // Latch present leg
+	        IF #LeftLegsArrayIndex[2] AND NOT #MoveUPDOWN_LevoZadaj THEN
+	          "dbTimers".Num[#i2].ACC   := 0;
+	          "dbTimers".Num[#i2].DN  := FALSE;
+	          #MoveUPDOWN_LevoZadaj := True;
+	        END_IF;
+	        // Start moving with present leg
+	        IF #MoveUPDOWN_LevoZadaj THEN
+	          IF #LeftLegsArrayIndex[2] AND NOT #WaitLevoZadaj THEN
+	            #Y4_VijaLevZad_Dvig.AutoON   := True;
+	            #M1_ZADAJ_LEVO.AutoON      := True;
+	            #M1_ZADAJ_LEVO.Speed1Out   := True;
+	          END_IF;
+	
+	          IF NOT #WaitLevoZadaj THEN
+	            IF #M1_ZADAJ_LEVO.AutoON THEN
+	              "dbTimers".Num[#i2].EE  := #M1_ZADAJ_LEVO.AutoON;
+	              "dbTimers".Num[#i2].PRE  := #DlyToRotateOpposite; // 3 s
+	            END_IF;
+	            IF ("dbTimers".Num[#i2].EE AND NOT "dbTimers".Num[#i2].DN) THEN
+	              #M1_ZADAJ_LEVO.DirectionReq := True; // Rotate opposite for proper landing leg to button hole
+	            ELSIF("dbTimers".Num[#i2].EE AND "dbTimers".Num[#i2].DN) THEN // Leg needs to touch button and delay expired
+	              #M1_ZADAJ_LEVO.DirectionReq := False; // Change direction to start helix
+	            END_IF;
+	
+	            // Leg hegix succeeded, wait to reach end cilinder position "DVIG_DOL=1"
+	            IF (NOT #M1_ZADAJ_LEVO.DirectionReq AND "dbTimers".Num[#i2].EE AND "dbTimers".Num[#i2].DN) AND ("IND_VIJAC_LEVO_NAZAJ" OR "dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_LEVO_NAZAJ.InputF ) THEN
+	              #M1_ZADAJ_LEVO.AutoON       := False;
+	              "dbTimers".Num[#i2].EE        := False;
+	              "dbTimers".Num[#i2].DN        := False;
+	              "dbTimers".Num[#i2].ACC       := 0;
+	
+	              #WaitLevoZadaj              := True;
+	            END_IF;
+	          END_IF;
+	
+	          // Start moving down after timer expired
+	          IF #WaitLevoZadaj THEN
+	            "dbTimers".Num[#i2].EE  := True;
+	            "dbTimers".Num[#i2].PRE  := #WaitTimeBeforeMoveDown;
+	
+	            IF "dbTimers".Num[#i2].EE AND NOT "dbTimers".Num[#i2].DN THEN
+	              #Y4_VijaLevZad_Dvig.AutoON    := True; // Dvig gor, till timer expired
+	            END_IF;
+	
+	            // Wait to reached end position
+	            IF "dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_DVIG_DOL.InputF THEN
+	              #LeftLegsArrayIndex[2] := "dbDigitalSensors".FOTOCELICA_VIJACENJE_LEVO_ZADAJ.InputF; // // Check if helix present at the end of moving motor down
+	              #WaitLevoZadaj         := False;
+	              #MoveUPDOWN_LevoZadaj  := False;
+	              #EndLevoZadaj := True;
+	            END_IF;
+	          END_IF;
+	        END_IF;
+	        // ***** END - LEVO ZADAJ ***** //
+	        END_REGION VIJACENJE LEVO ZADAJ
+	
+	        REGION VIJACENJE DESNO SPREDAJ
+	        // ***** BEGIN - DESNO SPREDAJ ***** //
+	        // Latch present leg
+	        IF #RightLegsArrayIndex[1] AND NOT #MoveUPDOWN_DESNOSpredaj THEN
+	          "dbTimers".Num[#i3].ACC   := 0;
+	          "dbTimers".Num[#i3].DN  := FALSE;
+	          #MoveUPDOWN_DESNOSpredaj := True;
+	        END_IF;
+	        // Start moving with present leg
+	        IF #MoveUPDOWN_DESNOSpredaj THEN
+	          IF #RightLegsArrayIndex[1] AND NOT #WaitDesnoSpredaj THEN
+	            #Y3_VijaDesSpr_Dvig.AutoON   := True;
+	            #M2_SPREDAJ_DESNO.AutoON      := True;
+	            #M2_SPREDAJ_DESNO.Speed1Out   := True;
+	          END_IF;
+	
+	          IF NOT #WaitDesnoSpredaj THEN
+	            IF #M2_SPREDAJ_DESNO.AutoON THEN
+	              "dbTimers".Num[#i3].EE  := #M2_SPREDAJ_DESNO.AutoON;
+	              "dbTimers".Num[#i3].PRE  := #DlyToRotateOpposite; // 3 s
+	            END_IF;
+	            IF ("dbTimers".Num[#i3].EE AND NOT "dbTimers".Num[#i3].DN) THEN
+	              #M2_SPREDAJ_DESNO.DirectionReq := True; // Rotate opposite for proper landing leg to button hole
+	            ELSIF ("dbTimers".Num[#i3].EE AND "dbTimers".Num[#i3].DN) THEN // Leg needs to touch button and delay expir
+	              #M2_SPREDAJ_DESNO.DirectionReq := False; // Change direction to start helix
+	            END_IF;
+	
+	            // Leg hegix succeeded, wait to reach end cilinder position "DVIG_DOL=1"
+	            IF (NOT #M2_SPREDAJ_DESNO.DirectionReq AND "dbTimers".Num[#i3].EE AND "dbTimers".Num[#i3].DN) AND ("IND_VIJAC_DES_NAPREJ" OR "dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_DES_NAPREJ.InputF) THEN
+	              #M2_SPREDAJ_DESNO.AutoON      := False;          
+	              "dbTimers".Num[#i3].EE        := False;
+	              "dbTimers".Num[#i3].DN        := False;
+	              "dbTimers".Num[#i3].ACC       := 0;
+	
+	              #WaitDesnoSpredaj             := True;
+	            END_IF;
+	          END_IF;
+	
+	          // Start moving down after timer expired
+	          IF #WaitDesnoSpredaj THEN
+	            "dbTimers".Num[#i3].EE  := True;
+	            "dbTimers".Num[#i3].PRE  := #WaitTimeBeforeMoveDown;
+	
+	            IF "dbTimers".Num[#i3].EE AND NOT "dbTimers".Num[#i3].DN THEN
+	              #Y3_VijaDesSpr_Dvig.AutoON    := True; // Dvig gor, till timer expired
+	            END_IF;
+	
+	            // Wait to reached end position
+	            IF "dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_DVIG_DOL.InputF THEN
+	              #RightLegsArrayIndex[1]  := "dbDigitalSensors".FOTOCELICA_VIJACENJE_DESNOSPREDAJ.InputF; // // Check if helix present at the end of moving motor down
+	              #WaitDesnoSpredaj        := False;
+	              #MoveUPDOWN_DESNOSpredaj := False;
+	              #EndDesnoSpredaj := True;
+	            END_IF;
+	          END_IF;
+	        END_IF;
+	        // ***** END - DESNO SPREDAJ ***** //
+	        END_REGION VIJACENJE DESNO SPREDAJ
+	
+	        REGION VIJACENJE DESNO ZADAJ
+	        // ***** BEGIN - DESNO ZADAJ ***** //
+	        // Latch present leg
+	        IF #RightLegsArrayIndex[2] AND NOT #MoveUPDOWN_DESNOZadaj THEN
+	          "dbTimers".Num[#i4].ACC  := 0;
+	          "dbTimers".Num[#i4].DN  := FALSE;
+	          #MoveUPDOWN_DESNOZadaj := True;
+	        END_IF;
+	        // Start moving with present leg
+	        IF #MoveUPDOWN_DESNOZadaj THEN
+	          IF #RightLegsArrayIndex[2] AND NOT #WaitDesnoZadaj THEN
+	            #Y2_VijaDesZad_Dvig.AutoON   := True;
+	            #M1_ZADAJ_DESNO.AutoON      := True;
+	            #M1_ZADAJ_DESNO.Speed1Out   := True;
+	          END_IF;
+	
+	          IF NOT #WaitDesnoZadaj THEN
+	            IF #M1_ZADAJ_DESNO.AutoON THEN
+	              "dbTimers".Num[#i4].EE  := #M1_ZADAJ_DESNO.AutoON;
+	              "dbTimers".Num[#i4].PRE  := #DlyToRotateOpposite; // 3 s
+	            END_IF;
+	            IF ("dbTimers".Num[#i4].EE AND NOT "dbTimers".Num[#i4].DN) THEN
+	              #M1_ZADAJ_DESNO.DirectionReq := True; // Rotate opposite for proper landing leg to button hole
+	            ELSIF ("dbTimers".Num[#i4].EE AND "dbTimers".Num[#i4].DN) THEN // // Leg needs to touch button and delay expired
+	              #M1_ZADAJ_DESNO.DirectionReq := False; // Change direction to start helix
+	            END_IF;
+	
+	            // Leg hegix succeeded, wait to reach end cilinder position "DVIG_DOL=1"
+	            IF (NOT #M1_ZADAJ_DESNO.DirectionReq AND "dbTimers".Num[#i4].EE AND "dbTimers".Num[#i4].DN) AND ("IND_VIJAC_DES_NAZAJ" OR "dbDigitalSensors".KONCNA_POZICIJA_VIJACENJA_DES_NAZAJ.InputF) THEN 
+	              #M1_ZADAJ_DESNO.AutoON       := False;
+	              "dbTimers".Num[#i4].EE       := False;
+	              "dbTimers".Num[#i4].DN       := False;
+	              "dbTimers".Num[#i4].ACC      := 0;
+	
+	              #WaitDesnoZadaj              := True;
+	            END_IF;
+	          END_IF;
+	
+	          // Start moving down after timer expired
+	          IF #WaitDesnoZadaj THEN
+	            "dbTimers".Num[#i4].EE  := True;
+	            "dbTimers".Num[#i4].PRE  := #WaitTimeBeforeMoveDown;
+	
+	            IF "dbTimers".Num[#i4].EE AND NOT "dbTimers".Num[#i4].DN THEN
+	              #Y2_VijaDesZad_Dvig.AutoON    := True; // Dvig gor, till timer expired
+	            END_IF;
+	
+	            // Wait to reached end position
+	            IF "dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_DVIG_DOL.InputF THEN
+	              #RightLegsArrayIndex[2] := "dbDigitalSensors".FOTOCELICA_VIJACENJE_DESNOZADAJ.InputF; // // Check if helix present at the end of moving motor down
+	              #WaitDesnoZadaj        := False;
+	              #MoveUPDOWN_DESNOZadaj := False;
+	              #EndDesnoZadaj := True;
+	            END_IF;
+	          END_IF;
+	        END_IF;
+	        // ***** END - DESNO ZADAJ ***** //
+	        END_REGION VIJACENJE DESNO ZADAJ
+	
+	        // Next step
+	        IF (#EndLevoSpredaj AND #EndLevoZadaj AND #EndDesnoSpredaj AND #EndDesnoZadaj) AND
+	           ("dbDigitalSensors".FOTO_ZAVESA_KANAL_1.InputF AND "dbDigitalSensors".FOTO_ZAVESA_KANAL_2.InputF)     
+	          THEN
+	          "dbTimers".Num[#i1].EE  := False;
+	          "dbTimers".Num[#i1].DN  := False;
+	          "dbTimers".Num[#i1].ACC := 0;
+	          "dbTimers".Num[#i2].EE  := False;
+	          "dbTimers".Num[#i2].DN  := False;
+	          "dbTimers".Num[#i2].ACC := 0;
+	          "dbTimers".Num[#i3].EE  := False;
+	          "dbTimers".Num[#i3].DN  := False;
+	          "dbTimers".Num[#i3].ACC := 0;
+	          "dbTimers".Num[#i4].EE  := False;
+	          "dbTimers".Num[#i4].DN  := False;
+	          "dbTimers".Num[#i4].ACC := 0;
+	          "dbTimers".Num[#i10].EE  := False;
+	          "dbTimers".Num[#i10].DN  := False;
+	          "dbTimers".Num[#i10].ACC := 0;
+	          #TotalButtomPlateCounter := #TotalButtomPlateCounter + 1;
+	
+	          #CurrentStep := 20;
+	        END_IF;
+	  
+	      END_IF; // #MovingUPDOWN_ready
+	    END_IF;   // #Helix_Activated
+	    // *************************************************************************** // 
+	    // *************** END - Start moving UP/DOWN and with helix ***************** //
+	    // *************************************************************************** // 
+	
+	  20:  // Remove button plate - wait user to remove button plate
+	  "dbHMIUser".CurrMachineStep := 'Odstrani dno iz naprave';
+	  #MovingUPDOWN_Activated := False; // 20210426_PRA Added to reset before plate is removed. Used in fcUtilities->timer: StandbyTimeTrakaVijac
+	  #InsertNewButtom := 1;
+	
+	  IF #LeftLegsArrayIndex[1] OR #LeftLegsArrayIndex[2] THEN
+	    #LeftLegIndex  := 2; // vijačenje neuspešno, ponovi vijačenje z istimi nogicami
+	  ELSE
+	    #LeftLegIndex  := 0; // vijačenje uspešno
+	  END_IF;
+	  IF #RightLegsArrayIndex[1] OR #RightLegsArrayIndex[2] THEN
+	    #RightLegIndex := 2; // vijačenje neuspešno, ponovi vijačenje z istimi nogicami
+	  ELSE
+	    #RightLegIndex := 0; // vijačenje uspešno
+	  END_IF;
+	
+	  IF #LeftLegIndex=0 AND #RightLegIndex=0 THEN
+	    #LegsReadyOnPosToHelix := False;
+	  END_IF;
+	
+	  REGION CENTRIRANJE AT END
+	  // *************** BEGIN - Stop ZADAJ and centring *************** //
+	  (* // 20210506_PRA In normal position #Y13_VijaStop_LevZad is outside
+	  IF #LeftLegIndex=1 OR #LeftLegIndex=2 THEN
+	    #Y13_VijaStop_LevZad.AutoON := True;  // Stop moving second leg, with open valve
+	  END_IF;
+	  *)
+	  IF #LeftLegsArrayIndex[1] THEN
+	    #Y15_Centri_LevSpr.AutoON := TRUE;
+	  END_IF;
+	  IF #LeftLegsArrayIndex[2] THEN
+	    #Y14_Centri_LevZad.AutoON := TRUE;
+	  END_IF;
+	
+	  (* // 20210506_PRA In normal position #Y9_VijaStop_DesZad is outside
+	  IF #RightLegIndex=1 OR #RightLegIndex=2 THEN
+	    #Y9_VijaStop_DesZad.AutoON := True; // Stop moving second leg, with open valve
+	  END_IF;
+	  *)
+	  IF #RightLegsArrayIndex[1] THEN
+	    #Y11_Centri_DesSpr.AutoON := TRUE;
+	  END_IF;
+	  IF #RightLegsArrayIndex[2] THEN
+	    #Y10_Centri_DesZad.AutoON := TRUE;
+	  END_IF;
+	  // **************** END - Stop ZADAJ and centring **************** //  
+	  END_REGION CENTRIRANJE
+	
+	  "dbTimers".Num[#i1].FR    := False;
+	  "dbTimers".Num[#i2].FR    := False;
+	  "dbTimers".Num[#i3].FR    := False;
+	  "dbTimers".Num[#i4].FR    := False;
+	
+	  "dbTimers".Num[#i1].EE := ("dbDigitalSensors".FOTO_ZAVESA_KANAL_1.InputF AND "dbDigitalSensors".FOTO_ZAVESA_KANAL_2.InputF) AND
+	                            "dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_DVIG_DOL.InputF AND "dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_DVIG_DOL.InputF AND
+	                            "dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_DVIG_DOL.InputF AND "dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_DVIG_DOL.InputF;
+	                            // 20210429_PRA Start next legs positions even if buttom was not removed from machine and buttom AND still present
+	                            // (NOT "dbDigitalSensors".INDUKTIVEC_PRAVILNA_VLOZITEV_DNA_1.InputF AND NOT "dbDigitalSensors".INDUKTIVEC_PRAVILNA_VLOZITEV_DNA_2.InputF)
+	  "dbTimers".Num[#i1].PRE := #WEndTimeToRemovePlate;
+	  IF "dbTimers".Num[#i1].EE AND "dbTimers".Num[#i1].DN THEN
+	    // *************** BEGIN - Preveri ali so bile nogice zvijacene *************** //
+	    #LeftLegsArrayIndex[1] := "dbDigitalSensors".FOTOCELICA_VIJACENJE_LEVO_SPREDAJ.InputF;
+	    #LeftLegsArrayIndex[2] := "dbDigitalSensors".FOTOCELICA_VIJACENJE_LEVO_ZADAJ.InputF;
+	    #RightLegsArrayIndex[1] := "dbDigitalSensors".FOTOCELICA_VIJACENJE_DESNOSPREDAJ.InputF;
+	    #RightLegsArrayIndex[2] := "dbDigitalSensors".FOTOCELICA_VIJACENJE_DESNOZADAJ.InputF;
+	    // **************** END - Preveri ali so bile nogice zvijacene **************** //  
+	    #CurrentStep := 21;
+	  END_IF;
+	  
+	  21:  // Jump to initial step
+	  "dbTimers".Num[#i1].EE  := False;
+	  "dbTimers".Num[#i1].DN  := False;
+	
+	  #InitPosition := False;
+	  #CurrentStep := 1; // Check conditions on init step
+	
+	END_CASE;
+	
+	// ALARMS SECTION
+	  // Alarm 1
+	  IF #Y8_VijaLocev_Des.Alarm THEN
+	    "dbAlarms".PLI[#PLIIndex, 1] := 1;
+	  END_IF;
+	  
+	  // Alarm 2
+	  IF #Y9_VijaStop_DesZad.Alarm THEN
+	    "dbAlarms".PLI[#PLIIndex, 2] := 1;
+	  END_IF;
+	  
+	  // Alarm 3
+	  IF #Y2_VijaDesZad_Dvig.Alarm THEN
+	    "dbAlarms".PLI[#PLIIndex, 3] := 1;
+	  END_IF;
+	  
+	  // Alarm 4
+	  IF #Y10_Centri_DesZad.Alarm THEN
+	    "dbAlarms".PLI[#PLIIndex, 4] := 1;
+	  END_IF;
+	  
+	  // Alarm 5
+	  IF #Y3_VijaDesSpr_Dvig.Alarm THEN
+	    "dbAlarms".PLI[#PLIIndex, 5] := 1;
+	  END_IF;
+	
+	  // Alarm 6
+	  IF #Y11_Centri_DesSpr.Alarm THEN
+	    "dbAlarms".PLI[#PLIIndex, 6] := 1;
+	  END_IF;
+	
+	  // Alarm 7
+	  IF #Y12_VijaLocev_Lev.Alarm THEN 
+	    "dbAlarms".PLI[#PLIIndex, 7] := 1;
+	  END_IF;
+	  
+	  // Alarm 8
+	  IF #Y13_VijaStop_LevZad.Alarm THEN 
+	    "dbAlarms".PLI[#PLIIndex, 8] := 1;
+	  END_IF;
+	  
+	  // Alarm 9
+	  IF #Y4_VijaLevZad_Dvig.Alarm THEN
+	    "dbAlarms".PLI[#PLIIndex, 9] := 1;
+	  END_IF;
+	  
+	  // Alarm 10
+	  IF #Y14_Centri_LevZad.Alarm THEN
+	    "dbAlarms".PLI[#PLIIndex, 10] := 1;
+	  END_IF;
+	  
+	  // Alarm 11
+	  IF #Y5_VijaLevSpr_Dvig.Alarm THEN
+	    "dbAlarms".PLI[#PLIIndex, 11] := 1;
+	  END_IF;
+	  
+	  // Alarm 12
+	  IF #Y15_Centri_LevSpr.Alarm THEN
+	    "dbAlarms".PLI[#PLIIndex, 12] := 1;
+	  END_IF;
+	
+	  // Alarm 13
+	  IF #Y16_VpenjanjeDna.Alarm THEN
+	    "dbAlarms".PLI[#PLIIndex, 13] := 1;
+	  END_IF;
+	
+	  // Alarm 14
+	  IF #M1_ZADAJ_LEVO.Alarm THEN
+	    "dbAlarms".PLI[#PLIIndex, 14] := 1;
+	  END_IF;
+	
+	  // Alarm 15
+	  IF #M2_SPREDAJ_LEVO.Alarm THEN
+	    "dbAlarms".PLI[#PLIIndex, 15] := 1;
+	  END_IF;
+	
+	  // Alarm 16
+	  IF #M1_ZADAJ_DESNO.Alarm THEN
+	    "dbAlarms".PLI[#PLIIndex, 16] := 1;
+	  END_IF;
+	
+	  // Alarm 17
+	  IF #M2_SPREDAJ_DESNO.Alarm THEN
+	    "dbAlarms".PLI[#PLIIndex, 17] := 1;
+	  END_IF;
+	
+	  // Alarm 18
+	  IF #VKLOP_M_TRAKA_VIJACNIKA.Alarm THEN
+	    "dbAlarms".PLI[#PLIIndex, 18] := 1;
+	  END_IF;
+	
+	  // Alarm 19
+	  // Začetne pozicije vijačnega dela niso dosežene
+	  IF #CurrentStep = 1 AND #IEC_TimerOnDly_DN_1 THEN // NOT #InitPosition
+	    "dbAlarms".PLI[#PLIIndex, 19] := 1;
+	  END_IF;
+	
+	  // Alarm 20
+	  // Manjka ena od nogic na pozicijah za vijačenje-ročno odstrani nogice
+	  IF (#CurrentStep >= 3 AND #CurrentStep <= 5) AND
+	    (#LeftLegsArrayIndex[1] XOR #LeftLegsArrayIndex[2] XOR #RightLegsArrayIndex[1] XOR #RightLegsArrayIndex[2])
+	  THEN
+	    "dbUnit".Unit[1].StartStop := False;
+	    "dbAlarms".PLI[#PLIIndex, 20] := 1;
+	  END_IF;
+	
+	  // Alarm 21 - Added 20210512_PRA
+	  // Dovoljeni čas vijačenja nogice levo-spredaj potekel
+	  "dbTimers".Num[#i5].EE := (#PhaseStatus=5 AND #CurrentStep = 10) AND #MovingUPDOWN_Activated AND #MoveUPDOWN_LevoSpredaj AND NOT #WaitLevoSpredaj;
+	  "dbTimers".Num[#i5].PRE := #TimeoutToEndHelix;
+	  IF "dbTimers".Num[#i5].EE AND "dbTimers".Num[#i5].DN
+	  THEN
+	    "dbUnit".Unit[1].StartStop := False;
+	    "dbAlarms".PLI[#PLIIndex, 21] := 1;
+	  END_IF;
+	
+	  // Alarm 22 - Added 20210512_PRA
+	  // Dovoljeni čas vijačenja nogice levo-zadaj potekel
+	  "dbTimers".Num[#i6].EE := (#PhaseStatus=5 AND #CurrentStep = 10) AND #MovingUPDOWN_Activated AND #MoveUPDOWN_LevoZadaj AND NOT #WaitLevoZadaj;
+	  "dbTimers".Num[#i6].PRE := #TimeoutToEndHelix;
+	  IF "dbTimers".Num[#i6].EE AND "dbTimers".Num[#i6].DN
+	  THEN
+	    "dbUnit".Unit[1].StartStop := False;
+	    "dbAlarms".PLI[#PLIIndex, 22] := 1;
+	  END_IF;
+	
+	  // Alarm 23 - Added 20210512_PRA
+	  // Dovoljeni čas vijačenja nogice desno-spredaj potekel
+	  "dbTimers".Num[#i7].EE := (#PhaseStatus=5 AND #CurrentStep = 10) AND #MovingUPDOWN_Activated AND #MoveUPDOWN_DESNOSpredaj AND NOT #WaitDesnoSpredaj;
+	  "dbTimers".Num[#i7].PRE := #TimeoutToEndHelix;
+	  IF "dbTimers".Num[#i7].EE AND "dbTimers".Num[#i7].DN
+	  THEN
+	    "dbUnit".Unit[1].StartStop := False;
+	    "dbAlarms".PLI[#PLIIndex, 23] := 1;
+	  END_IF;
+	
+	  // Alarm 24 - Added 20210512_PRA
+	  // Dovoljeni čas vijačenja nogice desno-zadaj potekel
+	  "dbTimers".Num[#i8].EE := (#PhaseStatus=5 AND #CurrentStep = 10) AND #MovingUPDOWN_Activated AND #MoveUPDOWN_DESNOZadaj AND NOT #WaitDesnoZadaj;
+	  "dbTimers".Num[#i8].PRE := #TimeoutToEndHelix;
+	  IF "dbTimers".Num[#i8].EE AND "dbTimers".Num[#i8].DN
+	  THEN
+	    "dbUnit".Unit[1].StartStop := False;
+	    "dbAlarms".PLI[#PLIIndex, 24] := 1;
+	  END_IF;
+	
+	  // Alarms in running state
+	  IF #PhaseStatus = 5 THEN
+	    IF (NOT #AlarmPresentOLD AND #AlarmPresent) OR (NOT #InitPositionOLD AND #InitPosition) THEN
+	      ; // #CurrentStep := 6;
+	    END_IF;
+	  END_IF;
+	
+	#AlarmPresentOLD      := #AlarmPresent;
+	#InitPositionOLD      := #InitPosition;
+	
+	IF (#CurrentStep = 10) THEN
+	  #LeftLegIndexOLD      := #LeftLegIndex;
+	  #RightLegIndexOLD     := #RightLegIndex;
+	END_IF;
+END_FUNCTION_BLOCK
+

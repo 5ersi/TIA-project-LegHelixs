@@ -1,0 +1,48 @@
+﻿FUNCTION "fcHSCEncoder" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+
+BEGIN
+	// Short summary:
+	(*
+	  fcHSCEncoders - call encoders funcions
+	*)
+	// 
+	//**********************************************************************
+	// Revision control:
+	//----------------------------------------------------------------------
+	// Use only for revisions of original code
+	// V0.01
+	// Description of revision
+	
+	//----------------------------------------------------------------------
+	// Comments:
+	(*
+	  Every change in the code is documented with following:
+	  // CCC-yyymmdd: .....
+	  yyyy year when change was made
+	  mm   month when change was made
+	  dd   day when change was made
+	  CCC  authors initials
+	*)
+	
+	// NOT IN USE
+	(*
+	"cmHSC"(HdrAdr:=257,
+	        Direction:="dbHSC".ScanLineCounts.Direction,
+	        CV:="dbHSC".ScanLineCounts.CV,
+	        RV:="dbHSC".ScanLineCounts.RV,
+	        Period:="dbHSC".ScanLineCounts.Period,
+	        New_dir:="dbHSC".ScanLineCounts.New_dir,
+	        New_CV:="dbHSC".ScanLineCounts.New_CV,
+	        New_RV:="dbHSC".ScanLineCounts.New_RV,
+	        New_period:="dbHSC".ScanLineCounts.New_period,
+	        HdrAdr_Counter := "cmHSC_HdrAdr_Counter1",
+	        Busy=>"dbHSC".ScanLineCounts.Busy,
+	        Status=>"dbHSC".ScanLineCounts.Status,
+	        CounterValue=>"dbHSC".ScanLineCounts.CounterValue);
+	"dbHSC".ScanLineCounts.CounterValueReal := "dbHSC".ScanLineCounts.CounterValue;
+	"dbHSC".ScanLineCounts.EguValue := "dbHSC".ScanLineCounts.CounterValueReal / "dbHSC".ScanLineCounts.EguFactor;
+	*)
+END_FUNCTION
+

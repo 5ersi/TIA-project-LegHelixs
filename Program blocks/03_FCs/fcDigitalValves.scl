@@ -1,0 +1,280 @@
+﻿FUNCTION "fcDigitalValves" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_TEMP 
+      DigitalValveTime : Byte;
+   END_VAR
+
+
+BEGIN
+	// Short summary:
+	(*
+	  Digital valves filter time set, output write and function call
+	*)
+	// 
+	//**********************************************************************
+	// Revision control:
+	//----------------------------------------------------------------------
+	// Use only for revisions of original code
+	// V0.01
+	// Description of revision
+	
+	//----------------------------------------------------------------------
+	// Comments:
+	(*
+	  Every change in the code is documented with following:
+	  // CCC-yyymmdd: .....
+	  yyyy year when change was made
+	  mm   month when change was made
+	  dd   day when change was made
+	  CCC  authors initials
+	*)
+	
+	(*
+	- VPENJANJE: V18
+	- CENTRIRANJE: V7, V10, V14, V17
+	- STOP VIJACENJA ZADAJ: V5, V12
+	- LOCEVANJE VIJACENJA: V4, V11
+	- LOCEVANJE DRCA: V2, V3
+	- DVIG/SPUST VIJACENJA: V6, V9, V13, V16
+	*)
+	
+	//**********************************************************************
+	#DigitalValveTime := 10; // Filter time =0. For digital valve is used throught digital sensor with filter time for ."InputF"
+	//----------------------------------------------------------------------
+	//  set initial values
+	"dbDigitalValves".Y17_RotCilipozDesno.FilterTime    := 15;
+	"dbDigitalValves".Y18_RotCilipozLevo.FilterTime     := 15;
+	"dbDigitalValves".Y2_VijaDesZad_Dvig.FilterTime     := 50;
+	"dbDigitalValves".Y3_VijaDesSpr_Dvig.FilterTime     := 50;
+	"dbDigitalValves".Y4_VijaLevZad_Dvig.FilterTime     := 50;
+	"dbDigitalValves".Y5_VijaLevSpr_Dvig.FilterTime     := 50;
+	"dbDigitalValves".Y6_DrcaLocev_Des.FilterTime       := #DigitalValveTime;
+	"dbDigitalValves".Y7_DrcaLocev_Lev.FilterTime       := #DigitalValveTime;
+	"dbDigitalValves".Y8_VijaLocev_Des.FilterTime       := #DigitalValveTime;
+	"dbDigitalValves".Y9_VijaStop_DesZad.FilterTime     := #DigitalValveTime;
+	"dbDigitalValves".Y10_Centri_DesZad.FilterTime      := #DigitalValveTime;
+	"dbDigitalValves".Y11_Centri_DesSpr.FilterTime      := #DigitalValveTime;
+	"dbDigitalValves".Y12_VijaLocev_Lev.FilterTime      := #DigitalValveTime;
+	"dbDigitalValves".Y13_VijaStop_LevZad.FilterTime    := #DigitalValveTime;
+	"dbDigitalValves".Y14_Centri_LevZad.FilterTime      := #DigitalValveTime;
+	"dbDigitalValves".Y15_Centri_LevSpr.FilterTime      := #DigitalValveTime;
+	"dbDigitalValves".Y16_VpenjanjeDna.FilterTime       := 30;
+	"dbDigitalValves".SEMAFOR_ZELENA.FilterTime         := #DigitalValveTime;
+	"dbDigitalValves".SEMAFOR_RUMENA.FilterTime         := #DigitalValveTime;
+	"dbDigitalValves".SEMAFOR_RDECA.FilterTime          := #DigitalValveTime;
+	
+	"dbDigitalValves".Y17_RotCilipozDesno.Invert       := False;
+	"dbDigitalValves".Y18_RotCilipozLevo.Invert        := False;
+	"dbDigitalValves".Y2_VijaDesZad_Dvig.Invert       := False;
+	"dbDigitalValves".Y3_VijaDesSpr_Dvig.Invert       := False;
+	"dbDigitalValves".Y4_VijaLevZad_Dvig.Invert      := False;
+	"dbDigitalValves".Y5_VijaLevSpr_Dvig.Invert      := False;
+	"dbDigitalValves".Y6_DrcaLocev_Des.Invert         := False;
+	"dbDigitalValves".Y7_DrcaLocev_Lev.Invert         := False;
+	"dbDigitalValves".Y8_VijaLocev_Des.Invert         := False;
+	"dbDigitalValves".Y9_VijaStop_DesZad.Invert       := False;
+	"dbDigitalValves".Y10_Centri_DesZad.Invert         := False;
+	"dbDigitalValves".Y11_Centri_DesSpr.Invert        := False;
+	"dbDigitalValves".Y12_VijaLocev_Lev.Invert        := False;
+	"dbDigitalValves".Y13_VijaStop_LevZad.Invert      := False;
+	"dbDigitalValves".Y14_Centri_LevZad.Invert        := False;
+	"dbDigitalValves".Y15_Centri_LevSpr.Invert        := False;
+	"dbDigitalValves".Y16_VpenjanjeDna.Invert         := False;
+	"dbDigitalValves".SEMAFOR_ZELENA.Invert           := False;
+	"dbDigitalValves".SEMAFOR_RUMENA.Invert           := False;
+	"dbDigitalValves".SEMAFOR_RDECA.Invert            := False;
+	
+	"dbDigitalValves".Y17_RotCilipozDesno.AlarmAck       := "AlarmAck";
+	"dbDigitalValves".Y18_RotCilipozLevo.AlarmAck        := "AlarmAck";
+	"dbDigitalValves".Y2_VijaDesZad_Dvig.AlarmAck       := "AlarmAck";
+	"dbDigitalValves".Y3_VijaDesSpr_Dvig.AlarmAck       := "AlarmAck";
+	"dbDigitalValves".Y4_VijaLevZad_Dvig.AlarmAck      := "AlarmAck";
+	"dbDigitalValves".Y5_VijaLevSpr_Dvig.AlarmAck      := "AlarmAck";
+	"dbDigitalValves".Y6_DrcaLocev_Des.AlarmAck         := "AlarmAck";
+	"dbDigitalValves".Y7_DrcaLocev_Lev.AlarmAck         := "AlarmAck";
+	"dbDigitalValves".Y8_VijaLocev_Des.AlarmAck         := "AlarmAck";
+	"dbDigitalValves".Y9_VijaStop_DesZad.AlarmAck       := "AlarmAck";
+	"dbDigitalValves".Y10_Centri_DesZad.AlarmAck         := "AlarmAck";
+	"dbDigitalValves".Y11_Centri_DesSpr.AlarmAck        := "AlarmAck";
+	"dbDigitalValves".Y12_VijaLocev_Lev.AlarmAck        := "AlarmAck";
+	"dbDigitalValves".Y13_VijaStop_LevZad.AlarmAck      := "AlarmAck";
+	"dbDigitalValves".Y14_Centri_LevZad.AlarmAck        := "AlarmAck";
+	"dbDigitalValves".Y15_Centri_LevSpr.AlarmAck        := "AlarmAck";
+	"dbDigitalValves".Y16_VpenjanjeDna.AlarmAck         := "AlarmAck";
+	"dbDigitalValves".SEMAFOR_ZELENA.AlarmAck           := "AlarmAck";
+	"dbDigitalValves".SEMAFOR_RUMENA.AlarmAck           := "AlarmAck";
+	"dbDigitalValves".SEMAFOR_RDECA.AlarmAck            := "AlarmAck";
+	
+	// read GSL
+	"dbDigitalValves".Y17_RotCilipozDesno.GSLEnable    := TRUE;
+	"dbDigitalValves".Y17_RotCilipozDesno.GSL          := "dbDigitalSensors".ROTACIJSKI_CIL_SREDINA.InputF OR "dbDigitalValves".Y18_RotCilipozLevo.XS;
+	"dbDigitalValves".Y18_RotCilipozLevo.GSLEnable     := TRUE;
+	"dbDigitalValves".Y18_RotCilipozLevo.GSL           := "dbDigitalSensors".ROTACIJSKI_CIL_SREDINA.InputF OR "dbDigitalValves".Y17_RotCilipozDesno.XS;
+	"dbDigitalValves".Y2_VijaDesZad_Dvig.GSLEnable    := True;
+	"dbDigitalValves".Y2_VijaDesZad_Dvig.GSL          := "dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_DVIG_DOL.InputF;
+	"dbDigitalValves".Y3_VijaDesSpr_Dvig.GSLEnable    := True;
+	"dbDigitalValves".Y3_VijaDesSpr_Dvig.GSL          := "dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_DVIG_DOL.InputF;
+	"dbDigitalValves".Y4_VijaLevZad_Dvig.GSLEnable   := True;
+	"dbDigitalValves".Y4_VijaLevZad_Dvig.GSL         := "dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_DVIG_DOL.InputF;
+	"dbDigitalValves".Y5_VijaLevSpr_Dvig.GSLEnable   := True;
+	"dbDigitalValves".Y5_VijaLevSpr_Dvig.GSL         := "dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_DVIG_DOL.InputF;
+	"dbDigitalValves".Y6_DrcaLocev_Des.GSLEnable      := True;
+	"dbDigitalValves".Y6_DrcaLocev_Des.GSL            := "dbDigitalSensors".LOC_DRCA_DESNO_NAPREJ.InputF;
+	"dbDigitalValves".Y7_DrcaLocev_Lev.GSLEnable      := True;
+	"dbDigitalValves".Y7_DrcaLocev_Lev.GSL            := "dbDigitalSensors".LOC_DRCA_LEVO_NAPREJ.InputF;
+	"dbDigitalValves".Y8_VijaLocev_Des.GSLEnable      := True;
+	"dbDigitalValves".Y8_VijaLocev_Des.GSL            := "dbDigitalSensors".VIJACENJE_DESNO_1_NAPREJ.InputF;
+	"dbDigitalValves".Y9_VijaStop_DesZad.GSLEnable    := True;
+	"dbDigitalValves".Y9_VijaStop_DesZad.GSL          := "dbDigitalSensors".MESTO_VIJAC_STOP_DESNO_ZAD_NAPREJ.InputF;
+	"dbDigitalValves".Y10_Centri_DesZad.GSLEnable      := True;
+	"dbDigitalValves".Y10_Centri_DesZad.GSL            := "dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_CENT_NARAZEN.InputF;
+	"dbDigitalValves".Y11_Centri_DesSpr.GSLEnable     := True;
+	"dbDigitalValves".Y11_Centri_DesSpr.GSL           := "dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_CENT_NARAZEN.InputF;
+	"dbDigitalValves".Y12_VijaLocev_Lev.GSLEnable     := True;
+	"dbDigitalValves".Y12_VijaLocev_Lev.GSL           := "dbDigitalSensors".VIJACENJE_LEVO_1_NAPREJ.InputF;
+	"dbDigitalValves".Y13_VijaStop_LevZad.GSLEnable   := True;
+	"dbDigitalValves".Y13_VijaStop_LevZad.GSL         := "dbDigitalSensors".MESTO_VIJAC_STOP_LEVO_ZAD_NAPREJ.InputF;
+	"dbDigitalValves".Y14_Centri_LevZad.GSLEnable     := True;
+	"dbDigitalValves".Y14_Centri_LevZad.GSL           := "dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_CENT_NARAZEN.InputF;
+	"dbDigitalValves".Y15_Centri_LevSpr.GSLEnable     := True;
+	"dbDigitalValves".Y15_Centri_LevSpr.GSL           := "dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_CENT_NARAZEN.InputF;
+	"dbDigitalValves".Y16_VpenjanjeDna.GSLEnable      := True;
+	"dbDigitalValves".Y16_VpenjanjeDna.GSL            := "dbDigitalSensors".VPENJANJE_DNA_LEVO_ZADAJ_GOR.InputF AND "dbDigitalSensors".VPENJANJE_DNA_LEVO_SPREDAJ_GOR.InputF AND
+	                                                     "dbDigitalSensors".VPENJANJE_DNA_DESNO_ZADAJ_GOR.InputF AND "dbDigitalSensors".VPENJANJE_DNA_DESNO_SPREDAJ_GOR.InputF;
+	
+	// read GSH
+	"dbDigitalValves".Y17_RotCilipozDesno.GSHEnable    := TRUE;
+	"dbDigitalValves".Y17_RotCilipozDesno.GSH          := "dbDigitalSensors".ROTACIJSKI_CIL_DESNO.InputF;
+	"dbDigitalValves".Y18_RotCilipozLevo.GSHEnable     := True;
+	"dbDigitalValves".Y18_RotCilipozLevo.GSH           := "dbDigitalSensors".ROTACIJSKI_CIL_LEVO.InputF;
+	"dbDigitalValves".Y2_VijaDesZad_Dvig.GSHEnable    := FALSE;
+	"dbDigitalValves".Y2_VijaDesZad_Dvig.GSH          := FALSE;
+	"dbDigitalValves".Y3_VijaDesSpr_Dvig.GSHEnable    := FALSE;
+	"dbDigitalValves".Y3_VijaDesSpr_Dvig.GSH          := FALSE;
+	"dbDigitalValves".Y4_VijaLevZad_Dvig.GSHEnable   := FALSE;
+	"dbDigitalValves".Y4_VijaLevZad_Dvig.GSH         := FALSE;
+	"dbDigitalValves".Y5_VijaLevSpr_Dvig.GSHEnable   := False;
+	"dbDigitalValves".Y5_VijaLevSpr_Dvig.GSH         := False;
+	"dbDigitalValves".Y6_DrcaLocev_Des.GSHEnable      := True;
+	"dbDigitalValves".Y6_DrcaLocev_Des.GSH            := "dbDigitalSensors".LOC_DRCA_DESNO_NAZAJ.InputF;
+	"dbDigitalValves".Y7_DrcaLocev_Lev.GSHEnable      := True;
+	"dbDigitalValves".Y7_DrcaLocev_Lev.GSH            := "dbDigitalSensors".LOC_DRCA_LEVO_NAZAJ.InputF;
+	"dbDigitalValves".Y8_VijaLocev_Des.GSHEnable      := True;
+	"dbDigitalValves".Y8_VijaLocev_Des.GSH            := "dbDigitalSensors".VIJACENJE_DESNO_1_NAZAJ.InputF;
+	"dbDigitalValves".Y9_VijaStop_DesZad.GSHEnable    := True;
+	"dbDigitalValves".Y9_VijaStop_DesZad.GSH          := "dbDigitalSensors".MESTO_VIJAC_STOP_DESNO_ZAD_NAZAJ.InputF;
+	"dbDigitalValves".Y10_Centri_DesZad.GSHEnable      := True;
+	"dbDigitalValves".Y10_Centri_DesZad.GSH            := "dbDigitalSensors".MESTO_VIJACENJE_DESNO_ZAD_CENT_SKUPAJ.InputF;
+	"dbDigitalValves".Y11_Centri_DesSpr.GSHEnable     := True;
+	"dbDigitalValves".Y11_Centri_DesSpr.GSH           := "dbDigitalSensors".MESTO_VIJACENJE_DESNO_SPRED_CENT_SKUPAJ.InputF;
+	"dbDigitalValves".Y12_VijaLocev_Lev.GSHEnable     := True;
+	"dbDigitalValves".Y12_VijaLocev_Lev.GSH           := "dbDigitalSensors".VIJACENJE_LEVO_1_NAZAJ.InputF;
+	"dbDigitalValves".Y13_VijaStop_LevZad.GSHEnable   := True;
+	"dbDigitalValves".Y13_VijaStop_LevZad.GSH         := "dbDigitalSensors".MESTO_VIJAC_STOP_LEVO_ZAD_NAZAJ.InputF;;
+	"dbDigitalValves".Y14_Centri_LevZad.GSHEnable     := True;
+	"dbDigitalValves".Y14_Centri_LevZad.GSH           := "dbDigitalSensors".MESTO_VIJACENJE_LEVO_ZAD_CENT_SKUPAJ.InputF;
+	"dbDigitalValves".Y15_Centri_LevSpr.GSHEnable     := True;
+	"dbDigitalValves".Y15_Centri_LevSpr.GSH           := "dbDigitalSensors".MESTO_VIJACENJE_LEVO_SPRED_CENT_SKUPAJ.InputF;
+	"dbDigitalValves".Y16_VpenjanjeDna.GSHEnable      := True;
+	"dbDigitalValves".Y16_VpenjanjeDna.GSH            := "dbDigitalSensors".VPENJANJE_DNA_LEVO_ZADAJ_DOL.InputF AND "dbDigitalSensors".VPENJANJE_DNA_LEVO_SPREDAJ_DOL.InputF AND
+	                                                     "dbDigitalSensors".VPENJANJE_DNA_DESNO_ZADAJ_DOL.InputF AND "dbDigitalSensors".VPENJANJE_DNA_DESNO_SPREDAJ_DOL.InputF;
+	
+	// Reset Manual Regime, if selected AUTO regime on HMI
+	//----------------------------------------------------------------------
+	IF "dbUnit".Unit[1].Regime = 0 AND "dbUnit".Unit[1].StartStop THEN
+	  "dbDigitalValves".Y17_RotCilipozDesno.ManON   := False;
+	  "dbDigitalValves".Y18_RotCilipozLevo.ManON    := False;
+	  "dbDigitalValves".Y2_VijaDesZad_Dvig.ManON    := False;
+	  "dbDigitalValves".Y2_VijaDesZad_Dvig.ManON    := False;
+	  "dbDigitalValves".Y3_VijaDesSpr_Dvig.ManON    := False;
+	  "dbDigitalValves".Y3_VijaDesSpr_Dvig.ManON    := False;
+	  "dbDigitalValves".Y4_VijaLevZad_Dvig.ManON    := False;
+	  "dbDigitalValves".Y4_VijaLevZad_Dvig.ManON    := False;
+	  "dbDigitalValves".Y5_VijaLevSpr_Dvig.ManON    := False;
+	  "dbDigitalValves".Y5_VijaLevSpr_Dvig.ManON    := False;
+	  "dbDigitalValves".Y6_DrcaLocev_Des.ManON      := False;
+	  "dbDigitalValves".Y7_DrcaLocev_Lev.ManON      := False;
+	  "dbDigitalValves".Y8_VijaLocev_Des.ManON      := False;
+	  "dbDigitalValves".Y9_VijaStop_DesZad.ManON    := False;
+	  "dbDigitalValves".Y10_Centri_DesZad.ManON     := False;
+	  "dbDigitalValves".Y11_Centri_DesSpr.ManON     := False;
+	  "dbDigitalValves".Y12_VijaLocev_Lev.ManON     := False;
+	  "dbDigitalValves".Y13_VijaStop_LevZad.ManON   := False;
+	  "dbDigitalValves".Y14_Centri_LevZad.ManON     := False;
+	  "dbDigitalValves".Y15_Centri_LevSpr.ManON     := False;
+	ELSIF "dbUnit".Unit[1].Regime = 1 AND NOT "dbUnit".Unit[1].StartStop THEN
+	  "dbDigitalValves".Y17_RotCilipozDesno.ManON   := False;
+	  "dbDigitalValves".Y18_RotCilipozLevo.ManON    := False;
+	  "dbDigitalValves".Y2_VijaDesZad_Dvig.ManON    := False;
+	  "dbDigitalValves".Y2_VijaDesZad_Dvig.ManON    := False;
+	  "dbDigitalValves".Y3_VijaDesSpr_Dvig.ManON    := False;
+	  "dbDigitalValves".Y3_VijaDesSpr_Dvig.ManON    := False;
+	  "dbDigitalValves".Y4_VijaLevZad_Dvig.ManON    := False;
+	  "dbDigitalValves".Y4_VijaLevZad_Dvig.ManON    := False;
+	  "dbDigitalValves".Y5_VijaLevSpr_Dvig.ManON    := False;
+	  "dbDigitalValves".Y5_VijaLevSpr_Dvig.ManON    := False;
+	  "dbDigitalValves".Y6_DrcaLocev_Des.ManON      := False;
+	  "dbDigitalValves".Y7_DrcaLocev_Lev.ManON      := False;
+	  "dbDigitalValves".Y8_VijaLocev_Des.ManON      := False;
+	  "dbDigitalValves".Y9_VijaStop_DesZad.ManON    := False;
+	  "dbDigitalValves".Y10_Centri_DesZad.ManON     := False;
+	  "dbDigitalValves".Y11_Centri_DesSpr.ManON     := False;
+	  "dbDigitalValves".Y12_VijaLocev_Lev.ManON     := False;
+	  "dbDigitalValves".Y13_VijaStop_LevZad.ManON   := False;
+	  "dbDigitalValves".Y14_Centri_LevZad.ManON     := False;
+	  "dbDigitalValves".Y15_Centri_LevSpr.ManON     := False;
+	END_IF; 
+	
+	//----------------------------------------------------------------------
+	// fc call
+	"cmDigitalValve"(Regime := "dbUnit".Unit[1].Regime, Valve := "dbDigitalValves".Y17_RotCilipozDesno);
+	"cmDigitalValve"(Regime := "dbUnit".Unit[1].Regime, Valve := "dbDigitalValves".Y18_RotCilipozLevo);
+	"cmDigitalValve"(Regime := "dbUnit".Unit[1].Regime, Valve := "dbDigitalValves".Y2_VijaDesZad_Dvig);
+	"cmDigitalValve"(Regime := "dbUnit".Unit[1].Regime, Valve := "dbDigitalValves".Y3_VijaDesSpr_Dvig);
+	"cmDigitalValve"(Regime := "dbUnit".Unit[1].Regime, Valve := "dbDigitalValves".Y4_VijaLevZad_Dvig);
+	"cmDigitalValve"(Regime := "dbUnit".Unit[1].Regime, Valve := "dbDigitalValves".Y5_VijaLevSpr_Dvig);
+	"cmDigitalValve"(Regime := "dbUnit".Unit[1].Regime, Valve := "dbDigitalValves".Y6_DrcaLocev_Des);
+	"cmDigitalValve"(Regime := "dbUnit".Unit[1].Regime, Valve := "dbDigitalValves".Y7_DrcaLocev_Lev);
+	"cmDigitalValve"(Regime := "dbUnit".Unit[1].Regime, Valve := "dbDigitalValves".Y8_VijaLocev_Des);
+	"cmDigitalValve"(Regime := "dbUnit".Unit[1].Regime, Valve := "dbDigitalValves".Y9_VijaStop_DesZad);
+	"cmDigitalValve"(Regime := "dbUnit".Unit[1].Regime, Valve := "dbDigitalValves".Y10_Centri_DesZad);
+	"cmDigitalValve"(Regime := "dbUnit".Unit[1].Regime, Valve := "dbDigitalValves".Y11_Centri_DesSpr);
+	"cmDigitalValve"(Regime := "dbUnit".Unit[1].Regime, Valve := "dbDigitalValves".Y12_VijaLocev_Lev);
+	"cmDigitalValve"(Regime := "dbUnit".Unit[1].Regime, Valve := "dbDigitalValves".Y13_VijaStop_LevZad);
+	"cmDigitalValve"(Regime := "dbUnit".Unit[1].Regime, Valve := "dbDigitalValves".Y14_Centri_LevZad);
+	"cmDigitalValve"(Regime := "dbUnit".Unit[1].Regime, Valve := "dbDigitalValves".Y15_Centri_LevSpr);
+	"cmDigitalValve"(Regime := "dbUnit".Unit[1].Regime, Valve := "dbDigitalValves".Y16_VpenjanjeDna);
+	"cmDigitalValve"(Regime := "dbUnit".Unit[1].Regime, Valve := "dbDigitalValves".SEMAFOR_ZELENA);
+	"cmDigitalValve"(Regime := "dbUnit".Unit[1].Regime, Valve := "dbDigitalValves".SEMAFOR_RUMENA);
+	"cmDigitalValve"(Regime := "dbUnit".Unit[1].Regime, Valve := "dbDigitalValves".SEMAFOR_RDECA);
+	
+	//----------------------------------------------------------------------
+	//  write output
+	"dbPDO".Y17_RotCilipozDesno    := "dbDigitalValves".Y17_RotCilipozDesno.XS;
+	"dbPDO".Y18_RotCilipozLevo     := "dbDigitalValves".Y18_RotCilipozLevo.XS;
+	"dbPDO".Y2_VijaDesZad_Dvig    := "dbDigitalValves".Y2_VijaDesZad_Dvig.XS;
+	"dbPDO".Y2_VijaDesZad_Spust   := NOT "dbDigitalValves".Y2_VijaDesZad_Dvig.XS;
+	"dbPDO".Y3_VijaDesSpr_Dvig    := "dbDigitalValves".Y3_VijaDesSpr_Dvig.XS;
+	"dbPDO".Y3_VijaDesSpr_Spust   := NOT "dbDigitalValves".Y3_VijaDesSpr_Dvig.XS;
+	"dbPDO".Y4_VijaLevZad_Dvig   := "dbDigitalValves".Y4_VijaLevZad_Dvig.XS;
+	"dbPDO".Y4_VijaLevZad_Spust  := NOT "dbDigitalValves".Y4_VijaLevZad_Dvig.XS;
+	"dbPDO".Y5_VijaLevSpr_Dvig   := "dbDigitalValves".Y5_VijaLevSpr_Dvig.XS;
+	"dbPDO".Y5_VijaLevSpr_Spust  := NOT "dbDigitalValves".Y5_VijaLevSpr_Dvig.XS;
+	"dbPDO".Y6_DrcaLocev_Des      := "dbDigitalValves".Y6_DrcaLocev_Des.XS;
+	"dbPDO".Y7_DrcaLocev_Lev      := "dbDigitalValves".Y7_DrcaLocev_Lev.XS;
+	"dbPDO".Y8_VijaLocev_Des      := "dbDigitalValves".Y8_VijaLocev_Des.XS;
+	"dbPDO".Y9_VijaStop_DesZad    := "dbDigitalValves".Y9_VijaStop_DesZad.XS;
+	"dbPDO".Y10_Centri_DesZad      := "dbDigitalValves".Y10_Centri_DesZad.XS;
+	"dbPDO".Y11_Centri_DesSpr     := "dbDigitalValves".Y11_Centri_DesSpr.XS;
+	"dbPDO".Y12_VijaLocev_Lev     := "dbDigitalValves".Y12_VijaLocev_Lev.XS;
+	"dbPDO".Y13_VijaStop_LevZad   := "dbDigitalValves".Y13_VijaStop_LevZad.XS;
+	"dbPDO".Y14_Centri_LevZad     := "dbDigitalValves".Y14_Centri_LevZad.XS;
+	"dbPDO".Y15_Centri_LevSpr     := "dbDigitalValves".Y15_Centri_LevSpr.XS;
+	"dbPDO".Y16_VpenjanjeDna      := "dbDigitalValves".Y16_VpenjanjeDna.XS;
+	
+	"dbDO".SEMAFOR_ZELENA         := "dbDigitalValves".SEMAFOR_ZELENA.XS;
+	"dbDO".SEMAFOR_RUMENA         := "dbDigitalValves".SEMAFOR_RUMENA.XS;
+	"dbDO".SEMAFOR_RDECA          := "dbDigitalValves".SEMAFOR_RDECA.XS;
+END_FUNCTION
+

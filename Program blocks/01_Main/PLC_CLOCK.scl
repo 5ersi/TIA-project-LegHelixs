@@ -1,0 +1,100 @@
+﻿FUNCTION "PLC_CLOCK" : Void
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+   VAR_TEMP 
+      DANDT {InstructionName := 'DTL'; LibVersion := '1.0'} : DTL;
+      DANDT1 : Time;
+      word_temp : Word;
+      DINT_TEMP : DInt;
+      Error : Int;
+   END_VAR
+
+
+BEGIN
+	//-------------------- Sweep Time --------------------
+	#Error := RD_LOC_T(OUT => #DANDT);
+	#DANDT1 := T_DIFF(IN1 := #DANDT, IN2 := "dbPLCClock".PLC.CurrentDateAndTime); // TIME
+	#DINT_TEMP := TIME_TO_DINT(#DANDT1);
+	
+	IF DINT_TO_INT(#DINT_TEMP) >= 0 THEN
+	    "dbPLCClock".SweepTime := DINT_TO_INT(#DINT_TEMP);
+	ELSIF DINT_TO_INT(#DINT_TEMP) < 0 THEN
+	    "dbPLCClock".SweepTime := "dbPLCClock".SweepTime;
+	END_IF;
+	"dbPLCClock".PLC.CurrentDateAndTime := #DANDT; //
+	
+	//-------------------- YEAR ---------------------------------------------
+	"dbPLCClock".Year := FALSE;
+	
+	IF "dbPLCClock".PLC.CurrentYear <> "dbPLCClock".PLC.CurrentDateAndTime.YEAR THEN
+	    "dbPLCClock".Year := TRUE;
+	END_IF;
+	"dbPLCClock".PLC.CurrentYear := "dbPLCClock".PLC.CurrentDateAndTime.YEAR;
+	
+	//------------------------ MONTH ------------------------------------------
+	"dbPLCClock".Month := FALSE;
+	
+	IF "dbPLCClock".PLC.CurrentMonth <> "dbPLCClock".PLC.CurrentDateAndTime.MONTH THEN
+	    "dbPLCClock".Month := TRUE;
+	END_IF;
+	"dbPLCClock".PLC.CurrentMonth := "dbPLCClock".PLC.CurrentDateAndTime.MONTH;
+	
+	//-------------------- DAY ---------------------------------------------
+	"dbPLCClock".Day := FALSE;
+	
+	IF "dbPLCClock".PLC.CurrentDayOfMonth <> "dbPLCClock".PLC.CurrentDateAndTime.DAY THEN
+	    "dbPLCClock".Day := TRUE;
+	END_IF;
+	"dbPLCClock".PLC.CurrentDayOfMonth := "dbPLCClock".PLC.CurrentDateAndTime.DAY;
+	
+	//------------------- HOUR --------------------------------------------------
+	"dbPLCClock".Hour := FALSE;
+	
+	IF "dbPLCClock".PLC.CurrentHour <> "dbPLCClock".PLC.CurrentDateAndTime.HOUR THEN
+	    "dbPLCClock".Hour := TRUE;
+	END_IF;
+	"dbPLCClock".PLC.CurrentHour := "dbPLCClock".PLC.CurrentDateAndTime.HOUR;
+	
+	//-------------------- MINUTE---------------------------------------------
+	"dbPLCClock".Minute := FALSE;
+	
+	IF "dbPLCClock".PLC.CurrentMinute <> "dbPLCClock".PLC.CurrentDateAndTime.MINUTE THEN
+	    "dbPLCClock".Minute := TRUE;
+	END_IF;
+	"dbPLCClock".PLC.CurrentMinute := "dbPLCClock".PLC.CurrentDateAndTime.MINUTE;
+	
+	//------------------- SECOND---------------------------------------------
+	"dbPLCClock".SEC := FALSE;
+	
+	IF "dbPLCClock".PLC.CurrentSecond <> "dbPLCClock".PLC.CurrentDateAndTime.SECOND THEN
+	    "dbPLCClock".SEC := TRUE;
+	END_IF;
+	"dbPLCClock".PLC.CurrentSecond := "dbPLCClock".PLC.CurrentDateAndTime.SECOND;
+	
+	//------------------- CURRENT DAY ---------------------------------------------
+	// PON = 1; Siemens format: NED = 1
+	"dbPLCClock".PLC.CurrentDay := "dbPLCClock".PLC.CurrentDateAndTime.WEEKDAY;
+	"dbPLCClock".PLC.CurrentDay := "dbPLCClock".PLC.CurrentDay - 1;
+	IF "dbPLCClock".PLC.CurrentDay = -1 THEN
+	    "dbPLCClock".PLC.CurrentDay := 7; // Sunday
+	END_IF;
+	
+	// global variables
+	"SekOSR" := "dbPLCClock".SEC;
+	"MinOSR" := "dbPLCClock".Minute;
+	"HourOSR" := "dbPLCClock".Hour;
+	"DayOSR" := "dbPLCClock".Day;
+	"MonthOSR" := "dbPLCClock".Month;
+	"YearOSR" := "dbPLCClock".Year;
+	
+	//---------------------- Set PLC clock ----------------------
+	IF "dbPLCClock".SetPLCClock THEN
+	    "dbPLCClock".SetPLCClock := FALSE;
+	    #Error := WR_SYS_T(IN := "dbPLCClock".SCADA.CurrentDateAndTime);
+	END_IF;
+	
+	//---------------------- WatchDog Data for PDM ----------------------
+	"dbPLCClock".ScanCounter := "dbPLCClock".PLC.CurrentSecond;
+	
+END_FUNCTION
+
